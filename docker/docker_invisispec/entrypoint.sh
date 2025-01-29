@@ -2,7 +2,6 @@
 # Non-interactive script!
 # Don't touch the instance until this completes!
 
-# TODO : these should be put back to their old values when (if) IPC is merged
 export GEM5_BRANCH=invisispec;
 export RVZR_BRANCH=ipc;
 
