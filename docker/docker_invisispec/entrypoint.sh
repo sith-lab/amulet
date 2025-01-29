@@ -1,0 +1,77 @@
+#!/bin/bash
+# Non-interactive script!
+# Don't touch the instance until this completes!
+
+# TODO : these should be put back to their old values when (if) IPC is merged
+export GEM5_BRANCH=ipc;
+export RVZR_BRANCH=ipc;
+
+export CODE_DIR=/code;
+export RVZR_DIR=$CODE_DIR/revizor-docker;
+export GEM5_DIR=$CODE_DIR/gem5-docker;
+
+export VIOLATION_TEST_DIR=$GEM5_DIR/violation_test;
+export MINIMIZE_DIR=$RVZR_DIR/src/tests/minimize;
+export FUZZFOUND_DIR=$RVZR_DIR/src/tests/fuzzfound;
+
+export FINAL_CACHE_YAML_PATH=$CODE_DIR/docker_gem5_v1_final_cache.yaml;
+export FINAL_CACHE_ALT_YAML_PATH=$CODE_DIR/docker_gem5_v1_final_cache_alt.yaml;
+
+cd /code;
+shopt -s dotglob; # Allows removal of dotfiles
+rm -rf gem5-docker;
+mkdir gem5-docker;
+rm -rf revizor-docker;
+mkdir revizor-docker;
+shopt -u dotglob;
+echo "Done cleaning docker code dirs";
+
+# Clone; CHECK: Specific commit required?
+# These will be bound to the container root user; git for these dirs will be unusable by outside observer!!!
+git -C /code/gem5-docker clone -b $GEM5_BRANCH git@github.com:mguarnieri/vanilla-gem5-testing-benchmark.git /code/gem5-docker;
+echo "Done pulling vanilla-gem5-testing-benchmark/$GEM5_BRANCH";
+git -C /code/revizor-docker clone -b $RVZR_BRANCH git@github.com:mguarnieri/revizor-gem5.git /code/revizor-docker;
+# Else will not be able to edit contents of code dirs from host side
+find /code/gem5-docker /code/revizor-docker -type f | xargs -d'\n' chmod go+rw;
+find /code/gem5-docker /code/revizor-docker -type d | xargs -d'\n' chmod go+rwx;
+echo "Done pulling revizor-gem5/$RVZR_BRANCH";
+
+# Set up Python
+PIP_VERSION=20.3.4; # 20.3.4 best working
+python3.11 -m ensurepip;
+python3.11 -m pip install unicorn pyyaml types-pyyaml numpy toml iced-x86 protobuf==3.20 pydot xxhash; # For revizor; Install on python3.11 !!!
+python3.11 -m pip install --upgrade pip==$PIP_VERSION;
+cp -r /usr/local/lib/python3.11/site-packages/pip /usr/local/lib/python2.7/site-packages;
+cp -r /usr/local/lib/python3.11/site-packages/pip-$PIP_VERSION.dist-info /usr/local/lib/python2.7/site-packages;
+python2.7 -m pip --version;
+python2.7 -m pip install setuptools wheel;
+SCONS_VERSION=2.5.1; # 2.5.1 best working
+python2.7 -m pip install scons==$SCONS_VERSION protobuf==3.18 pydot graphviz virtualenv; # InvisiSpec
+
+# Set up InvisiSpec
+cd /code/gem5-docker;
+export CORES=$(( `nproc --all` + 1));
+python2.7 `which scons` -j$CORES --verbose build/X86/gem5.opt --default=X86 PROTOCOL=MESI_Two_Level --ignore-style;
+echo "Done compiling gem5"
+./build/X86/gem5.opt configs/learning_gem5/part1/simple.py # gem5 Hello World!
+
+# Set up revizor
+cd /code/revizor-docker;
+cd src/x86/isa_spec;
+python3.11 ./get_spec.py --extensions BASE SSE SSE2 CLFLUSHOPT CLFSH;
+cd /code;
+echo "Done pulling base.json"
+# Check that base.json exists in revizor root
+
+# Run revizor
+echo -e "\nDone post-docker setup! \n";
+if false; then
+    echo "Running fuzzer: Check output at: /code/revizor-docker/revizor_run.out";
+    /code/revizor_run.sh &> /code/revizor-docker/revizor_run.out;
+else
+    echo "Run fuzzer with:  /code/revizor_run.sh &> /code/revizor-docker/revizor_run.out"
+fi
+
+# Don't let the session end!
+cd /code;
+/bin/bash -l;

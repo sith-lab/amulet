@@ -1,0 +1,34 @@
+# contract
+contract_observation_clause: ct
+contract_execution_clause:
+  - cond
+
+# fuzzing configuration
+gem5_enable_cross_test_case_checkpoints: True
+
+executor: 'x86-gem5'
+gem5_location: "/code/gem5-docker"
+gem5_checkpoint: "/code/gem5-docker/checkpoint"
+gem5_output_location: "/code/gem5-docker/m5out"
+gem5_binary: "/code/gem5-docker/build/X86/gem5.opt"
+gem5_se: "/code/gem5-docker/configs/example/se.py"
+gem5_flags:
+  - "--cpu-type=DerivO3CPU"
+  - "--l1d_size=64kB"
+  - "--l1i_size=16kB"
+  - "--l2cache"
+
+gem5_test_case_path: "test_case"
+gem5_trace_mode:  "data_cache"
+gem5_batch_size:  1
+gem5_restore:  1
+
+gem5_attacker_mode:
+   sources : ["data_cache","instr_cache"]
+   bitmask : 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+
+logging_modes:
+  - info
+  - fuzzer_debug
+  # - fuzzer_trace
+  # - coverage_debug

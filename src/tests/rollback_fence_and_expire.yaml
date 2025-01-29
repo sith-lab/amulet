@@ -1,0 +1,6 @@
+contract_observation_clause: l1d
+contract_execution_clause:
+  - cond
+logging_modes:
+  - "fuzzer_trace"
+input_gen_seed: 12

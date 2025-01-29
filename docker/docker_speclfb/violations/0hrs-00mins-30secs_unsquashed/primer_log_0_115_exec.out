@@ -1,0 +1,489 @@
+89025500: system.cpu: T0 : 0x402202 @code+514    :   gem5Op                   : IntAlu :  D=0x0000000000000000
+89025500: system.cpu: T0 : 0x402206 @code+518    : mov	rsp, DS:[t0 + t0 + 0x52f200]
+89025500: system.cpu: T0 : 0x402206 @code+518. 0 :   MOV_R_M : ld   rsp, DS:[t0 + t0 + 0x52f200] : MemRead :  D=0x00007fffffffee20 A=0x52f200
+89025500: system.cpu: T0 : 0x40220e @code+526    : lea	r14, DS:[t0 + t0 + 0x403000]
+89025500: system.cpu: T0 : 0x40220e @code+526. 0 :   LEA_R_M : lea   r14, DS:[t0 + t0 + 0x403000] : IntAlu :  D=0x0000000000403000
+89025500: system.cpu: T0 : 0x402216 @code+534    : mov	rax, DS:[t0 + t0 + 0x52f238]
+89025500: system.cpu: T0 : 0x402216 @code+534. 0 :   MOV_R_M : ld   rax, DS:[t0 + t0 + 0x52f238] : MemRead :  D=0x00289c80001887c0 A=0x52f238
+89025500: system.cpu: T0 : 0x40221e @code+542    :   MFENCE                   : IntAlu : 
+89025500: system.cpu: T0 : 0x402221 @code+545    : push	rax                  
+89025500: system.cpu: T0 : 0x402221 @code+545. 0 :   PUSH_R : st   rax, SS:[t0 + rsp + 0xfffffffffffffff8] : MemWrite :  D=0x00289c80001887c0 A=0x7fffffffee18
+89025500: system.cpu: T0 : 0x402221 @code+545. 1 :   PUSH_R : subi   rsp, rsp, 0x8 : IntAlu :  D=0x00007fffffffee18
+89026000: system.cpu: T0 : 0x402222 @code+546    : popf	                     
+89026000: system.cpu: T0 : 0x402222 @code+546. 0 :   POPF : ld   t1, SS:[t0 + rsp] : MemRead :  D=0x00289c80001887c0 A=0x7fffffffee18
+89026000: system.cpu: T0 : 0x402222 @code+546. 1 :   POPF : addi   rsp, rsp, 0x8 : IntAlu :  D=0x00007fffffffee20
+89026000: system.cpu: T0 : 0x402222 @code+546. 2 :   POPF : wrflags   t1, t0  : IntAlu :  D=0x0000000000180300
+89026000: system.cpu: T0 : 0x402223 @code+547    :   MFENCE                   : IntAlu : 
+89026000: system.cpu: T0 : 0x402226 @code+550    : mov	rax, DS:[t0 + t0 + 0x52f208]
+89026000: system.cpu: T0 : 0x402226 @code+550. 0 :   MOV_R_M : ld   rax, DS:[t0 + t0 + 0x52f208] : MemRead :  D=0x0028fa80000acd00 A=0x52f208
+89026000: system.cpu: T0 : 0x40222e @code+558    :   MFENCE                   : IntAlu : 
+89026000: system.cpu: T0 : 0x402231 @code+561    : mov	rbx, DS:[t0 + t0 + 0x52f210]
+89026000: system.cpu: T0 : 0x402231 @code+561. 0 :   MOV_R_M : ld   rbx, DS:[t0 + t0 + 0x52f210] : MemRead :  D=0x002aa500000309c0 A=0x52f210
+89026000: system.cpu: T0 : 0x402239 @code+569    :   MFENCE                   : IntAlu : 
+89096500: system.cpu: T0 : 0x40223c @code+572    : mov	rcx, DS:[t0 + t0 + 0x52f218]
+89096500: system.cpu: T0 : 0x40223c @code+572. 0 :   MOV_R_M : ld   rcx, DS:[t0 + t0 + 0x52f218] : MemRead :  D=0x0030c440003da640 A=0x52f218
+89096500: system.cpu: T0 : 0x402244 @code+580    :   MFENCE                   : IntAlu : 
+89096500: system.cpu: T0 : 0x402247 @code+583    : mov	rdx, DS:[t0 + t0 + 0x52f220]
+89096500: system.cpu: T0 : 0x402247 @code+583. 0 :   MOV_R_M : ld   rdx, DS:[t0 + t0 + 0x52f220] : MemRead :  D=0x0001c64000265440 A=0x52f220
+89096500: system.cpu: T0 : 0x40224f @code+591    :   MFENCE                   : IntAlu : 
+89096500: system.cpu: T0 : 0x402252 @code+594    : mov	rsi, DS:[t0 + t0 + 0x52f228]
+89096500: system.cpu: T0 : 0x402252 @code+594. 0 :   MOV_R_M : ld   rsi, DS:[t0 + t0 + 0x52f228] : MemRead :  D=0x0010b300001d5480 A=0x52f228
+89096500: system.cpu: T0 : 0x40225a @code+602    :   MFENCE                   : IntAlu : 
+89096500: system.cpu: T0 : 0x40225d @code+605    : mov	rdi, DS:[t0 + t0 + 0x52f230]
+89096500: system.cpu: T0 : 0x40225d @code+605. 0 :   MOV_R_M : ld   rdi, DS:[t0 + t0 + 0x52f230] : MemRead :  D=0x001dc0800006c440 A=0x52f230
+89096500: system.cpu: T0 : 0x402265 @code+613    :   MFENCE                   : IntAlu : 
+89097000: system.cpu: T0 : 0x402268 @code+616    : jmp	0xfffffffffffffd93    
+89097000: system.cpu: T0 : 0x402268 @code+616. 0 :   JMP_I : rdip   t1, t1    : IntAlu :  D=0x000000000040226d
+89097000: system.cpu: T0 : 0x402268 @code+616. 1 :   JMP_I : limm   t2, 0xfffffffffffffd93 : IntAlu :  D=0xfffffffffffffd93
+89097000: system.cpu: T0 : 0x402268 @code+616. 2 :   JMP_I : wrip   t1, t2    : IntAlu : 
+89164000: system.cpu: T0 : 0x402000 @code    :   NOP                      : IntAlu : 
+89164000: system.cpu: T0 : 0x402001 @code+1    :   NOP                      : IntAlu : 
+89164000: system.cpu: T0 : 0x402002 @code+2    :   NOP                      : IntAlu : 
+89164000: system.cpu: T0 : 0x402003 @code+3    :   NOP                      : IntAlu : 
+89164000: system.cpu: T0 : 0x402004 @code+4    :   NOP                      : IntAlu : 
+89164000: system.cpu: T0 : 0x402005 @code+5    :   NOP                      : IntAlu : 
+89164000: system.cpu: T0 : 0x402006 @code+6    :   NOP                      : IntAlu : 
+89164000: system.cpu: T0 : 0x402007 @code+7    :   NOP                      : IntAlu : 
+89164500: system.cpu: T0 : 0x402008 @code+8    :   NOP                      : IntAlu : 
+89164500: system.cpu: T0 : 0x402009 @code+9    :   NOP                      : IntAlu : 
+89164500: system.cpu: T0 : 0x40200a @code+10    :   NOP                      : IntAlu : 
+89164500: system.cpu: T0 : 0x40200b @code+11    :   NOP                      : IntAlu : 
+89164500: system.cpu: T0 : 0x40200c @code+12    :   NOP                      : IntAlu : 
+89164500: system.cpu: T0 : 0x40200d @code+13    :   NOP                      : IntAlu : 
+89164500: system.cpu: T0 : 0x40200e @code+14    :   NOP                      : IntAlu : 
+89164500: system.cpu: T0 : 0x40200f @code+15    :   NOP                      : IntAlu : 
+89165000: system.cpu: T0 : 0x402010 @code+16    :   NOP                      : IntAlu : 
+89165000: system.cpu: T0 : 0x402011 @code+17    :   NOP                      : IntAlu : 
+89165000: system.cpu: T0 : 0x402012 @code+18    :   NOP                      : IntAlu : 
+89165000: system.cpu: T0 : 0x402013 @code+19    :   NOP                      : IntAlu : 
+89165000: system.cpu: T0 : 0x402014 @code+20    :   NOP                      : IntAlu : 
+89196500: system.cpu: T0 : 0x402015 @code+21    :   NOP                      : IntAlu : 
+89196500: system.cpu: T0 : 0x402016 @code+22    :   NOP                      : IntAlu : 
+89196500: system.cpu: T0 : 0x402017 @code+23    :   NOP                      : IntAlu : 
+89196500: system.cpu: T0 : 0x402018 @code+24    :   NOP                      : IntAlu : 
+89196500: system.cpu: T0 : 0x402019 @code+25    :   NOP                      : IntAlu : 
+89196500: system.cpu: T0 : 0x40201a @code+26    :   NOP                      : IntAlu : 
+89196500: system.cpu: T0 : 0x40201b @code+27    :   NOP                      : IntAlu : 
+89196500: system.cpu: T0 : 0x40201c @code+28    :   NOP                      : IntAlu : 
+89197000: system.cpu: T0 : 0x40201d @code+29    :   NOP                      : IntAlu : 
+89197000: system.cpu: T0 : 0x40201e @code+30    :   NOP                      : IntAlu : 
+89197000: system.cpu: T0 : 0x40201f @code+31    :   NOP                      : IntAlu : 
+89197000: system.cpu: T0 : 0x402020 @code+32    :   NOP                      : IntAlu : 
+89197000: system.cpu: T0 : 0x402021 @code+33    :   NOP                      : IntAlu : 
+89197000: system.cpu: T0 : 0x402022 @code+34    :   NOP                      : IntAlu : 
+89197000: system.cpu: T0 : 0x402023 @code+35    :   NOP                      : IntAlu : 
+89197000: system.cpu: T0 : 0x402024 @code+36    :   NOP                      : IntAlu : 
+89197500: system.cpu: T0 : 0x402025 @code+37    :   NOP                      : IntAlu : 
+89197500: system.cpu: T0 : 0x402026 @code+38    :   NOP                      : IntAlu : 
+89197500: system.cpu: T0 : 0x402027 @code+39    :   NOP                      : IntAlu : 
+89197500: system.cpu: T0 : 0x402028 @code+40    :   NOP                      : IntAlu : 
+89197500: system.cpu: T0 : 0x402029 @code+41    :   NOP                      : IntAlu : 
+89197500: system.cpu: T0 : 0x40202a @code+42    :   NOP                      : IntAlu : 
+89197500: system.cpu: T0 : 0x40202b @code+43    :   NOP                      : IntAlu : 
+89197500: system.cpu: T0 : 0x40202c @code+44    :   NOP                      : IntAlu : 
+89198000: system.cpu: T0 : 0x40202d @code+45    :   NOP                      : IntAlu : 
+89198000: system.cpu: T0 : 0x40202e @code+46    :   NOP                      : IntAlu : 
+89198000: system.cpu: T0 : 0x40202f @code+47    :   NOP                      : IntAlu : 
+89198000: system.cpu: T0 : 0x402030 @code+48    :   NOP                      : IntAlu : 
+89198000: system.cpu: T0 : 0x402031 @code+49    :   NOP                      : IntAlu : 
+89198000: system.cpu: T0 : 0x402032 @code+50    :   NOP                      : IntAlu : 
+89198000: system.cpu: T0 : 0x402033 @code+51    :   NOP                      : IntAlu : 
+89198000: system.cpu: T0 : 0x402034 @code+52    :   NOP                      : IntAlu : 
+89198500: system.cpu: T0 : 0x402035 @code+53    :   NOP                      : IntAlu : 
+89198500: system.cpu: T0 : 0x402036 @code+54    :   NOP                      : IntAlu : 
+89198500: system.cpu: T0 : 0x402037 @code+55    :   NOP                      : IntAlu : 
+89198500: system.cpu: T0 : 0x402038 @code+56    :   NOP                      : IntAlu : 
+89198500: system.cpu: T0 : 0x402039 @code+57    :   NOP                      : IntAlu : 
+89198500: system.cpu: T0 : 0x40203a @code+58    :   NOP                      : IntAlu : 
+89198500: system.cpu: T0 : 0x40203b @code+59    :   NOP                      : IntAlu : 
+89198500: system.cpu: T0 : 0x40203c @code+60    :   NOP                      : IntAlu : 
+89199000: system.cpu: T0 : 0x40203d @code+61    :   NOP                      : IntAlu : 
+89199000: system.cpu: T0 : 0x40203e @code+62    :   NOP                      : IntAlu : 
+89199000: system.cpu: T0 : 0x40203f @code+63    :   NOP                      : IntAlu : 
+89270000: system.cpu: T0 : 0x402040 @code+64    :   NOP                      : IntAlu : 
+89270000: system.cpu: T0 : 0x402041 @code+65    :   NOP                      : IntAlu : 
+89270000: system.cpu: T0 : 0x402042 @code+66    :   NOP                      : IntAlu : 
+89270000: system.cpu: T0 : 0x402043 @code+67    :   NOP                      : IntAlu : 
+89270000: system.cpu: T0 : 0x402044 @code+68    :   NOP                      : IntAlu : 
+89270000: system.cpu: T0 : 0x402045 @code+69    :   NOP                      : IntAlu : 
+89270000: system.cpu: T0 : 0x402046 @code+70    :   NOP                      : IntAlu : 
+89270000: system.cpu: T0 : 0x402047 @code+71    :   NOP                      : IntAlu : 
+89270500: system.cpu: T0 : 0x402048 @code+72    :   NOP                      : IntAlu : 
+89270500: system.cpu: T0 : 0x402049 @code+73    :   NOP                      : IntAlu : 
+89270500: system.cpu: T0 : 0x40204a @code+74    :   NOP                      : IntAlu : 
+89270500: system.cpu: T0 : 0x40204b @code+75    :   NOP                      : IntAlu : 
+89270500: system.cpu: T0 : 0x40204c @code+76    :   NOP                      : IntAlu : 
+89270500: system.cpu: T0 : 0x40204d @code+77    :   NOP                      : IntAlu : 
+89270500: system.cpu: T0 : 0x40204e @code+78    :   NOP                      : IntAlu : 
+89270500: system.cpu: T0 : 0x40204f @code+79    :   NOP                      : IntAlu : 
+89271000: system.cpu: T0 : 0x402050 @code+80    :   NOP                      : IntAlu : 
+89271000: system.cpu: T0 : 0x402051 @code+81    :   NOP                      : IntAlu : 
+89271000: system.cpu: T0 : 0x402052 @code+82    :   NOP                      : IntAlu : 
+89271000: system.cpu: T0 : 0x402053 @code+83    :   NOP                      : IntAlu : 
+89271000: system.cpu: T0 : 0x402054 @code+84    :   NOP                      : IntAlu : 
+89271000: system.cpu: T0 : 0x402055 @code+85    :   NOP                      : IntAlu : 
+89271000: system.cpu: T0 : 0x402056 @code+86    :   NOP                      : IntAlu : 
+89271000: system.cpu: T0 : 0x402057 @code+87    :   NOP                      : IntAlu : 
+89271500: system.cpu: T0 : 0x402058 @code+88    :   NOP                      : IntAlu : 
+89271500: system.cpu: T0 : 0x402059 @code+89    :   NOP                      : IntAlu : 
+89271500: system.cpu: T0 : 0x40205a @code+90    :   NOP                      : IntAlu : 
+89271500: system.cpu: T0 : 0x40205b @code+91    :   NOP                      : IntAlu : 
+89271500: system.cpu: T0 : 0x40205c @code+92    :   NOP                      : IntAlu : 
+89271500: system.cpu: T0 : 0x40205d @code+93    :   NOP                      : IntAlu : 
+89271500: system.cpu: T0 : 0x40205e @code+94    :   NOP                      : IntAlu : 
+89271500: system.cpu: T0 : 0x40205f @code+95    :   NOP                      : IntAlu : 
+89272000: system.cpu: T0 : 0x402060 @code+96    :   NOP                      : IntAlu : 
+89272000: system.cpu: T0 : 0x402061 @code+97    :   NOP                      : IntAlu : 
+89272000: system.cpu: T0 : 0x402062 @code+98    :   NOP                      : IntAlu : 
+89272000: system.cpu: T0 : 0x402063 @code+99    :   NOP                      : IntAlu : 
+89272000: system.cpu: T0 : 0x402064 @code+100    :   NOP                      : IntAlu : 
+89272000: system.cpu: T0 : 0x402065 @code+101    :   NOP                      : IntAlu : 
+89272000: system.cpu: T0 : 0x402066 @code+102    :   NOP                      : IntAlu : 
+89272000: system.cpu: T0 : 0x402067 @code+103    :   NOP                      : IntAlu : 
+89272500: system.cpu: T0 : 0x402068 @code+104    :   NOP                      : IntAlu : 
+89272500: system.cpu: T0 : 0x402069 @code+105    :   NOP                      : IntAlu : 
+89272500: system.cpu: T0 : 0x40206a @code+106    :   NOP                      : IntAlu : 
+89272500: system.cpu: T0 : 0x40206b @code+107    :   NOP                      : IntAlu : 
+89272500: system.cpu: T0 : 0x40206c @code+108    :   NOP                      : IntAlu : 
+89272500: system.cpu: T0 : 0x40206d @code+109    :   NOP                      : IntAlu : 
+89272500: system.cpu: T0 : 0x40206e @code+110    :   NOP                      : IntAlu : 
+89272500: system.cpu: T0 : 0x40206f @code+111    :   NOP                      : IntAlu : 
+89273000: system.cpu: T0 : 0x402070 @code+112    :   NOP                      : IntAlu : 
+89273000: system.cpu: T0 : 0x402071 @code+113    :   NOP                      : IntAlu : 
+89273000: system.cpu: T0 : 0x402072 @code+114    :   NOP                      : IntAlu : 
+89273000: system.cpu: T0 : 0x402073 @code+115    :   NOP                      : IntAlu : 
+89273000: system.cpu: T0 : 0x402074 @code+116    :   NOP                      : IntAlu : 
+89273000: system.cpu: T0 : 0x402075 @code+117    :   NOP                      : IntAlu : 
+89273000: system.cpu: T0 : 0x402076 @code+118    :   NOP                      : IntAlu : 
+89273000: system.cpu: T0 : 0x402077 @code+119    :   NOP                      : IntAlu : 
+89273500: system.cpu: T0 : 0x402078 @code+120    :   NOP                      : IntAlu : 
+89273500: system.cpu: T0 : 0x402079 @code+121    :   NOP                      : IntAlu : 
+89273500: system.cpu: T0 : 0x40207a @code+122    :   NOP                      : IntAlu : 
+89273500: system.cpu: T0 : 0x40207b @code+123    :   NOP                      : IntAlu : 
+89273500: system.cpu: T0 : 0x40207c @code+124    :   NOP                      : IntAlu : 
+89273500: system.cpu: T0 : 0x40207d @code+125    :   NOP                      : IntAlu : 
+89273500: system.cpu: T0 : 0x40207e @code+126    :   NOP                      : IntAlu : 
+89273500: system.cpu: T0 : 0x40207f @code+127    :   NOP                      : IntAlu : 
+89340500: system.cpu: T0 : 0x402080 @code+128    :   NOP                      : IntAlu : 
+89340500: system.cpu: T0 : 0x402081 @code+129    :   NOP                      : IntAlu : 
+89340500: system.cpu: T0 : 0x402082 @code+130    :   NOP                      : IntAlu : 
+89340500: system.cpu: T0 : 0x402083 @code+131    :   NOP                      : IntAlu : 
+89340500: system.cpu: T0 : 0x402084 @code+132    :   NOP                      : IntAlu : 
+89340500: system.cpu: T0 : 0x402085 @code+133    :   NOP                      : IntAlu : 
+89340500: system.cpu: T0 : 0x402086 @code+134    :   NOP                      : IntAlu : 
+89340500: system.cpu: T0 : 0x402087 @code+135    :   NOP                      : IntAlu : 
+89341000: system.cpu: T0 : 0x402088 @code+136    :   NOP                      : IntAlu : 
+89341000: system.cpu: T0 : 0x402089 @code+137    :   NOP                      : IntAlu : 
+89341000: system.cpu: T0 : 0x40208a @code+138    :   NOP                      : IntAlu : 
+89341000: system.cpu: T0 : 0x40208b @code+139    :   NOP                      : IntAlu : 
+89341000: system.cpu: T0 : 0x40208c @code+140    :   NOP                      : IntAlu : 
+89341000: system.cpu: T0 : 0x40208d @code+141    :   NOP                      : IntAlu : 
+89341000: system.cpu: T0 : 0x40208e @code+142    :   NOP                      : IntAlu : 
+89341000: system.cpu: T0 : 0x40208f @code+143    :   NOP                      : IntAlu : 
+89341500: system.cpu: T0 : 0x402090 @code+144    :   NOP                      : IntAlu : 
+89341500: system.cpu: T0 : 0x402091 @code+145    :   NOP                      : IntAlu : 
+89341500: system.cpu: T0 : 0x402092 @code+146    :   NOP                      : IntAlu : 
+89341500: system.cpu: T0 : 0x402093 @code+147    :   NOP                      : IntAlu : 
+89341500: system.cpu: T0 : 0x402094 @code+148    :   NOP                      : IntAlu : 
+89341500: system.cpu: T0 : 0x402095 @code+149    :   NOP                      : IntAlu : 
+89341500: system.cpu: T0 : 0x402096 @code+150    :   NOP                      : IntAlu : 
+89341500: system.cpu: T0 : 0x402097 @code+151    :   NOP                      : IntAlu : 
+89342000: system.cpu: T0 : 0x402098 @code+152    :   NOP                      : IntAlu : 
+89342000: system.cpu: T0 : 0x402099 @code+153    :   NOP                      : IntAlu : 
+89342000: system.cpu: T0 : 0x40209a @code+154    :   NOP                      : IntAlu : 
+89342000: system.cpu: T0 : 0x40209b @code+155    :   NOP                      : IntAlu : 
+89342000: system.cpu: T0 : 0x40209c @code+156    :   NOP                      : IntAlu : 
+89342000: system.cpu: T0 : 0x40209d @code+157    :   NOP                      : IntAlu : 
+89342000: system.cpu: T0 : 0x40209e @code+158    :   NOP                      : IntAlu : 
+89342000: system.cpu: T0 : 0x40209f @code+159    :   NOP                      : IntAlu : 
+89342500: system.cpu: T0 : 0x4020a0 @code+160    :   NOP                      : IntAlu : 
+89342500: system.cpu: T0 : 0x4020a1 @code+161    :   NOP                      : IntAlu : 
+89342500: system.cpu: T0 : 0x4020a2 @code+162    :   NOP                      : IntAlu : 
+89342500: system.cpu: T0 : 0x4020a3 @code+163    :   NOP                      : IntAlu : 
+89342500: system.cpu: T0 : 0x4020a4 @code+164    :   NOP                      : IntAlu : 
+89342500: system.cpu: T0 : 0x4020a5 @code+165    :   NOP                      : IntAlu : 
+89342500: system.cpu: T0 : 0x4020a6 @code+166    :   NOP                      : IntAlu : 
+89342500: system.cpu: T0 : 0x4020a7 @code+167    :   NOP                      : IntAlu : 
+89343000: system.cpu: T0 : 0x4020a8 @code+168    :   NOP                      : IntAlu : 
+89343000: system.cpu: T0 : 0x4020a9 @code+169    :   NOP                      : IntAlu : 
+89343000: system.cpu: T0 : 0x4020aa @code+170    :   NOP                      : IntAlu : 
+89343000: system.cpu: T0 : 0x4020ab @code+171    :   NOP                      : IntAlu : 
+89343000: system.cpu: T0 : 0x4020ac @code+172    :   NOP                      : IntAlu : 
+89343000: system.cpu: T0 : 0x4020ad @code+173    :   NOP                      : IntAlu : 
+89343000: system.cpu: T0 : 0x4020ae @code+174    :   NOP                      : IntAlu : 
+89343000: system.cpu: T0 : 0x4020af @code+175    :   NOP                      : IntAlu : 
+89343500: system.cpu: T0 : 0x4020b0 @code+176    :   NOP                      : IntAlu : 
+89343500: system.cpu: T0 : 0x4020b1 @code+177    :   NOP                      : IntAlu : 
+89343500: system.cpu: T0 : 0x4020b2 @code+178    :   NOP                      : IntAlu : 
+89343500: system.cpu: T0 : 0x4020b3 @code+179    :   NOP                      : IntAlu : 
+89343500: system.cpu: T0 : 0x4020b4 @code+180    :   NOP                      : IntAlu : 
+89343500: system.cpu: T0 : 0x4020b5 @code+181    :   NOP                      : IntAlu : 
+89343500: system.cpu: T0 : 0x4020b6 @code+182    :   NOP                      : IntAlu : 
+89343500: system.cpu: T0 : 0x4020b7 @code+183    :   NOP                      : IntAlu : 
+89344000: system.cpu: T0 : 0x4020b8 @code+184    :   NOP                      : IntAlu : 
+89344000: system.cpu: T0 : 0x4020b9 @code+185    :   NOP                      : IntAlu : 
+89344000: system.cpu: T0 : 0x4020ba @code+186    :   NOP                      : IntAlu : 
+89344000: system.cpu: T0 : 0x4020bb @code+187    :   NOP                      : IntAlu : 
+89344000: system.cpu: T0 : 0x4020bc @code+188    :   NOP                      : IntAlu : 
+89344000: system.cpu: T0 : 0x4020bd @code+189    :   NOP                      : IntAlu : 
+89344000: system.cpu: T0 : 0x4020be @code+190    :   NOP                      : IntAlu : 
+89344000: system.cpu: T0 : 0x4020bf @code+191    :   NOP                      : IntAlu : 
+89411000: system.cpu: T0 : 0x4020c0 @code+192    :   NOP                      : IntAlu : 
+89411000: system.cpu: T0 : 0x4020c1 @code+193    :   NOP                      : IntAlu : 
+89411000: system.cpu: T0 : 0x4020c2 @code+194    :   NOP                      : IntAlu : 
+89411000: system.cpu: T0 : 0x4020c3 @code+195    :   NOP                      : IntAlu : 
+89411000: system.cpu: T0 : 0x4020c4 @code+196    :   NOP                      : IntAlu : 
+89411000: system.cpu: T0 : 0x4020c5 @code+197    :   NOP                      : IntAlu : 
+89411000: system.cpu: T0 : 0x4020c6 @code+198    :   NOP                      : IntAlu : 
+89411000: system.cpu: T0 : 0x4020c7 @code+199    :   NOP                      : IntAlu : 
+89411500: system.cpu: T0 : 0x4020c8 @code+200    :   NOP                      : IntAlu : 
+89411500: system.cpu: T0 : 0x4020c9 @code+201    :   NOP                      : IntAlu : 
+89411500: system.cpu: T0 : 0x4020ca @code+202    :   NOP                      : IntAlu : 
+89411500: system.cpu: T0 : 0x4020cb @code+203    :   NOP                      : IntAlu : 
+89411500: system.cpu: T0 : 0x4020cc @code+204    :   NOP                      : IntAlu : 
+89411500: system.cpu: T0 : 0x4020cd @code+205    :   NOP                      : IntAlu : 
+89411500: system.cpu: T0 : 0x4020ce @code+206    :   NOP                      : IntAlu : 
+89411500: system.cpu: T0 : 0x4020cf @code+207    :   NOP                      : IntAlu : 
+89412000: system.cpu: T0 : 0x4020d0 @code+208    :   NOP                      : IntAlu : 
+89412000: system.cpu: T0 : 0x4020d1 @code+209    :   NOP                      : IntAlu : 
+89412000: system.cpu: T0 : 0x4020d2 @code+210    :   NOP                      : IntAlu : 
+89412000: system.cpu: T0 : 0x4020d3 @code+211    :   NOP                      : IntAlu : 
+89412000: system.cpu: T0 : 0x4020d4 @code+212    :   NOP                      : IntAlu : 
+89412000: system.cpu: T0 : 0x4020d5 @code+213    :   NOP                      : IntAlu : 
+89412000: system.cpu: T0 : 0x4020d6 @code+214    :   NOP                      : IntAlu : 
+89412000: system.cpu: T0 : 0x4020d7 @code+215    :   NOP                      : IntAlu : 
+89412500: system.cpu: T0 : 0x4020d8 @code+216    :   NOP                      : IntAlu : 
+89412500: system.cpu: T0 : 0x4020d9 @code+217    :   NOP                      : IntAlu : 
+89412500: system.cpu: T0 : 0x4020da @code+218    :   NOP                      : IntAlu : 
+89412500: system.cpu: T0 : 0x4020db @code+219    :   NOP                      : IntAlu : 
+89412500: system.cpu: T0 : 0x4020dc @code+220    :   NOP                      : IntAlu : 
+89412500: system.cpu: T0 : 0x4020dd @code+221    :   NOP                      : IntAlu : 
+89412500: system.cpu: T0 : 0x4020de @code+222    :   NOP                      : IntAlu : 
+89412500: system.cpu: T0 : 0x4020df @code+223    :   NOP                      : IntAlu : 
+89413000: system.cpu: T0 : 0x4020e0 @code+224    :   NOP                      : IntAlu : 
+89413000: system.cpu: T0 : 0x4020e1 @code+225    :   NOP                      : IntAlu : 
+89413000: system.cpu: T0 : 0x4020e2 @code+226    :   NOP                      : IntAlu : 
+89413000: system.cpu: T0 : 0x4020e3 @code+227    :   NOP                      : IntAlu : 
+89413000: system.cpu: T0 : 0x4020e4 @code+228    :   NOP                      : IntAlu : 
+89413000: system.cpu: T0 : 0x4020e5 @code+229    :   NOP                      : IntAlu : 
+89413000: system.cpu: T0 : 0x4020e6 @code+230    :   NOP                      : IntAlu : 
+89413000: system.cpu: T0 : 0x4020e7 @code+231    :   NOP                      : IntAlu : 
+89413500: system.cpu: T0 : 0x4020e8 @code+232    :   NOP                      : IntAlu : 
+89413500: system.cpu: T0 : 0x4020e9 @code+233    :   NOP                      : IntAlu : 
+89413500: system.cpu: T0 : 0x4020ea @code+234    :   NOP                      : IntAlu : 
+89413500: system.cpu: T0 : 0x4020eb @code+235    :   NOP                      : IntAlu : 
+89413500: system.cpu: T0 : 0x4020ec @code+236    :   NOP                      : IntAlu : 
+89413500: system.cpu: T0 : 0x4020ed @code+237    :   NOP                      : IntAlu : 
+89413500: system.cpu: T0 : 0x4020ee @code+238    :   NOP                      : IntAlu : 
+89413500: system.cpu: T0 : 0x4020ef @code+239    :   NOP                      : IntAlu : 
+89414000: system.cpu: T0 : 0x4020f0 @code+240    :   NOP                      : IntAlu : 
+89414000: system.cpu: T0 : 0x4020f1 @code+241    :   NOP                      : IntAlu : 
+89414000: system.cpu: T0 : 0x4020f2 @code+242    :   NOP                      : IntAlu : 
+89414000: system.cpu: T0 : 0x4020f3 @code+243    :   NOP                      : IntAlu : 
+89414000: system.cpu: T0 : 0x4020f4 @code+244    :   NOP                      : IntAlu : 
+89414000: system.cpu: T0 : 0x4020f5 @code+245    :   NOP                      : IntAlu : 
+89414000: system.cpu: T0 : 0x4020f6 @code+246    :   NOP                      : IntAlu : 
+89414000: system.cpu: T0 : 0x4020f7 @code+247    :   NOP                      : IntAlu : 
+89414500: system.cpu: T0 : 0x4020f8 @code+248    :   NOP                      : IntAlu : 
+89414500: system.cpu: T0 : 0x4020f9 @code+249    :   NOP                      : IntAlu : 
+89414500: system.cpu: T0 : 0x4020fa @code+250    :   NOP                      : IntAlu : 
+89414500: system.cpu: T0 : 0x4020fb @code+251    :   NOP                      : IntAlu : 
+89414500: system.cpu: T0 : 0x4020fc @code+252    :   NOP                      : IntAlu : 
+89414500: system.cpu: T0 : 0x4020fd @code+253    :   NOP                      : IntAlu : 
+89414500: system.cpu: T0 : 0x4020fe @code+254    :   NOP                      : IntAlu : 
+89414500: system.cpu: T0 : 0x4020ff @code+255    :   NOP                      : IntAlu : 
+89481500: system.cpu: T0 : 0x402100 @code+256    :   NOP                      : IntAlu : 
+89481500: system.cpu: T0 : 0x402101 @code+257    :   NOP                      : IntAlu : 
+89481500: system.cpu: T0 : 0x402102 @code+258    :   NOP                      : IntAlu : 
+89481500: system.cpu: T0 : 0x402103 @code+259    :   NOP                      : IntAlu : 
+89481500: system.cpu: T0 : 0x402104 @code+260    :   NOP                      : IntAlu : 
+89481500: system.cpu: T0 : 0x402105 @code+261    :   NOP                      : IntAlu : 
+89481500: system.cpu: T0 : 0x402106 @code+262    :   NOP                      : IntAlu : 
+89481500: system.cpu: T0 : 0x402107 @code+263    :   NOP                      : IntAlu : 
+89482000: system.cpu: T0 : 0x402108 @code+264    :   NOP                      : IntAlu : 
+89482000: system.cpu: T0 : 0x402109 @code+265    :   NOP                      : IntAlu : 
+89482000: system.cpu: T0 : 0x40210a @code+266    :   NOP                      : IntAlu : 
+89482000: system.cpu: T0 : 0x40210b @code+267    :   NOP                      : IntAlu : 
+89482000: system.cpu: T0 : 0x40210c @code+268    :   NOP                      : IntAlu : 
+89482000: system.cpu: T0 : 0x40210d @code+269    :   NOP                      : IntAlu : 
+89482000: system.cpu: T0 : 0x40210e @code+270    :   NOP                      : IntAlu : 
+89482000: system.cpu: T0 : 0x40210f @code+271    :   NOP                      : IntAlu : 
+89482500: system.cpu: T0 : 0x402110 @code+272    :   NOP                      : IntAlu : 
+89482500: system.cpu: T0 : 0x402111 @code+273    :   NOP                      : IntAlu : 
+89482500: system.cpu: T0 : 0x402112 @code+274    :   NOP                      : IntAlu : 
+89482500: system.cpu: T0 : 0x402113 @code+275    :   NOP                      : IntAlu : 
+89482500: system.cpu: T0 : 0x402114 @code+276    :   NOP                      : IntAlu : 
+89482500: system.cpu: T0 : 0x402115 @code+277    :   NOP                      : IntAlu : 
+89482500: system.cpu: T0 : 0x402116 @code+278    :   NOP                      : IntAlu : 
+89482500: system.cpu: T0 : 0x402117 @code+279    :   NOP                      : IntAlu : 
+89483000: system.cpu: T0 : 0x402118 @code+280    :   NOP                      : IntAlu : 
+89483000: system.cpu: T0 : 0x402119 @code+281    :   NOP                      : IntAlu : 
+89483000: system.cpu: T0 : 0x40211a @code+282    :   NOP                      : IntAlu : 
+89483000: system.cpu: T0 : 0x40211b @code+283    :   NOP                      : IntAlu : 
+89483000: system.cpu: T0 : 0x40211c @code+284    :   NOP                      : IntAlu : 
+89483000: system.cpu: T0 : 0x40211d @code+285    :   NOP                      : IntAlu : 
+89483000: system.cpu: T0 : 0x40211e @code+286    :   NOP                      : IntAlu : 
+89483000: system.cpu: T0 : 0x40211f @code+287    :   NOP                      : IntAlu : 
+89483500: system.cpu: T0 : 0x402120 @code+288    :   NOP                      : IntAlu : 
+89483500: system.cpu: T0 : 0x402121 @code+289    :   NOP                      : IntAlu : 
+89483500: system.cpu: T0 : 0x402122 @code+290    : lea	r14, DS:[r14 + 0xc]   
+89483500: system.cpu: T0 : 0x402122 @code+290. 0 :   LEA_R_M : lea   r14, DS:[r14 + 0xc] : IntAlu :  D=0x000000000040300c
+89483500: system.cpu: T0 : 0x402126 @code+294    :   MFENCE                   : IntAlu : 
+89483500: system.cpu: T0 : 0x402129 @code+297    : jmp	0                     
+89483500: system.cpu: T0 : 0x402129 @code+297. 0 :   JMP_I : rdip   t1, t1    : IntAlu :  D=0x000000000040212b
+89483500: system.cpu: T0 : 0x402129 @code+297. 1 :   JMP_I : limm   t2, 0     : IntAlu :  D=0x0000000000000000
+89483500: system.cpu: T0 : 0x402129 @code+297. 2 :   JMP_I : wrip   t1, t2    : IntAlu : 
+89483500: system.cpu: T0 : 0x40212b @code+299    : and	dl, 0xffffffffffffff80
+89483500: system.cpu: T0 : 0x40212b @code+299. 0 :   AND_R_I : limm   t1b, 0xffffffffffffff80 : IntAlu :  D=0x0000000000402180
+89484000: system.cpu: T0 : 0x40212b @code+299. 1 :   AND_R_I : and   dl, dl, t1b : IntAlu :  D=0x0000000000000000
+89484000: system.cpu: T0 : 0x40212e @code+302    : and	rax, 0x1fff           
+89484000: system.cpu: T0 : 0x40212e @code+302. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89484000: system.cpu: T0 : 0x40212e @code+302. 1 :   AND_R_I : and   rax, rax, t1 : IntAlu :  D=0x0000000000000000
+89484000: system.cpu: T0 : 0x402134 @code+308    : cmovs	ecx, DS:[rax + r14] 
+89484000: system.cpu: T0 : 0x402134 @code+308. 0 :   CMOVS_R_M : ld   t1d, DS:[rax + r14] : MemRead :  D=0x00000000001eeb00 A=0x403d0c
+89484000: system.cpu: T0 : 0x402134 @code+308. 1 :   CMOVS_R_M : mov   ecx, ecx, ecx : IntAlu :  D=0x00000000003da640
+89484000: system.cpu: T0 : 0x402134 @code+308. 2 :   CMOVS_R_M : mov   ecx, ecx, t1d : IntAlu :  D=0x00000000003da640
+89484000: system.cpu: T0 : 0x402139 @code+313    : and	rdi, 0x1fff           
+89484000: system.cpu: T0 : 0x402139 @code+313. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89484000: system.cpu: T0 : 0x402139 @code+313. 1 :   AND_R_I : and   rdi, rdi, t1 : IntAlu :  D=0x0000000000000000
+89551000: system.cpu: T0 : 0x402140 @code+320    : cmovnbe	cx, DS:[rdi + r14]
+89551000: system.cpu: T0 : 0x402140 @code+320. 0 :   CMOVNBE_R_M : ld   t1w, DS:[rdi + r14] : MemRead :  D=0x000000000000a000 A=0x40344c
+89551000: system.cpu: T0 : 0x402140 @code+320. 1 :   CMOVNBE_R_M : mov   cx, cx, cx : IntAlu :  D=0x00000000003da640
+89551000: system.cpu: T0 : 0x402140 @code+320. 2 :   CMOVNBE_R_M : mov   cx, cx, t1w : IntAlu :  D=0x00000000003da000
+89551000: system.cpu: T0 : 0x402146 @code+326    : and	rax, 0x1fff           
+89551000: system.cpu: T0 : 0x402146 @code+326. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89551000: system.cpu: T0 : 0x402146 @code+326. 1 :   AND_R_I : and   rax, rax, t1 : IntAlu :  D=0x0000000000000000
+89551000: system.cpu: T0 : 0x40214c @code+332    : not	DS:[rax + r14]        
+89551000: system.cpu: T0 : 0x40214c @code+332. 0 :   NOT_LOCKED_M : limm   t1, 0xffffffffffffffff : IntAlu :  D=0xffffffffffffffff
+89551000: system.cpu: T0 : 0x40214c @code+332. 1 : 	NOT_LOCKED_M.mfence       : IntAlu : 
+89551000: system.cpu: T0 : 0x40214c @code+332. 2 :   NOT_LOCKED_M : ldstl   t2, DS:[rax + r14] : MemRead :  D=0x000f7fc0001eeb00 A=0x403d0c
+89551500: system.cpu: T0 : 0x40214c @code+332. 3 :   NOT_LOCKED_M : xor   t2, t2, t1 : IntAlu :  D=0xfff0803fffe114ff
+89551500: system.cpu: T0 : 0x40214c @code+332. 4 :   NOT_LOCKED_M : stul   t2, DS:[rax + r14] : MemWrite :  D=0xfff0803fffe114ff A=0x403d0c
+89551500: system.cpu: T0 : 0x40214c @code+332. 5 : 	NOT_LOCKED_M.mfence       : IntAlu : 
+89551500: system.cpu: T0 : 0x402151 @code+337    : jmp	0                     
+89551500: system.cpu: T0 : 0x402151 @code+337. 0 :   JMP_I : rdip   t1, t1    : IntAlu :  D=0x0000000000402153
+89551500: system.cpu: T0 : 0x402151 @code+337. 1 :   JMP_I : limm   t2, 0     : IntAlu :  D=0x0000000000000000
+89551500: system.cpu: T0 : 0x402151 @code+337. 2 :   JMP_I : wrip   t1, t2    : IntAlu : 
+89551500: system.cpu: T0 : 0x402153 @code+339    : and	rdi, 0x1fff           
+89551500: system.cpu: T0 : 0x402153 @code+339. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89551500: system.cpu: T0 : 0x402153 @code+339. 1 :   AND_R_I : and   rdi, rdi, t1 : IntAlu :  D=0x0000000000000000
+89552000: system.cpu: T0 : 0x40215a @code+346    : xor	ebx, DS:[rdi + r14]   
+89552000: system.cpu: T0 : 0x40215a @code+346. 0 :   XOR_R_M : ld   t1d, DS:[rdi + r14] : MemRead :  D=0x000000000008a000 A=0x40344c
+89552000: system.cpu: T0 : 0x40215a @code+346. 1 :   XOR_R_M : xor   ebx, ebx, t1d : IntAlu :  D=0x0000000000000000
+89552000: system.cpu: T0 : 0x40215e @code+350    : and	rsi, 0x1fff           
+89552000: system.cpu: T0 : 0x40215e @code+350. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89552000: system.cpu: T0 : 0x40215e @code+350. 1 :   AND_R_I : and   rsi, rsi, t1 : IntAlu :  D=0x0000000000000000
+89552000: system.cpu: T0 : 0x402165 @code+357    : or	DS:[rsi + r14], 0xffffffffffffffff
+89552000: system.cpu: T0 : 0x402165 @code+357. 0 :   OR_LOCKED_M_I : limm   t2w, 0xffffffffffffffff : IntAlu :  D=0x000000000000ffff
+89552000: system.cpu: T0 : 0x402165 @code+357. 1 : 	OR_LOCKED_M_I.mfence      : IntAlu : 
+89552000: system.cpu: T0 : 0x402165 @code+357. 2 :   OR_LOCKED_M_I : ldstl   t1w, DS:[rsi + r14] : MemRead :  D=0x000000000000f680 A=0x40448c
+89552000: system.cpu: T0 : 0x402165 @code+357. 3 :   OR_LOCKED_M_I : or   t1w, t1w, t2w : IntAlu :  D=0x0000000000000000
+89552500: system.cpu: T0 : 0x402165 @code+357. 4 :   OR_LOCKED_M_I : stul   t1w, DS:[rsi + r14] : MemWrite :  D=0x000000000000ffff A=0x40448c
+89552500: system.cpu: T0 : 0x402165 @code+357. 5 : 	OR_LOCKED_M_I.mfence      : IntAlu : 
+89552500: system.cpu: T0 : 0x40216c @code+364    : and	rax, 0x1fff           
+89552500: system.cpu: T0 : 0x40216c @code+364. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89552500: system.cpu: T0 : 0x40216c @code+364. 1 :   AND_R_I : and   rax, rax, t1 : IntAlu :  D=0x0000000000000000
+89552500: system.cpu: T0 : 0x402172 @code+370    : or	DS:[rax + r14], bx     
+89552500: system.cpu: T0 : 0x402172 @code+370. 0 :   OR_M_R : ldst   t1w, DS:[rax + r14] : MemRead :  D=0x00000000000014ff A=0x403d0c
+89552500: system.cpu: T0 : 0x402172 @code+370. 1 :   OR_M_R : or   t1w, t1w, bx : IntAlu :  D=0x0000000000000000
+89552500: system.cpu: T0 : 0x402172 @code+370. 2 :   OR_M_R : st   t1w, DS:[rax + r14] : MemWrite :  D=0x000000000000bdff A=0x403d0c
+89552500: system.cpu: T0 : 0x402177 @code+375    : and	rax, 0x1fff           
+89552500: system.cpu: T0 : 0x402177 @code+375. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89553000: system.cpu: T0 : 0x402177 @code+375. 1 :   AND_R_I : and   rax, rax, t1 : IntAlu :  D=0x0000000000000000
+89724500: system.cpu: T0 : 0x40217d @code+381    : and	DS:[rax + r14], 0xffffffffffffffae
+89724500: system.cpu: T0 : 0x40217d @code+381. 0 :   AND_M_I : ldst   t2w, DS:[rax + r14] : MemRead :  D=0x000000000000bdff A=0x403d0c
+89724500: system.cpu: T0 : 0x40217d @code+381. 1 :   AND_M_I : limm   t1w, 0xffffffffffffffae : IntAlu :  D=0x000000000000ffae
+89724500: system.cpu: T0 : 0x40217d @code+381. 2 :   AND_M_I : and   t2w, t2w, t1w : IntAlu :  D=0x0000000000000000
+89724500: system.cpu: T0 : 0x40217d @code+381. 3 :   AND_M_I : st   t2w, DS:[rax + r14] : MemWrite :  D=0x000000000000bdae A=0x403d0c
+89724500: system.cpu: T0 : 0x402183 @code+387    : loop	0x2                  
+89724500: system.cpu: T0 : 0x402183 @code+387. 0 :   LOOP_I : rdip   t1, t1   : IntAlu :  D=0x0000000000402185
+89724500: system.cpu: T0 : 0x402183 @code+387. 1 :   LOOP_I : subi   rcx, rcx, 0x1 : IntAlu :  D=0x0000000000000000
+89724500: system.cpu: T0 : 0x402183 @code+387. 2 :   LOOP_I : wripi   t1, 0x2 : IntAlu : 
+89725000: system.cpu: T0 : 0x402187 @code+391    : and	rdi, 0x1fff           
+89725000: system.cpu: T0 : 0x402187 @code+391. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89725000: system.cpu: T0 : 0x402187 @code+391. 1 :   AND_R_I : and   rdi, rdi, t1 : IntAlu :  D=0x0000000000000000
+89725000: system.cpu: T0 : 0x40218e @code+398    : or	DS:[rdi + r14], dl     
+89725000: system.cpu: T0 : 0x40218e @code+398. 0 :   OR_M_R : ldst   t1b, DS:[rdi + r14] : MemRead :  D=0x0000000000001f00 A=0x40344c
+89725000: system.cpu: T0 : 0x40218e @code+398. 1 :   OR_M_R : or   t1b, t1b, dl : IntAlu :  D=0x0000000000000000
+89725000: system.cpu: T0 : 0x40218e @code+398. 2 :   OR_M_R : st   t1b, DS:[rdi + r14] : MemWrite :  D=0x0000000000000000 A=0x40344c
+89725000: system.cpu: T0 : 0x402192 @code+402    : jmp	0                     
+89725000: system.cpu: T0 : 0x402192 @code+402. 0 :   JMP_I : rdip   t1, t1    : IntAlu :  D=0x0000000000402194
+89725000: system.cpu: T0 : 0x402192 @code+402. 1 :   JMP_I : limm   t2, 0     : IntAlu :  D=0x0000000000000000
+89725000: system.cpu: T0 : 0x402192 @code+402. 2 :   JMP_I : wrip   t1, t2    : IntAlu : 
+89725500: system.cpu: T0 : 0x402194 @code+404    : and	rsi, 0x1fff           
+89725500: system.cpu: T0 : 0x402194 @code+404. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89725500: system.cpu: T0 : 0x402194 @code+404. 1 :   AND_R_I : and   rsi, rsi, t1 : IntAlu :  D=0x0000000000000000
+89725500: system.cpu: T0 : 0x40219b @code+411    : and	DS:[rsi + r14], al    
+89725500: system.cpu: T0 : 0x40219b @code+411. 0 : 	AND_LOCKED_M_R.mfence     : IntAlu : 
+89725500: system.cpu: T0 : 0x40219b @code+411. 1 :   AND_LOCKED_M_R : ldstl   t1b, DS:[rsi + r14] : MemRead :  D=0x0000000000001fff A=0x40448c
+89725500: system.cpu: T0 : 0x40219b @code+411. 2 :   AND_LOCKED_M_R : and   t1b, t1b, al : IntAlu :  D=0x0000000000000000
+89725500: system.cpu: T0 : 0x40219b @code+411. 3 :   AND_LOCKED_M_R : stul   t1b, DS:[rsi + r14] : MemWrite :  D=0x0000000000000000 A=0x40448c
+89725500: system.cpu: T0 : 0x40219b @code+411. 4 : 	AND_LOCKED_M_R.mfence     : IntAlu : 
+89725500: system.cpu: T0 : 0x4021a0 @code+416    : and	rdi, 0x1fff           
+89725500: system.cpu: T0 : 0x4021a0 @code+416. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89726000: system.cpu: T0 : 0x4021a0 @code+416. 1 :   AND_R_I : and   rdi, rdi, t1 : IntAlu :  D=0x0000000000000000
+89726000: system.cpu: T0 : 0x4021a7 @code+423    : or	DS:[rdi + r14], 0x43   
+89726000: system.cpu: T0 : 0x4021a7 @code+423. 0 :   OR_M_I : limm   t2w, 0x43 : IntAlu :  D=0x0000000000000043
+89726000: system.cpu: T0 : 0x4021a7 @code+423. 1 :   OR_M_I : ldst   t1w, DS:[rdi + r14] : MemRead :  D=0x000000000000a000 A=0x40344c
+89726000: system.cpu: T0 : 0x4021a7 @code+423. 2 :   OR_M_I : or   t1w, t1w, t2w : IntAlu :  D=0x0000000000000000
+89726000: system.cpu: T0 : 0x4021a7 @code+423. 3 :   OR_M_I : st   t1w, DS:[rdi + r14] : MemWrite :  D=0x000000000000a043 A=0x40344c
+89726000: system.cpu: T0 : 0x4021ad @code+429    : and	rcx, 0x1fff           
+89726000: system.cpu: T0 : 0x4021ad @code+429. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89726000: system.cpu: T0 : 0x4021ad @code+429. 1 :   AND_R_I : and   rcx, rcx, t1 : IntAlu :  D=0x0000000000000000
+89726000: system.cpu: T0 : 0x4021b4 @code+436    : xor	DS:[rcx + r14], 0xffffffffffffff84
+89726000: system.cpu: T0 : 0x4021b4 @code+436. 0 :   XOR_LOCKED_M_I : limm   t2d, 0xffffffffffffff84 : IntAlu :  D=0x00000000ffffff84
+89726500: system.cpu: T0 : 0x4021b4 @code+436. 1 : 	XOR_LOCKED_M_I.mfence     : IntAlu : 
+89728000: system.cpu: T0 : 0x4021b4 @code+436. 2 :   XOR_LOCKED_M_I : ldstl   t1d, DS:[rcx + r14] : MemRead :  D=0x00000000ffffffec A=0x40500b
+89728000: system.cpu: T0 : 0x4021b4 @code+436. 3 :   XOR_LOCKED_M_I : xor   t1d, t1d, t2d : IntAlu :  D=0x0000000000000000
+89728000: system.cpu: T0 : 0x4021b4 @code+436. 4 :   XOR_LOCKED_M_I : stul   t1d, DS:[rcx + r14] : MemWrite :  D=0x0000000000000068 A=0x40500b
+89728000: system.cpu: T0 : 0x4021b4 @code+436. 5 : 	XOR_LOCKED_M_I.mfence     : IntAlu : 
+89729000: system.cpu: T0 : 0x4021ba @code+442    : and	rdi, 0x1fff           
+89729000: system.cpu: T0 : 0x4021ba @code+442. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89729000: system.cpu: T0 : 0x4021ba @code+442. 1 :   AND_R_I : and   rdi, rdi, t1 : IntAlu :  D=0x0000000000000000
+89729000: system.cpu: T0 : 0x4021c1 @code+449    : not	DS:[rdi + r14]        
+89729000: system.cpu: T0 : 0x4021c1 @code+449. 0 :   NOT_LOCKED_M : limm   t1b, 0xffffffffffffffff : IntAlu :  D=0x0000000000001fff
+89729000: system.cpu: T0 : 0x4021c1 @code+449. 1 : 	NOT_LOCKED_M.mfence       : IntAlu : 
+89729000: system.cpu: T0 : 0x4021c1 @code+449. 2 :   NOT_LOCKED_M : ldstl   t2b, DS:[rdi + r14] : MemRead :  D=0x00000000ffffff43 A=0x40344c
+89729000: system.cpu: T0 : 0x4021c1 @code+449. 3 :   NOT_LOCKED_M : xor   t2b, t2b, t1b : IntAlu :  D=0x00000000ffffffbc
+89729000: system.cpu: T0 : 0x4021c1 @code+449. 4 :   NOT_LOCKED_M : stul   t2b, DS:[rdi + r14] : MemWrite :  D=0x00000000000000bc A=0x40344c
+89729000: system.cpu: T0 : 0x4021c1 @code+449. 5 : 	NOT_LOCKED_M.mfence       : IntAlu : 
+89729500: system.cpu: T0 : 0x4021c6 @code+454    : and	rcx, 0x1fff           
+89729500: system.cpu: T0 : 0x4021c6 @code+454. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89729500: system.cpu: T0 : 0x4021c6 @code+454. 1 :   AND_R_I : and   rcx, rcx, t1 : IntAlu :  D=0x0000000000000000
+89729500: system.cpu: T0 : 0x4021cd @code+461    : xor	DS:[rcx + r14], 0x68  
+89729500: system.cpu: T0 : 0x4021cd @code+461. 0 :   XOR_M_I : limm   t2d, 0x68 : IntAlu :  D=0x0000000000000068
+89729500: system.cpu: T0 : 0x4021cd @code+461. 1 :   XOR_M_I : ldst   t1d, DS:[rcx + r14] : MemRead :  D=0x0000000000000068 A=0x40500b
+89729500: system.cpu: T0 : 0x4021cd @code+461. 2 :   XOR_M_I : xor   t1d, t1d, t2d : IntAlu :  D=0x0000000000000000
+89729500: system.cpu: T0 : 0x4021cd @code+461. 3 :   XOR_M_I : st   t1d, DS:[rcx + r14] : MemWrite :  D=0x0000000000000000 A=0x40500b
+89729500: system.cpu: T0 : 0x4021d2 @code+466    : jns	0x2                   
+89729500: system.cpu: T0 : 0x4021d2 @code+466. 0 :   JNS_I : rdip   t1, t1    : IntAlu :  D=0x00000000004021d4
+89729500: system.cpu: T0 : 0x4021d2 @code+466. 1 :   JNS_I : limm   t2, 0x2   : IntAlu :  D=0x0000000000000002
+89730000: system.cpu: T0 : 0x4021d2 @code+466. 2 :   JNS_I : wrip   t1, t2    : IntAlu : 
+89847000: system.cpu: T0 : 0x4021d6 @code+470    : and	rdx, 0x1fff           
+89847000: system.cpu: T0 : 0x4021d6 @code+470. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89847000: system.cpu: T0 : 0x4021d6 @code+470. 1 :   AND_R_I : and   rdx, rdx, t1 : IntAlu :  D=0x0000000000000000
+89847000: system.cpu: T0 : 0x4021dd @code+477    : and	DS:[rdx + r14], 0xffffffffffffffc5
+89847000: system.cpu: T0 : 0x4021dd @code+477. 0 : 	AND_LOCKED_M_I.mfence     : IntAlu : 
+89847000: system.cpu: T0 : 0x4021dd @code+477. 1 :   AND_LOCKED_M_I : ldstl   t2d, DS:[rdx + r14] : MemRead :  D=0x00000000001e3ac0 A=0x40440c
+89847000: system.cpu: T0 : 0x4021dd @code+477. 2 :   AND_LOCKED_M_I : limm   t1d, 0xffffffffffffffc5 : IntAlu :  D=0x00000000ffffffc5
+89847000: system.cpu: T0 : 0x4021dd @code+477. 3 :   AND_LOCKED_M_I : and   t2d, t2d, t1d : IntAlu :  D=0x0000000000000000
+89847000: system.cpu: T0 : 0x4021dd @code+477. 4 :   AND_LOCKED_M_I : stul   t2d, DS:[rdx + r14] : MemWrite :  D=0x00000000001e3ac0 A=0x40440c
+89847000: system.cpu: T0 : 0x4021dd @code+477. 5 : 	AND_LOCKED_M_I.mfence     : IntAlu : 
+89847500: system.cpu: T0 : 0x4021e3 @code+483    : and	rcx, 0x1fff           
+89847500: system.cpu: T0 : 0x4021e3 @code+483. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89847500: system.cpu: T0 : 0x4021e3 @code+483. 1 :   AND_R_I : and   rcx, rcx, t1 : IntAlu :  D=0x0000000000000000
+89847500: system.cpu: T0 : 0x4021ea @code+490    : or	DS:[rcx + r14], bl     
+89847500: system.cpu: T0 : 0x4021ea @code+490. 0 :   OR_M_R : ldst   t1b, DS:[rcx + r14] : MemRead :  D=0x0000000000001f00 A=0x40500b
+89847500: system.cpu: T0 : 0x4021ea @code+490. 1 :   OR_M_R : or   t1b, t1b, bl : IntAlu :  D=0x0000000000000000
+89847500: system.cpu: T0 : 0x4021ea @code+490. 2 :   OR_M_R : st   t1b, DS:[rcx + r14] : MemWrite :  D=0x00000000000000c0 A=0x40500b
+89847500: system.cpu: T0 : 0x4021ee @code+494    : and	rbx, 0x1fff           
+89847500: system.cpu: T0 : 0x4021ee @code+494. 0 :   AND_R_I : limm   t1, 0x1fff : IntAlu :  D=0x0000000000001fff
+89847500: system.cpu: T0 : 0x4021ee @code+494. 1 :   AND_R_I : and   rbx, rbx, t1 : IntAlu :  D=0x0000000000000000
+89847500: system.cpu: T0 : 0x4021f5 @code+501    : xor	rdx, DS:[rbx + r14]   
+89847500: system.cpu: T0 : 0x4021f5 @code+501. 0 :   XOR_R_M : ld   t1, DS:[rbx + r14] : MemRead :  D=0x0031f4c0003ca000 A=0x4039cc
+89848000: system.cpu: T0 : 0x4021f5 @code+501. 1 :   XOR_R_M : xor   rdx, rdx, t1 : IntAlu :  D=0x0000000000000000
+89848000: system.cpu: T0 : 0x4021f9 @code+505    :   MFENCE                   : IntAlu : 
+89848000: system.cpu: T0 : 0x4021fc @code+508    : lea	r14, DS:[r14 + 0xfffffffffffffff4]
+89848000: system.cpu: T0 : 0x4021fc @code+508. 0 :   LEA_R_M : lea   r14, DS:[r14 + 0xfffffffffffffff4] : IntAlu :  D=0x0000000000403000
+89849000: system.cpu: T0 : 0x402200 @code+512    : xor	edi                   
+89849000: system.cpu: T0 : 0x402200 @code+512. 0 :   XOR_R_R : xor   edi, edi, edi : IntAlu :  D=0x0000000000000000

@@ -1,0 +1,13 @@
+# For all defenses
+docker_*/gem5-docker/*
+docker_*/revizor-docker/*
+docker_*/dbg/*
+
+# utils folder should always be copied over by script!
+docker_*/utils
+
+# Utils
+utils/ssh/*
+utils/.gitconfig
+
+zombie_*

@@ -1,0 +1,237 @@
+#!/usr/bin/env python3.11
+import subprocess
+import selectors
+import argparse
+import sys
+import os
+import re
+import time
+import signal
+import statistics
+import math
+from typing import List, Optional
+from datetime import datetime
+from glob import glob
+import random
+
+# default_configs = [
+#     '../docker/docker_invisispec/docker_gem5_v1_final_cache_ipcFP.yaml',
+#     '../docker/docker_invisispec/docker_gem5_v1_final_cache.yaml',
+#     '../docker/docker_invisispec/docker_gem5_v1_final_cache_ipc_ct_cond.yaml',
+#     '../docker/docker_invisispec/docker_gem5_v1_final_cache_ct_cond.yaml',
+# ]
+# default_extra_args = ['--ruby', '--InvisiSpec', '--InvisiSpec_UnsafeBaseline']
+
+parser = argparse.ArgumentParser(
+    prog='Revizor benchmark',
+    description='Run benchmarks of Revizor',
+)
+parser.add_argument('-c', '--configs',
+    required=True,  # default=','.join(default_configs),
+    help='comma-separated list of yaml config files to compare')
+parser.add_argument('-e', '--extra-args',
+    required=True,  # default=','.join(default_extra_args),
+    help='comma-separated list of extra arguments to supply to Revizor')
+parser.add_argument('-v', '--verbose', action='store_true',
+    help='show Revizor output in real time, etc.')
+parser.add_argument('-t', '--timeout',
+    help='max number of seconds to run for', type=float)
+parser.add_argument('-i', '--input-count',
+    help='number of inputs to try for each test case', type=int, default=70)
+parser.add_argument('-n', '--test-case-count',
+    help='max number of test cases to run', type=int)
+timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+parser.add_argument('-o', '--output',
+    help='output directory', default=f'benchmark-out-{timestamp}')
+parser.add_argument('--stop-after-first-violation', action='store_true')
+parser.add_argument('-r', '--rounds', type=int,
+    help='number of times to repeat benchmark', default=5)
+parser.add_argument('-p', '--process', type=str,
+    help='process identifier - if you are running multiple benchmarks at once, this must be different for each one!', default='')
+args = parser.parse_args()
+
+case_count = 10 ** 9
+timeout = 1e100
+if args.test_case_count is not None:
+    case_count = args.test_case_count
+    print(f'Running for {case_count} test cases.')
+if args.timeout is not None:
+    timeout = args.timeout
+if args.test_case_count is None and args.timeout is None and not args.stop_after_first_violation:
+    print('Please provide either -t <timeout> or -n <test case count> or --stop-after-first-violation')
+    exit(1)
+# do an extra test case because revizor only outputs the status at the *start* of each round
+case_count += 1
+
+try:
+    os.mkdir(args.output)
+except FileExistsError:
+    pass
+
+rounds = args.rounds
+isa_spec = '/code/revizor-docker/src/x86/isa_spec/base.json'
+configs = args.configs.split(',')
+extra_args = args.extra_args.split(',')
+input_count = args.input_count
+processes = []
+result_dirs = [args.output + f'/config{i}' for i in range(len(configs))]
+if not args.stop_after_first_violation:
+     extra_args.append('--nonstop')
+cmds = [
+    ['python3.11', 'cli.py', 'fuzz', '-s', isa_spec, '-i', str(input_count), '-n', str(case_count),
+        '-c', config, '-p', f'bench_{args.process}_config{i}_roundROUND', '--no-save-stats',
+        f'--result-dir={result_dirs[i]}'] + extra_args
+    for i, config in enumerate(configs)
+]
+
+def getcmdline(args: List[str]) -> str:
+    ''' convert list of arguments to shell command '''
+    # this doesn't handle '\n' etc. correctly, but it's only used for debugging anyways
+    return ' '.join('%r' % arg for arg in args)
+
+print('outputting to', args.output, '...')
+
+class Result:
+    # stdout of Revizor process, split into lines
+    stdout: List[bytes]
+    config: str
+    cmdline: str
+    time: float
+    violations: int
+    cases: int
+    first_violation: Optional[float]
+results = [[Result() for _ in range(rounds)] for _ in configs]
+
+def get_violation_count(stdout: List[bytes]) -> Optional[int]:
+    for line in reversed(stdout):
+            violations = re.findall(r'Viol:(\d+)', line.decode())
+            if violations:
+                return int(violations[-1])
+    return None
+def get_case_count(stdout: List[bytes]) -> Optional[int]:
+    for line in reversed(stdout):
+            cases = re.findall(r'Progress:\s*(\d+)', line.decode())
+            if cases:
+                return int(cases[-1])
+    return None
+        
+def main():
+    for d in glob(f'debug_bench_{args.process}_*') + glob(f'/code/gem5-docker/m5out_bench_{args.process}_*'):
+        print('removing', d)
+        subprocess.run(['rm', '-rf', d])
+
+    output_logs = []
+    start_time = time.time()
+    selector = selectors.DefaultSelector()
+    for round in range(rounds):
+        for i, cmd in enumerate(cmds):
+            cmd = [arg.replace('ROUND', str(round)) for arg in cmd]
+            result = results[i][round]
+            result.stdout = [b'']
+            result.cmdline = getcmdline(cmd)
+            result.config = configs[i]
+            result.first_violation = None
+            output_log = open(f'{args.output}/log_round{round}_config{i:03}', 'wb')
+            output_log.write(f'command line: ${getcmdline(cmd)}\n'.encode())
+            output_logs.append(output_log)
+            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, process_group=0)
+            selector.register(process.stdout, selectors.EVENT_READ, len(processes))
+            processes.append(process)
+    while time.time() < start_time + timeout:
+        if not args.verbose:
+            timeout_string = args.timeout if args.timeout else 'infinity'
+            print(f'\r{int(time.time() - start_time)}/{timeout_string} seconds      ', end='')
+            sys.stdout.flush()
+        stdout_files = [None if process is None else process.stdout for process in processes]
+        for key, _ in selector.select(timeout = 2):
+            index = key.data
+            round = index // len(configs)
+            config_index = index % len(configs)
+            new_stdout = os.read(key.fd, 4096)
+            # separate latest stdout into lines
+            lines = new_stdout.split(b'\n')
+            # include newlines
+            for i in range(len(lines) - 1):
+                lines[i] += b'\n'
+            result = results[config_index][round]
+            stdout = result.stdout
+            for line in lines:
+                if not line: continue
+                if stdout[-1].endswith(b'\n'):
+                    # add new line
+                    stdout.append(line)
+                else:
+                    # append to previous line (which was incomplete)
+                    stdout[-1] += line
+            if result.first_violation is None and get_violation_count(stdout):
+                # found our first violation
+                result.first_violation = time.time() - start_time
+            if args.verbose:
+                sys.stdout.flush()
+                os.write(1, new_stdout)
+            output_logs[index].write(datetime.now().strftime('\n[%Y-%m-%d %H:%M:%S]\n').encode())
+            output_logs[index].write(new_stdout)
+            output_logs[index].flush()
+            if not new_stdout:
+                # end of file reached - process has presumably exited
+                selector.unregister(key.fileobj)
+                processes[index].wait()
+                if processes[index].returncode != 0:
+                    print(f'!!! process {index} exited unexpectedly')
+                    print(f'    return code: {processes[index].returncode}')
+                    print(f'    command line: {getcmdline(cmds[config_index])}')
+                processes[index] = None
+                result.time = time.time() - start_time
+        if all(process is None for process in processes):
+            break
+    end_time = time.time()
+    for i, process in enumerate(processes):
+        if process is not None:
+            round = index // len(configs)
+            config_index = index % len(configs)
+            os.killpg(process.pid, signal.SIGKILL)
+            results[config_index][round] = end_time - start_time
+            processes[i] = None
+
+    for c in range(len(configs)):
+        for r in range(rounds):
+            results[c][r].violations = get_violation_count(results[c][r].stdout)
+            results[c][r].cases = get_case_count(results[c][r].stdout)
+    with open(f'{args.output}/info.txt', 'w') as outfile:
+        def log(s):
+            outfile.write(s + '\n')
+            print(s)
+        for i in range(len(configs)):
+            config_results = results[i]
+            log(f'config {i}: {config_results[0].config}')
+            log(f'    command line:     {config_results[0].cmdline}')
+            log(f'    times (seconds):')
+            times = [config_results[r].time for r in range(rounds)]
+            for r in range(rounds):
+                log(f'    {times[r]:.2f}')
+            avg_time = statistics.fmean(times)
+            std_time = statistics.stdev(times) if len(times) > 1 else math.inf
+            log(f'      mean:  {avg_time:.2f}')
+            log(f'      stdev: {std_time:.2f}')
+            log(f'    test cases:')
+            for r in range(rounds):
+                log(f'    {config_results[r].cases}')
+            log(f'    violations found:')
+            violation_counts = [config_results[r].violations for r in range(rounds)]
+            for r in range(rounds):
+                log(f'    {violation_counts[r]}')
+            avg_violations = statistics.fmean(violation_counts)
+            std_violations = statistics.stdev(violation_counts) if len(violation_counts) > 1 else math.inf
+            log(f'      mean:  {avg_violations:.2f}')
+            log(f'      stdev: {std_violations:.2f}')
+            log(f'    first violation (seconds):')
+            for r in range(rounds):
+                log(f'    {config_results[r].first_violation}')
+try:
+    main()
+except KeyboardInterrupt:
+    for process in processes:
+        if process:
+            os.killpg(process.pid, signal.SIGKILL)
+    raise
+

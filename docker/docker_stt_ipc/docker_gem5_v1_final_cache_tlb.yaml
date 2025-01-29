@@ -1,0 +1,78 @@
+supported_categories:
+  - BASE-COND_BR
+  #- BASE-NOP
+  - BASE-BITBYTE
+  - BASE-CMOV
+  #- BASE-CONVERT
+  - BASE-DATAXFER
+  - BASE-FLAGOP
+  #- BASE-SETCC
+  - BASE-LOGICAL
+  
+contract_observation_clause: arch # ct/arch
+contract_execution_clause: #seq/cond/cond-bpas/bpas
+  - seq
+
+enable_ssbp_patch: true
+feedback_driven_generator: true
+
+input_main_region_size: 524288 # N total pages x 4096
+
+# Use 0 for random seed
+test_case_generator_seed: 0
+input_gen_seed: 0
+
+avg_mem_accesses: 16
+min_bb_per_function: 5
+max_bb_per_function: 5
+test_case_size: 16
+input_gen_entropy_bits: 16
+memory_access_zeroed_bits: 0
+
+inputs_per_class: 2 # or larger
+
+executor: 'x86-gem5'
+gem5_location: "/code/gem5-docker"
+gem5_checkpoint: "/code/gem5-docker/checkpoint"
+gem5_output_location: "/code/gem5-docker/m5out"
+gem5_binary: "/code/gem5-docker/build/X86/gem5.opt"
+gem5_se: "/code/gem5-docker/configs/example/se.py"
+gem5_orchestration: "ipc"
+
+l1d_size: "32kB"
+l1i_size: "32kB"
+l1d_assoc: 8
+dtb_entries: 64
+  
+gem5_test_case_path: "test_case"
+gem5_trace_mode:  "data_cache"
+
+no_priming: false
+gem5_ipc_parallelism: 4 # Default: 4
+
+# DRAM,O3CPUAll,ExecAll,Branch,RubyCache,LSQ,LSQUnit,Fetch,Decode
+debug_flags:
+- "RevizorIPC"
+- "Speclfb"
+- "Cache"
+# - "ExecEnable"
+# - "ExecX86Regs"
+- "LSQ"
+- "LSQUnit"
+- "IQ"
+- "Fetch"
+# - "Decode"
+- "Branch"
+- "Squashed"
+- "Commit"
+- "Exec"
+# - "Checkpoint"
+
+gem5_attacker_mode:
+   sources : ["data_cache","instr_cache","dtlb"] # ["data_cache","instr_cache"]
+
+# info, stat, fuzzer_debug, fuzzer_trace, model_debug, coverage_debug
+logging_modes:
+  - info
+  - fuzzer_debug
+  # - model_debug

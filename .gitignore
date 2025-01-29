@@ -1,0 +1,43 @@
+cmake-build-*/
+build/
+.vscode/
+.lsync*
+venv/
+**/__pycache__/
+CMakeLists.txt
+
+# Revizor
+tmp.pdf
+experiments/
+*.code-workspace
+table.json
+generated*
+*output.out
+*output*.out
+*core*.out
+revizor_run.out
+benchmark-out*
+
+# src
+src/results/*
+src/dcache_*results
+src/tlb_*results
+src/bp_state_*results
+src/bpredictions_*results
+src/baseline_*results
+src/access_order_*results
+src/temp*
+src/min.asm
+src/tmp.asm
+src/custom_conf.yaml
+src/debug*/*
+src/x86/isa_spec/*.json
+src/logs
+
+# Arctive docker images
+revizor-docker/
+gem5-docker/
+
+# Scratchpad
+dbg
+dbg/*

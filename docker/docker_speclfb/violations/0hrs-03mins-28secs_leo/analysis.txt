@@ -1,0 +1,109 @@
+Running reference input pickle...
+Using YAML debug flags for reference input
+Running primer input pickle...
+Using YAML debug flags for primer input
+--- full disassembly ---
+
+/code/dbg/leo_speclfb_ctseq/results/0hrs-03mins-28secs/test_case_rvzr_input1.o:     file format binary
+
+
+Disassembly of section .data:
+
+000000000040211a <.data>:
+  40211a:	lea    r14,[r14]
+  40211d:	mfence 
+  402120:	jmp    0x402122
+  402122:	and    rdx,0x1fff
+  402129:	lock or BYTE PTR [r14+rdx*1],0xd3
+  40212f:	and    rcx,0x1fff
+  402136:	cmovno edi,DWORD PTR [r14+rcx*1]
+  40213b:	and    rsi,0x1fff
+  402142:	or     BYTE PTR [r14+rsi*1],cl
+  402146:	and    rbx,0x1fff
+  40214d:	lock and WORD PTR [r14+rbx*1],si
+  402153:	and    rsi,0x1fff
+  40215a:	and    BYTE PTR [r14+rsi*1],bl
+  40215e:	jle    0x402162
+  402160:	jmp    0x4021cb
+  402162:	and    cl,0xa5
+  402165:	ja     0x40216c
+  402167:	jmp    0x4021fa
+  40216c:	and    bl,0x3c
+  40216f:	and    rax,0x1fff
+  402175:	cmovno bx,WORD PTR [r14+rax*1]
+  40217b:	and    rdx,0x1fff
+  402182:	cmovl  bx,WORD PTR [r14+rdx*1]
+  402188:	jl     0x40218c
+  40218a:	jmp    0x4021fa
+  40218c:	and    rax,0x1fff
+  402192:	test   DWORD PTR [r14+rax*1],0x90d9ee5c
+  40219a:	and    rbx,0x1fff
+  4021a1:	or     QWORD PTR [r14+rbx*1],rdi
+  4021a5:	and    rdi,0x1fff
+  4021ac:	and    DWORD PTR [r14+rdi*1],eax
+  4021b0:	and    rcx,0x1fff
+  4021b7:	cmovne eax,DWORD PTR [r14+rcx*1]
+  4021bc:	and    rsi,0x1fff
+  4021c3:	xor    QWORD PTR [r14+rsi*1],rsi
+  4021c7:	jnp    0x4021cb
+  4021c9:	jmp    0x4021fa
+  4021cb:	and    rdi,0x1fff
+  4021d2:	and    dx,WORD PTR [r14+rdi*1]
+  4021d7:	and    rdx,0x1fff
+  4021de:	lock xor DWORD PTR [r14+rdx*1],0x52
+  4021e4:	and    rcx,0x1fff
+  4021eb:	xor    cl,BYTE PTR [r14+rcx*1]
+  4021ef:	and    rdi,0x1fff
+  4021f6:	test   BYTE PTR [r14+rdi*1],sil
+  4021fa:	mfence 
+  4021fd:	lea    r14,[r14]
+
+--- event log ---
+
+------------------------------------------------------------------------------------------------------
+Reference                                         | Primer                                            
+------------------------------------------------------------------------------------------------------
+  402129:	lock or BYTE PTR [r14+rdx*1],0xd3
+Load   @ 82666000 addr = 0x403700                 | Load   @ 82666000 addr = 0x403700                 
+------------------------------------------------------------------------------------------------------
+  402129:	lock or BYTE PTR [r14+rdx*1],0xd3
+Store  @ 82734000 addr = 0x403700                 | Store  @ 82734000 addr = 0x403700                 
+------------------------------------------------------------------------------------------------------
+  402136:	cmovno edi,DWORD PTR [r14+rcx*1]
+Load   @ 82739000 addr = 0x403380                 | Load   @ 82739000 addr = 0x403380                 
+------------------------------------------------------------------------------------------------------
+  402142:	or     BYTE PTR [r14+rsi*1],cl
+Load   @ 82739000 addr = 0x403280                 | Load   @ 82739000 addr = 0x403280                 
+------------------------------------------------------------------------------------------------------
+  402142:	or     BYTE PTR [r14+rsi*1],cl
+Store  @ 82812000 addr = 0x403280                 | Store  @ 82812000 addr = 0x403280                 
+------------------------------------------------------------------------------------------------------
+  40214d:	lock and WORD PTR [r14+rbx*1],si
+Load   @ 82819500 addr = 0x4040c0                 | Load   @ 82819500 addr = 0x4040c0                 
+------------------------------------------------------------------------------------------------------
+  40214d:	lock and WORD PTR [r14+rbx*1],si
+Store  @ 82887500 addr = 0x4040c0                 | Store  @ 82887500 addr = 0x4040c0                 
+------------------------------------------------------------------------------------------------------
+  40215a:	and    BYTE PTR [r14+rsi*1],bl
+Load   @ 82892500 addr = 0x403280                 | Load   @ 82892500 addr = 0x403280                 
+------------------------------------------------------------------------------------------------------
+  4021d2:	and    dx,WORD PTR [r14+rdi*1]
+Load   @ 82892500 [91m[1maddr = 0x404a80*[0m                | Load   @ 82892500 [91m[1maddr = 0x403900*[0m                
+  [96mSQUASHED @82895500[0m                              |   [96mSQUASHED @82895500[0m                              
+------------------------------------------------------------------------------------------------------
+  40215a:	and    BYTE PTR [r14+rsi*1],bl
+Store  @ 82894500 addr = 0x403280                 | Store  @ 82894500 addr = 0x403280                 
+------------------------------------------------------------------------------------------------------
+  40215e:	jle    0x402162
+[96m[1mSQUASH @ 82895500[0m Branch mispredicted!            | [96m[1mSQUASH @ 82895500[0m Branch mispredicted!            
+------------------------------------------------------------------------------------------------------
+  402175:	cmovno bx,WORD PTR [r14+rax*1]
+Load   @ 82903000 addr = 0x4039c0                 | Load   @ 82903000 addr = 0x4039c0                 
+------------------------------------------------------------------------------------------------------
+  402182:	cmovl  bx,WORD PTR [r14+rdx*1]
+Load   @ 82968000 addr = 0x403700                 | Load   @ 82968000 addr = 0x403700                 
+------------------------------------------------------------------------------------------------------
+
+[91m[1maddress*[0m = tag present in one run but not the other
+
+Relevant files have been saved to /code/dbg/leo_speclfb_ctseq/results/0hrs-03mins-28secs/analysis

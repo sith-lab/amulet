@@ -1,0 +1,57 @@
+.intel_syntax noprefix
+MFENCE # instrumentation
+.test_case_enter:
+.function_main:
+.bb_main.entry:
+JMP .bb_main.0 
+.bb_main.0:
+AND RBX, 0b1111111111111 # instrumentation
+LOCK SBB byte ptr [R14 + RBX], BL 
+AND RCX, 0b1111111111111 # instrumentation
+CMOVLE ECX, dword ptr [R14 + RCX] 
+AND RDI, 0b1111111111111 # instrumentation
+ADD EDI, dword ptr [R14 + RDI] 
+AND RDI, 0b1111111111111 # instrumentation
+MOV EAX, dword ptr [R14 + RDI] 
+JP .bb_main.1 
+JMP .bb_main.exit 
+.bb_main.1:
+AND RBX, 0b1111111111111 # instrumentation
+SUB dword ptr [R14 + RBX], ECX 
+AND RBX, 0b1111111111111 # instrumentation
+OR word ptr [R14 + RBX], 0b1000000000000000 # instrumentation
+BSF DX, word ptr [R14 + RBX] 
+ADD DIL, 127 # instrumentation
+ADC AX, -17738 
+XCHG AL, CL 
+AND RSI, 0b1111111111111 # instrumentation
+DEC byte ptr [R14 + RSI] 
+AND RDX, 0b1111111111111 # instrumentation
+LOCK ADD word ptr [R14 + RDX], 5 
+AND RDX, 0b1111111111111 # instrumentation
+CMOVP DX, word ptr [R14 + RDX] 
+JO .bb_main.2 
+JMP .bb_main.exit 
+.bb_main.2:
+NEG RSI 
+CMP SIL, -75 
+AND RDX, 0b1111111111111 # instrumentation
+CMOVNP EBX, dword ptr [R14 + RDX] 
+AND RAX, 0b1111111111111 # instrumentation
+CMOVNO RBX, qword ptr [R14 + RAX] 
+LOOPNE .bb_main.3 
+JMP .bb_main.exit 
+.bb_main.3:
+AND RDI, 0b1111111111111 # instrumentation
+OR word ptr [R14 + RDI], 0b1000000000000000 # instrumentation
+BSR BX, word ptr [R14 + RDI] 
+AND RBX, 0b1111111111111 # instrumentation
+CMOVNP SI, word ptr [R14 + RBX] 
+AND RDI, 0b1111111111111 # instrumentation
+MOVZX DI, byte ptr [R14 + RDI] 
+NEG RCX 
+AND RAX, 0b1111111111111 # instrumentation
+XCHG word ptr [R14 + RAX], BX 
+.bb_main.exit:
+.test_case_exit:
+MFENCE # instrumentation

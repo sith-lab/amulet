@@ -1,0 +1,51 @@
+
+/code/revizor-docker/src/results/0hrs-00mins-30secs/test_case_rvzr_input1.o:     file format binary
+
+
+Disassembly of section .data:
+
+0000000000402122 <.data>:
+  402122:	lea    r14,[r14+0xc]
+  402126:	mfence 
+  402129:	jmp    0x40212b
+  40212b:	and    dl,0x80
+  40212e:	and    rax,0x1fff
+  402134:	cmovs  ecx,DWORD PTR [r14+rax*1]
+  402139:	and    rdi,0x1fff
+  402140:	cmova  cx,WORD PTR [r14+rdi*1]
+  402146:	and    rax,0x1fff
+  40214c:	lock not QWORD PTR [r14+rax*1]
+  402151:	jmp    0x402153
+  402153:	and    rdi,0x1fff
+  40215a:	xor    ebx,DWORD PTR [r14+rdi*1]
+  40215e:	and    rsi,0x1fff
+  402165:	lock or WORD PTR [r14+rsi*1],0xffff
+  40216c:	and    rax,0x1fff
+  402172:	or     WORD PTR [r14+rax*1],bx
+  402177:	and    rax,0x1fff
+  40217d:	and    WORD PTR [r14+rax*1],0xffae
+  402183:	loop   0x402187
+  402185:	jmp    0x4021f9
+  402187:	and    rdi,0x1fff
+  40218e:	or     BYTE PTR [r14+rdi*1],dl
+  402192:	jmp    0x402194
+  402194:	and    rsi,0x1fff
+  40219b:	lock and BYTE PTR [r14+rsi*1],al
+  4021a0:	and    rdi,0x1fff
+  4021a7:	or     WORD PTR [r14+rdi*1],0x43
+  4021ad:	and    rcx,0x1fff
+  4021b4:	lock xor DWORD PTR [r14+rcx*1],0xffffff84
+  4021ba:	and    rdi,0x1fff
+  4021c1:	lock not BYTE PTR [r14+rdi*1]
+  4021c6:	and    rcx,0x1fff
+  4021cd:	xor    DWORD PTR [r14+rcx*1],0x68
+  4021d2:	jns    0x4021d6
+  4021d4:	jmp    0x4021f9
+  4021d6:	and    rdx,0x1fff
+  4021dd:	lock and DWORD PTR [r14+rdx*1],0xffffffc5
+  4021e3:	and    rcx,0x1fff
+  4021ea:	or     BYTE PTR [r14+rcx*1],bl
+  4021ee:	and    rbx,0x1fff
+  4021f5:	xor    rdx,QWORD PTR [r14+rbx*1]
+  4021f9:	mfence 
+  4021fc:	lea    r14,[r14-0xc]

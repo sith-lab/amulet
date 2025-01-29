@@ -1,0 +1,67 @@
+supported_categories:
+  - BASE-COND_BR
+  #- BASE-NOP
+  - BASE-BITBYTE
+  - BASE-CMOV
+  #- BASE-CONVERT
+  #- BASE-DATAXFER
+  - BASE-FLAGOP
+  #- BASE-SETCC
+  - BASE-LOGICAL
+  
+contract_observation_clause: ct # ct/arch
+contract_execution_clause: #seq/cond/cond-bpas
+  - seq
+
+enable_ssbp_patch: true
+enable_assist_page: true
+feedback_driven_generator: true
+
+# DEBUG: Need priming if using checkpoints, else will find violations simply due to differing init uarch state!
+gem5_enable_cross_test_case_checkpoints: false
+
+# Use 0 for random seed
+test_case_generator_seed: 0
+input_gen_seed: 0
+
+avg_mem_accesses: 16
+min_bb_per_function: 5
+max_bb_per_function: 5
+test_case_size: 16
+input_gen_entropy_bits: 16
+memory_access_zeroed_bits: 0
+# BUG: input gen (NOT test case gen) is still using random seed (occasionally)
+
+# DEBUG: Priming is currently ineffective for MSHR interference attacks!
+# no_priming: true
+
+inputs_per_class: 2 # or larger
+
+executor: 'x86-gem5'
+gem5_location: "/code/gem5-docker"
+gem5_checkpoint: "/code/gem5-docker/checkpoint"
+gem5_output_location: "/code/gem5-docker/m5out"
+gem5_binary: "/code/gem5-docker/build/X86/gem5.opt"
+gem5_se: "/code/gem5-docker/configs/example/se.py"
+gem5_orchestration: "ipc"
+l1d_size: "32kB"
+l1i_size: "32kB"
+l1d_assoc: 8
+l1i_assoc: 8
+  
+
+gem5_test_case_path: "test_case"
+gem5_trace_mode:  "data_cache"
+gem5_batch_size:  1
+gem5_restore:  0 # DEBUG: Need priming if using checkpoints
+
+gem5_ipc_parallelism: 4
+
+gem5_attacker_mode:
+   sources : ["branch_pred_state"]
+
+logging_modes:
+  - info
+  - fuzzer_debug
+  # - fuzzer_trace # Get unicorn traces
+  # - coverage_debug
