@@ -3,7 +3,7 @@
 # Don't touch the instance until this completes!
 
 # TODO : these should be put back to their old values when (if) IPC is merged
-export GEM5_BRANCH=ipc;
+export GEM5_BRANCH=invisispec;
 export RVZR_BRANCH=ipc;
 
 export CODE_DIR=/code;
@@ -28,9 +28,9 @@ echo "Done cleaning docker code dirs";
 
 # Clone; CHECK: Specific commit required?
 # These will be bound to the container root user; git for these dirs will be unusable by outside observer!!!
-git -C /code/gem5-docker clone -b $GEM5_BRANCH git@github.com:mguarnieri/vanilla-gem5-testing-benchmark.git /code/gem5-docker;
+git -C /code/gem5-docker clone -b $GEM5_BRANCH git@github.com:sith-lab/amulet-gem5.git /code/gem5-docker;
 echo "Done pulling vanilla-gem5-testing-benchmark/$GEM5_BRANCH";
-git -C /code/revizor-docker clone -b $RVZR_BRANCH git@github.com:mguarnieri/revizor-gem5.git /code/revizor-docker;
+git -C /code/revizor-docker clone -b $RVZR_BRANCH git@github.com:sith-lab/amulet.git /code/revizor-docker;
 # Else will not be able to edit contents of code dirs from host side
 find /code/gem5-docker /code/revizor-docker -type f | xargs -d'\n' chmod go+rw;
 find /code/gem5-docker /code/revizor-docker -type d | xargs -d'\n' chmod go+rwx;

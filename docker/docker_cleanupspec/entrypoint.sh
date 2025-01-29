@@ -2,8 +2,8 @@
 # Non-interactive script!
 # Don't touch the instance until this completes!
 
-export GEM5_BRANCH=cleanupspec-trace;
-export RVZR_BRANCH=violation-finder;
+export GEM5_BRANCH=cleanupspec;
+export RVZR_BRANCH=ipc;
 
 cd /code;
 shopt -s dotglob; # Allows removal of dotfiles
@@ -14,10 +14,10 @@ echo "Done cleaning docker code dirs";
 
 # Clone; CHECK: Specific commit required?
 # These will be bound to the container root user; git for these dirs will be unusable by outside observer!!!
-git -C /code/gem5-docker clone -b $GEM5_BRANCH git@github.com:mguarnieri/vanilla-gem5-testing-benchmark.git /code/gem5-docker;
+git -C /code/gem5-docker clone -b $GEM5_BRANCH git@github.com:sith-lab/amulet-gem5.git /code/gem5-docker;
 chmod -R 777 /code/gem5-docker; # Else will not be able to edit contents of code dirs from host side
 echo "Done pulling vanilla-gem5-testing-benchmark/$GEM5_BRANCH";
-git -C /code/revizor-docker clone -b $RVZR_BRANCH git@github.com:mguarnieri/revizor-gem5.git /code/revizor-docker;
+git -C /code/revizor-docker clone -b $RVZR_BRANCH git@github.com:sith-lab/amulet.git /code/revizor-docker;
 chmod -R 777 /code/revizor-docker;
 echo "Done pulling revizor-gem5/$RVZR_BRANCH";
 
