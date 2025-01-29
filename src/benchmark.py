@@ -204,29 +204,15 @@ def main():
         for i in range(len(configs)):
             config_results = results[i]
             log(f'config {i}: {config_results[0].config}')
-            log(f'    command line:     {config_results[0].cmdline}')
-            log(f'    times (seconds):')
+            log(f'    [{i}] command line:     {config_results[0].cmdline}')
             times = [config_results[r].time for r in range(rounds)]
-            for r in range(rounds):
-                log(f'    {times[r]:.2f}')
             avg_time = statistics.fmean(times)
-            std_time = statistics.stdev(times) if len(times) > 1 else math.inf
-            log(f'      mean:  {avg_time:.2f}')
-            log(f'      stdev: {std_time:.2f}')
-            log(f'    test cases:')
-            for r in range(rounds):
-                log(f'    {config_results[r].cases}')
-            log(f'    violations found:')
+            # std_time = statistics.stdev(times) if len(times) > 1 else math.inf
+            log(f'    [{i}] average time: {avg_time:.2f}')
             violation_counts = [config_results[r].violations for r in range(rounds)]
-            for r in range(rounds):
-                log(f'    {violation_counts[r]}')
             avg_violations = statistics.fmean(violation_counts)
-            std_violations = statistics.stdev(violation_counts) if len(violation_counts) > 1 else math.inf
-            log(f'      mean:  {avg_violations:.2f}')
-            log(f'      stdev: {std_violations:.2f}')
-            log(f'    first violation (seconds):')
-            for r in range(rounds):
-                log(f'    {config_results[r].first_violation}')
+            # std_violations = statistics.stdev(violation_counts) if len(violation_counts) > 1 else math.inf
+            log(f'    [{i}] average violations: {avg_violations:.2f}')
 try:
     main()
 except KeyboardInterrupt:
