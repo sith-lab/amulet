@@ -91,4 +91,4 @@ echo "Running benchmark for $DEFENSE with $CASES cases, $INPUTS inputs per case.
                -o "benchmark-out-$DEFENSE" \
                > "logs/bench-$DEFENSE.txt" 2>&1
 
-echo "Benchmark completed. Logs saved to logs/bench-$DEFENSE.txt"
+echo "Benchmark completed. Logs saved to logs/bench-$DEFENSE.txt. Overview is in benchmark-out-$DEFENSE/info.txt"
