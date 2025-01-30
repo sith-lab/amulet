@@ -768,6 +768,9 @@ class X86Gem5(Executor):
                 while len(traces) < len(inputs):
                     traces.append(CombinedHTrace(0))
                 self.cleanup()
+                # saves input for next test restoration
+                self.last_tick = int(tick)
+                self.last_input = inputs[-1]
                 return traces
             # 5. collect traces
             if CONF.gem5_save_checkpoints:
