@@ -87,7 +87,7 @@ main() {
                 echo "uarch_trace_formats and smaller_uarch_structures are only supported on InvisiSpec."
                 exit 1
               fi
-              echo "AUTO_RUN is set to $AUTO_RUN"
+	      echo "AUTO_RUN is set to $AUTO_RUN $AUTO_RUN_ARG"
           else
               echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set" >&2
               print_help;
@@ -147,6 +147,7 @@ main() {
         else
           docker run -d \
           -e AUTO_RUN=$AUTO_RUN \
+          -e AUTO_RUN_ARG=$AUTO_RUN_ARG \
           --name $CONTAINER_NAME \
           --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
           --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
