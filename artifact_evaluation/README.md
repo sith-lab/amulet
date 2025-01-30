@@ -1,4 +1,4 @@
-## Table 5: Smaller uarch structures
+## Table 8: Smaller uarch structures
 
 Run `Table_8_Smaller_uarch_structures.sh` - this will output to `Table_8_Results.txt`.
 The output format will be
