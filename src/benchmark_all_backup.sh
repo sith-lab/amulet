@@ -22,8 +22,8 @@ CONFIGS_FUTURISTIC=
 CONFIGS_CLEANUPSPEC=
 # $DOCKER_DIR/docker_cleanupspec/docker_gem5_v1_final_cache_ipc.yaml
 
-CONFIGS_STT=$DOCKER_DIR/docker_stt_ipc/docker_gem5_v1_final_cache_tlb.yaml;
-CONFIGS_STT_BASELINE=$DOCKER_DIR/docker_stt_ipc/docker_gem5_v1_final_cache_tlb.yaml;
+CONFIGS_STT=$DOCKER_DIR/docker_stt/docker_gem5_v1_final_cache_tlb.yaml;
+CONFIGS_STT_BASELINE=$DOCKER_DIR/docker_stt/docker_gem5_v1_final_cache_tlb.yaml;
 
 CONFIGS_SPECLFB=
 # $DOCKER_DIR/docker_speclfb/yamls/docker_gem5_v1_final_cache_tlb.yaml;

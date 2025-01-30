@@ -12,14 +12,14 @@
 ./dockerRun.sh killall;
 ./dockerRun.sh production start;
 ./dockerRun.sh invisispec start;
-./dockerRun.sh stt_ipc start;
+./dockerRun.sh stt start;
 # ./dockerRun.sh cleanupspec start;
 ./dockerRun.sh list;
 
 # # ./dockerRun.sh <DEFENSE> stop;
 # ./dockerRun.sh production stop;
 # ./dockerRun.sh invisispec stop;
-# ./dockerRun.sh stt_ipc stop;
+# ./dockerRun.sh stt stop;
 # ./dockerRun.sh cleanupspec stop;
 
 

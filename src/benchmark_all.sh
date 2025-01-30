@@ -28,8 +28,8 @@ CONF_INVISISPEC=$DOCKER_DIR/docker_invisispec/docker_gem5_v1_final_cache_ipcFP.y
 
 CONF_CLEANUPSPEC=$DOCKER_DIR/docker_cleanupspec/docker_gem5_v1_final_cache_ipc.yaml;
 
-CONF_STT=$DOCKER_DIR/docker_stt_ipc/docker_gem5_v1_final_cache_tlb.yaml;
-CONF_STT_BASELINE=$DOCKER_DIR/docker_stt_ipc/docker_gem5_v1_final_cache_tlb.yaml;
+CONF_STT=$DOCKER_DIR/docker_stt/docker_gem5_v1_final_cache_tlb.yaml;
+CONF_STT_BASELINE=$DOCKER_DIR/docker_stt/docker_gem5_v1_final_cache_tlb.yaml;
 
 CONF_SPECLFB=$DOCKER_DIR/docker_speclfb/yamls/docker_gem5_v1_final_cache_tlb.yaml;
 CONF_SPECLFB_BASELINE=$DOCKER_DIR/docker_speclfb/yamls/docker_gem5_v1_final_cache_tlb.yaml;

@@ -9,7 +9,7 @@ This work builds upon and is heavily inspired by [Revizor](https://dl.acm.org/do
 This is an independently developed and improved fork of [SCA-Fuzzer from Microsoft](https://github.com/microsoft/sca-fuzzer).
 
 # Supported Defenses (by this branch):
-- STT (`stt_ipc`)
+- STT (`stt`)
 
 ## To patch in a new defense:
 - Re-generate a packet_pb2.py with `protoc --proto_path=src --python_out=build/gen src/foo.proto src/bar/baz.proto` on that defense's `packet.proto`.
@@ -66,17 +66,17 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 
 ```bash
 cd docker;
-./dockerRun.sh stt_ipc start
-docker attach stt_ipc
+./dockerRun.sh stt start
+docker attach stt
 $RVZR_RUN # Inside container (automatically called on container start)
-./dockerRun.sh stt_ipc stop # To end test container
+./dockerRun.sh stt stop # To end test container
 ```
 
 ## Docker Flow
 
-Given defense 'stt_ipc':
-- `dockerRun.sh` calls `stt_ipc.Dockerfile` (in `docker_stt_ipc`)
-- `stt_ipc.Dockerfile` calls `entrypoint.sh`
+Given defense 'stt':
+- `dockerRun.sh` calls `stt.Dockerfile` (in `docker_stt`)
+- `stt.Dockerfile` calls `entrypoint.sh`
 - `entrypoint.sh`:
   - "Borrows" your host system credentials (entire `~/.ssh` dir) to pull `https://github.com/mguarnieri/vanilla-gem5-testing-benchmark/tree/STT-IPC`
   - Calls `revizor_run.sh`
@@ -85,7 +85,7 @@ Given defense 'stt_ipc':
 
 # Fuzzing Example
 
-- Look into the respective defense subfolder for run examples (i.e. `docker/docker_stt_ipc/revizor_run.sh`)
+- Look into the respective defense subfolder for run examples (i.e. `docker/docker_stt/revizor_run.sh`)
 
 # Command line interface
 

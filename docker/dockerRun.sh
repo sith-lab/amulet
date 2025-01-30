@@ -10,18 +10,11 @@ export BMARKS_ROOT=/scratch/gururaj/bench_inst # benchmarks
 
 # lowercase only!
 export SUPPORTED_DEFENSES=(
-  "production" # Baseline system, no defenses
   "invisispec"
   "cleanupspec"
-  "stt_ipc"
+  "stt"
   "dolma"
   "speclfb"
-  "invisispec_perf"
-  "invisispecold_perf"
-  "cleanup_perf"
-  "cleanupold_perf"
-  "stt_perf"
-  "sttold_perf"
 )
 # Format SUPPORTED_DEFENSES into ""DefenseA"|"DefenseB"|"DefenseC"|..."
 SD_CASE_PATTERN="@($(
