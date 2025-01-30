@@ -272,7 +272,7 @@ def main():
 
             # Combined Table for all metrics
             combined_rows = [
-                [r, f"{times[r]:.2f}", config_results[r].cases, violation_counts[r], first_violations[r]]
+                [r, f"{times[r]:.2f}", config_results[r].cases, violation_counts[r], f"{first_violations[r]:.2f}"]
                 for r in range(rounds)
             ]
 
