@@ -10,11 +10,19 @@ echo "Running fuzzer";
 export CODE_DIR=/code;
 export RVZR_DIR=$CODE_DIR/revizor-docker;
 export GEM5_DIR=$CODE_DIR/gem5-docker;
-export MINIMIZE_DIR=$RVZR_DIR/src/tests/minimize;
-export FUZZFOUND_DIR=$RVZR_DIR/src/tests/fuzzfound;
-export FINAL_CACHE_YAML_PATH=$CODE_DIR/docker_gem5_v1_final_cache.yaml; # Curr: ct-seq
-export FINAL_CACHE_ALT_YAML_PATH=$CODE_DIR/docker_gem5_v1_final_cache_alt.yaml; # Curr: ct-seq, NO_L1I
+# export MINIMIZE_DIR=$RVZR_DIR/src/tests/minimize;
+# export FUZZFOUND_DIR=$RVZR_DIR/src/tests/fuzzfound;
+# export FINAL_CACHE_YAML_PATH=$CODE_DIR/docker_gem5_v1_final_cache.yaml; # Curr: ct-seq
+# export FINAL_CACHE_ALT_YAML_PATH=$CODE_DIR/docker_gem5_v1_final_cache_alt.yaml; # Curr: ct-seq, NO_L1I
+export YAML=$RVZR_DIR/docker/docker_invisispec/docker_gem5_v1_final_cache_and_tlb.yaml
 cd $RVZR_DIR/src;
+
+
+# Example usages of Revizor with IPC orchestration
+for i in $(seq 1 100); do
+    python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --nonstop --ruby --InvisiSpec --InvisiSpec_Futuristic -i 70 -n 200 -c $YAML -p invisispec-$i &> logs/invisispec-$i.txt &
+done
+
 
 # Memory Trace
 # export USBL_TT_CTCONDBPAS_YAML=${MEMORY_TRACE_YAML_PATH};
@@ -23,13 +31,13 @@ cd $RVZR_DIR/src;
 
 
 # Final Cache
-export ST_CTSEQ_YAML=${FINAL_CACHE_YAML_PATH};
-export ST_CTSEQ_NOL1I_YAML=${FINAL_CACHE_ALT_YAML_PATH};
+# export ST_CTSEQ_YAML=${FINAL_CACHE_YAML_PATH};
+# export ST_CTSEQ_NOL1I_YAML=${FINAL_CACHE_ALT_YAML_PATH};
 # export ST_CTCOND_YAML=${FINAL_CACHE_ALT_YAML_PATH};
 
 
 # First minimize w/ optional_run (to get test_case_min.asm), then fuzz the found minimized asm
-echo "Minimization Testing";
+# echo "Minimization Testing";
 # TEST=USBL-ST-256MSHR-CT_SEQ-Min;
 # ASM=$MINIMIZE_DIR/$TEST/test_case_min.asm;
 # BATCHTESTS=$MINIMIZE_DIR/$TEST/batch;
@@ -55,10 +63,10 @@ echo "Minimization Testing";
 # done
 
 
-echo "Fuzz testing";
+# echo "Fuzz testing";
 
 # fuzz InvisiSpec FuturisticSpec with CT-SEQ:
-python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --ruby --InvisiSpec --InvisiSpec_FuturisticSpec -i 10 -n 1000 -c ../docker/docker_invisispec/docker_gem5_v1_final_cache_ipcFP.yaml
+# python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --ruby --InvisiSpec --InvisiSpec_FuturisticSpec -i 10 -n 1000 -c ../docker/docker_invisispec/docker_gem5_v1_final_cache_ipcFP.yaml
 
 # # InvisiSpec
 # TEST=IS-ST-2MSHR-CT_SEQ-NO_L1I-Futuristic;
@@ -137,7 +145,7 @@ python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --ruby --InvisiSpec --InvisiS
 # done
 
 
-echo "Testing found violation asms";
+# echo "Testing found violation asms";
 
 # Reference test
 # ASM=$RVZR_DIR/src/tests/spectre_v1.asm;
@@ -157,5 +165,5 @@ echo "Testing found violation asms";
 # done
 
 
-echo "Done running fuzzer";
-echo "Warning: Do not run script again whilst in same container!";
+# echo "Done running fuzzer";
+# echo "Warning: Do not run script again whilst in same container!";
