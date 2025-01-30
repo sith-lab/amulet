@@ -31,7 +31,7 @@ parser.add_argument('-t', '--timeout',
     help='max number of seconds to run for', type=float)
 parser.add_argument('-i', '--input-count',
     help='number of inputs to try for each test case', type=int, default=70)
-parser.add_argument('-n', '--test-case-count',
+parser.add_argument('-n', '--test-case-count', # Paper default is 200
     help='max number of test cases to run', type=int)
 timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
 parser.add_argument('-o', '--output',

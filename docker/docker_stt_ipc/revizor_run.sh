@@ -30,7 +30,7 @@ mkdir -p logs;
 
 # Example usages of Revizor with IPC orchestration
 for i in $(seq 1 100); do
-    python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --nonstop --ruby --STT --STT_FuturisticSpec -i 140 -n 200 -c $YAML -p stt-$i &> logs/stt-$i.txt &
+    python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --nonstop --ruby --STT --STT_FuturisticSpec -i 70 -n 200 -c $YAML -p stt-$i &> logs/stt-$i.txt &
 done
 
 # Testing
@@ -41,6 +41,10 @@ done
 
 ####################################################################################################
 
+# Benchmark run
+# ./benchmark_all.sh STT 200 70 100
+
+# Testing
 # ./benchmark_all.sh STT 7 10 20
 # ./benchmark_all.sh STT 2 3 5
 

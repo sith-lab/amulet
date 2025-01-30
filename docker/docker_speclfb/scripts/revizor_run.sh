@@ -19,13 +19,24 @@ cd $RVZR_DIR/src;
 mkdir -p logs;
 # Example usages of Revizor with IPC orchestration
 for i in $(seq 1 100); do
-    python3 ./cli.py fuzz -s x86/isa_spec/base.json --nonstop --SpecLFB -i 140 -n 200 -c $YAML -p speclfb-$i &> logs/speclfb-$i.txt &
+    python3 ./cli.py fuzz -s x86/isa_spec/base.json --nonstop --SpecLFB -i 70 -n 200 -c $YAML -p speclfb-$i &> logs/speclfb-$i.txt &
 done
 
 # Testing
 # for i in $(seq 1 2); do
 #     python3 ./cli.py fuzz -s x86/isa_spec/base.json --SpecLFB --ipc-show-output --debug --verbose -i 7 -n 10 -c ../docker/docker_speclfb/yamls/ct-seq.yaml -t $RVZR_DIR/src/tests/spectre_v1.asm -p speclfb-$i &> logs/speclfb-$i.txt &
 # done
+
+####################################################################################################
+
+# Benchmark run
+# ./benchmark_all.sh SpecLFB 200 70 100
+
+# Testing
+# ./benchmark_all.sh SpecLFB 7 10 20
+# ./benchmark_all.sh SpecLFB 2 3 5
+
+####################################################################################################
 
 # cd $GEM5_DIR
 # make x86-64
@@ -69,4 +80,4 @@ done
 # echo "Check ~/code/revizor-staging/docker/docker_speclfb/revizor-docker/src/vio_check.txt for results";
 
 # Wait for all background jobs to finish
-wait;
+# wait;
