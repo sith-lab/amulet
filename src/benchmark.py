@@ -9,28 +9,21 @@ import time
 import signal
 import statistics
 import math
+import yaml
 from typing import List, Optional
 from datetime import datetime
 from glob import glob
 import random
-
-# default_configs = [
-#     '../docker/docker_invisispec/docker_gem5_v1_final_cache_ipcFP.yaml',
-#     '../docker/docker_invisispec/docker_gem5_v1_final_cache.yaml',
-#     '../docker/docker_invisispec/docker_gem5_v1_final_cache_ipc_ct_cond.yaml',
-#     '../docker/docker_invisispec/docker_gem5_v1_final_cache_ct_cond.yaml',
-# ]
-# default_extra_args = ['--ruby', '--InvisiSpec', '--InvisiSpec_UnsafeBaseline']
 
 parser = argparse.ArgumentParser(
     prog='Revizor benchmark',
     description='Run benchmarks of Revizor',
 )
 parser.add_argument('-c', '--configs',
-    required=True,  # default=','.join(default_configs),
+    required=True,
     help='comma-separated list of yaml config files to compare')
 parser.add_argument('-e', '--extra-args',
-    required=True,  # default=','.join(default_extra_args),
+    required=True,
     help='comma-separated list of extra arguments to supply to Revizor')
 parser.add_argument('-v', '--verbose', action='store_true',
     help='show Revizor output in real time, etc.')
@@ -45,7 +38,7 @@ parser.add_argument('-o', '--output',
     help='output directory', default=f'benchmark-out-{timestamp}')
 parser.add_argument('--stop-after-first-violation', action='store_true')
 parser.add_argument('-r', '--rounds', type=int,
-    help='number of times to repeat benchmark', default=5)
+    help='number of times to repeat benchmark', default=100)
 parser.add_argument('-p', '--process', type=str,
     help='process identifier - if you are running multiple benchmarks at once, this must be different for each one!', default='')
 args = parser.parse_args()
@@ -100,7 +93,7 @@ class Result:
     violations: int
     cases: int
     first_violation: Optional[float]
-results = [[Result() for _ in range(rounds)] for _ in configs]
+results = [[Result() for _ in range(rounds)] for _ in range(len(configs))]
 
 def get_violation_count(stdout: List[bytes]) -> Optional[int]:
     for line in reversed(stdout):
@@ -139,7 +132,7 @@ def main():
             processes.append(process)
     while time.time() < start_time + timeout:
         if not args.verbose:
-            timeout_string = args.timeout if args.timeout else 'infinity'
+            timeout_string = args.timeout if args.timeout else 'inf'
             print(f'\r{int(time.time() - start_time)}/{timeout_string} seconds      ', end='')
             sys.stdout.flush()
         stdout_files = [None if process is None else process.stdout for process in processes]
@@ -197,7 +190,6 @@ def main():
         for r in range(rounds):
             results[c][r].violations = get_violation_count(results[c][r].stdout)
             results[c][r].cases = get_case_count(results[c][r].stdout)
-    
     with open(f'{args.output}/info.txt', 'w') as outfile:
         def log(s=""):
             """Write to file and print to console."""
@@ -219,48 +211,48 @@ def main():
                 log(col_sep.join(f"{str(item):>{width}}" for item, width in zip(row, col_widths)))
             log(separator_row)
 
-        # Compute overall averages across all configurations
-        total_times = [config[r].time for config in results for r in range(rounds)]
-        overall_avg_time = statistics.fmean(total_times)
-        total_violations = [config[r].violations for config in results for r in range(rounds)]
-        overall_avg_violations = round(statistics.fmean(total_violations))
-
-        # Print overall averages at the top
-        log(f"Overall_Avg_Time: {overall_avg_time:.2f}")
-        log(f"Overall_Avg_Violations: {overall_avg_violations}")
-        log("=" * 80)
-
-        # Summary for each config
-        summary_rows = []
-        for i, config_results in enumerate(results):
-            times = [config_results[r].time for r in range(rounds)]
-            avg_time = statistics.fmean(times)
-            violation_counts = [config_results[r].violations for r in range(rounds)]
-            avg_violations = round(statistics.fmean(violation_counts))
-
-            summary_rows.append([i, config_results[0].cmdline, f"{avg_time:.2f}", avg_violations])
-
-        print_table(
-            header="Configuration Summary",
-            column_names=["Config", "Command Line", "Avg Time (s)", "Avg Violations Found"],
-            rows=summary_rows,
-            column_formats=[8, 50, 12, 20]
-        )
-
         # Detailed results per config
         for i, config_results in enumerate(results):
-            log(f"\nCONFIG {i}: {config_results[0].config}")
-            log("=" * 80)
-
+            log("")
+            log("=" * 120)
+            log(f"Config {i}: {config_results[0].config}")
+            log("")
+            log("Command line: " + "\n" + config_results[0].cmdline.replace("'", ""))
+            
             # Collect data
             times = [config_results[r].time for r in range(rounds)]
             avg_time = statistics.fmean(times)
             std_time = statistics.stdev(times) if len(times) > 1 else 0.0
-
+            total_test_cases = sum([config_results[r].cases for r in range(rounds)])
             violation_counts = [config_results[r].violations for r in range(rounds)]
-            avg_violations = round(statistics.fmean(violation_counts))
+            total_violations = sum(violation_counts)
+            avg_violations = statistics.fmean(violation_counts)
             std_violations = statistics.stdev(violation_counts) if len(violation_counts) > 1 else 0.0
-
+            detected_violation = "NO"
+            if total_violations > 0:
+                detected_violation = "YES"
+            
+            # Load YAML and Extract Contract Clauses
+            config_file = config_results[0].config
+            try:
+                with open(config_file, 'r') as f:
+                    config_data = yaml.safe_load(f)
+                contract_observation = config_data.get("contract_observation_clause", "UNKNOWN").upper()
+                contract_execution = "-".join(config_data.get("contract_execution_clause", ["UNKNOWN"])).upper()
+                contract_clause = f"{contract_observation}-{contract_execution}"
+            except Exception as e:
+                print(f"Error reading config file {config_file}: {e}")
+                contract_clause = "UNKNOWN-UNKNOWN"
+            
+            log("")
+            # Following format from table 5
+            log(f"contract_clause: {contract_clause}")
+            log(f"detected_violation: {detected_violation}")
+            # log(f"avg_violations_found: {avg_violations}")
+            log(f"avg_detection_time: {total_violations/avg_time:.2f}")
+            log(f"testing_throughput: {total_test_cases/avg_time:.2f}")
+            log(f"campaign_execution_time: {avg_time:.2f}")
+            
             first_violations = [
                 config_results[r].first_violation if config_results[r].first_violation is not None else "N/A"
                 for r in range(rounds)
@@ -282,7 +274,8 @@ def main():
                 rows=combined_rows,
                 column_formats=[8, 20, 12, 18, 22]
             )
-
+            
+            log("=" * 120)
 
 try:
     main()
