@@ -197,22 +197,93 @@ def main():
         for r in range(rounds):
             results[c][r].violations = get_violation_count(results[c][r].stdout)
             results[c][r].cases = get_case_count(results[c][r].stdout)
+    
     with open(f'{args.output}/info.txt', 'w') as outfile:
-        def log(s):
+        def log(s=""):
+            """Write to file and print to console."""
             outfile.write(s + '\n')
             print(s)
-        for i in range(len(configs)):
-            config_results = results[i]
-            log(f'config {i}: {config_results[0].config}')
-            log(f'    [{i}] command line:     {config_results[0].cmdline}')
+
+        def print_table(header: str, column_names: list, rows: list, column_formats: list):
+            """Generalized function to print formatted tables with separators."""
+            col_sep = " | "
+            col_widths = [max(len(name), width) for name, width in zip(column_names, column_formats)]
+            header_row = col_sep.join(f"{name:<{width}}" for name, width in zip(column_names, col_widths))
+            separator_row = col_sep.join("-" * width for width in col_widths)
+
+            log(f"\n{header}")
+            log("=" * len(header))
+            log(header_row)
+            log(separator_row)
+            for row in rows:
+                log(col_sep.join(f"{str(item):>{width}}" for item, width in zip(row, col_widths)))
+            log(separator_row)
+
+        # Compute overall averages across all configurations
+        total_times = [config[r].time for config in results for r in range(rounds)]
+        overall_avg_time = statistics.fmean(total_times)
+        total_violations = [config[r].violations for config in results for r in range(rounds)]
+        overall_avg_violations = round(statistics.fmean(total_violations))
+
+        # Print overall averages at the top
+        log(f"Overall_Avg_Time: {overall_avg_time:.2f}")
+        log(f"Overall_Avg_Violations: {overall_avg_violations}")
+        log("=" * 80)
+
+        # Summary for each config
+        summary_rows = []
+        for i, config_results in enumerate(results):
             times = [config_results[r].time for r in range(rounds)]
             avg_time = statistics.fmean(times)
-            # std_time = statistics.stdev(times) if len(times) > 1 else math.inf
-            log(f'    [{i}] average time: {avg_time:.2f}')
             violation_counts = [config_results[r].violations for r in range(rounds)]
-            avg_violations = statistics.fmean(violation_counts)
-            # std_violations = statistics.stdev(violation_counts) if len(violation_counts) > 1 else math.inf
-            log(f'    [{i}] average violations: {avg_violations:.2f}')
+            avg_violations = round(statistics.fmean(violation_counts))
+
+            summary_rows.append([i, config_results[0].cmdline, f"{avg_time:.2f}", avg_violations])
+
+        print_table(
+            header="Configuration Summary",
+            column_names=["Config", "Command Line", "Avg Time (s)", "Avg Violations Found"],
+            rows=summary_rows,
+            column_formats=[8, 50, 12, 20]
+        )
+
+        # Detailed results per config
+        for i, config_results in enumerate(results):
+            log(f"\nCONFIG {i}: {config_results[0].config}")
+            log("=" * 80)
+
+            # Collect data
+            times = [config_results[r].time for r in range(rounds)]
+            avg_time = statistics.fmean(times)
+            std_time = statistics.stdev(times) if len(times) > 1 else 0.0
+
+            violation_counts = [config_results[r].violations for r in range(rounds)]
+            avg_violations = round(statistics.fmean(violation_counts))
+            std_violations = statistics.stdev(violation_counts) if len(violation_counts) > 1 else 0.0
+
+            first_violations = [
+                config_results[r].first_violation if config_results[r].first_violation is not None else "N/A"
+                for r in range(rounds)
+            ]
+
+            # Combined Table for all metrics
+            combined_rows = [
+                [r, f"{times[r]:.2f}", config_results[r].cases, violation_counts[r], first_violations[r]]
+                for r in range(rounds)
+            ]
+
+            # Add summary rows at the end
+            combined_rows.append(["Mean", f"{avg_time:.2f}", "-", avg_violations, "-"])
+            combined_rows.append(["Std Dev", f"{std_time:.2f}", "-", f"{std_violations:.2f}", "-"])
+
+            print_table(
+                header=f"Detailed Results - Config {i}",
+                column_names=["Round", "Execution Time (s)", "Test Cases", "Violations Found", "First Violation (s)"],
+                rows=combined_rows,
+                column_formats=[8, 20, 12, 18, 22]
+            )
+
+
 try:
     main()
 except KeyboardInterrupt:

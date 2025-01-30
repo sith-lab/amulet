@@ -15,7 +15,7 @@ fi
 DEFENSE="$1"             # Required: Defense under test
 CASES="${2:-200}"        # Optional: number of test cases - Default: 200
 INPUTS="${3:-140}"       # Optional: number of inputs per test case - Default: 140
-ROUNDS=100               # How many runs to have in parallel - Default: 100
+ROUNDS=1              # How many runs to have in parallel - Default: 100
 
 # Configuration sets
 CONFIGS_INVISISPEC_BASELINE="$DOCKER_DIR/docker_invisispec/docker_gem5_v1_final_cache_ipcFP.yaml,\
@@ -89,6 +89,7 @@ echo "Running benchmark for $DEFENSE with $CASES cases, $INPUTS inputs per case.
                --extra-args="$args" \
                -p "$DEFENSE" \
                -o "benchmark-out-$DEFENSE" \
-               > "logs/bench-$DEFENSE.txt" 2>&1
+               > /dev/null; 
+              #  > "logs/bench-$DEFENSE.txt" 2>&1
 
-echo "Benchmark completed. Logs saved to logs/bench-$DEFENSE.txt. Overview is in benchmark-out-$DEFENSE/info.txt"
+echo "Benchmark completed. Logs saved to $RVZR_DIR/src/benchmark-out-$DEFENSE/info.txt"

@@ -41,6 +41,10 @@ done
 
 ####################################################################################################
 
+# ./benchmark_all.sh STT 7 10
+
+####################################################################################################
+
 # First minimize w/ optional_run (to get test_case_min.asm), then fuzz the found minimized asm
 # echo "Minimization Testing";
 # TEST=USBL-ST-ARCH_SEQ-Min;
