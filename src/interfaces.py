@@ -598,6 +598,9 @@ class EquivalenceClass:
         """ group inputs by htraces """
         groups = defaultdict(list)
         for measurement in self.measurements:
+            if measurement.htrace == 0:
+                # Ignore "buggy" htraces
+                continue
             groups[measurement.htrace].append(measurement)
         self.htrace_map = groups
 

@@ -762,9 +762,13 @@ class X86Gem5(Executor):
                 # If donttrust flag and vio, then not a real vio
                 self.copy_bugs(id_,input_,test_case_path)
                 LOGGER.report_bug()
-                traces.append(CombinedHTrace(0))
+                # If a bug happens for one input it will likely happen for other inputs.
+                # This can really slow down fuzzing, since we have to wait for the gem5 process to time out.
+                # So, whenever one bug happens, report all remaining traces as buggy
+                while len(traces) < len(inputs):
+                    traces.append(CombinedHTrace(0))
                 self.cleanup()
-                continue
+                return traces
             # 5. collect traces
             if CONF.gem5_save_checkpoints:
                 cpts = sorted(

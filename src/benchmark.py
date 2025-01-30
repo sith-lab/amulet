@@ -63,8 +63,8 @@ except FileExistsError:
 
 rounds = args.rounds
 isa_spec = '/code/revizor-docker/src/x86/isa_spec/base.json'
-configs = args.configs.split(',')
-extra_args = args.extra_args.split(',')
+configs = [config.strip() for config in args.configs.split(',')]
+extra_args = [arg.strip() for arg in args.extra_args.split(',')]
 input_count = args.input_count
 processes = []
 result_dirs = [args.output + f'/config{i}' for i in range(len(configs))]
