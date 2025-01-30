@@ -67,7 +67,7 @@ if [[ -n "$AUTO_RUN" ]]; then
       $RVZR_RUN &> $RVZR_DIR/revizor_run.out;
     elif [[ "${AUTO_RUN,,}" == "benchmark" ]]; then
       echo "Running benchmark: Check output at: $RVZR_DIR/src/logs/bench-CleanupSpec.txt and $RVZR_DIR/src/logs/benchmark-out-CleanupSpec/";
-      $BENCHMARK_SH CleanupSpec;
+      $BENCHMARK_SH CleanupSpec &> $RVZR_DIR/bench_sh.out;
     else
       echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set";
       echo "Falling out into shell - Run $RVZR_RUN manually!";
