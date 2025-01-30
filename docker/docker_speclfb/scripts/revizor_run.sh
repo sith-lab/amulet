@@ -20,6 +20,7 @@ mkdir -p logs;
 # Example usages of Revizor with IPC orchestration
 for i in $(seq 1 100); do
     python3 ./cli.py fuzz -s x86/isa_spec/base.json --nonstop --SpecLFB -i 70 -n 200 -c $YAML -p speclfb-$i &> logs/speclfb-$i.txt &
+    echo "Launched speclfb-$i - Check $RVZR_DIR/src/logs/speclfb-$i.txt for results";
 done
 
 # Testing

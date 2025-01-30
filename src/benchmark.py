@@ -1,5 +1,3 @@
-#!/usr/bin/env python3.11
-# SpecLFB uses system default python3!
 import subprocess
 import selectors
 import argparse
@@ -131,7 +129,7 @@ def main():
             output_log = open(f'{args.output}/log_round{round}_config{i:03}', 'wb')
             output_log.write(f'command line: ${getcmdline(cmd)}\n'.encode())
             output_logs.append(output_log)
-            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, process_group=0)
+            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setpgrp)
             selector.register(process.stdout, selectors.EVENT_READ, len(processes))
             processes.append(process)
     while time.time() < start_time + timeout:

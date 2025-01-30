@@ -79,9 +79,16 @@ fi
 # Prepare logs directory
 mkdir -p logs
 
+# Determine which Python version to use
+if echo "$DEFENSE" | grep -iq "speclfb"; then
+    PYTHON_CALL="python3"
+else
+    PYTHON_CALL="python3.11"
+fi
+
 # Run benchmark
 echo "Running benchmark for $DEFENSE with $CASES test cases, $INPUTS inputs per case, $ROUNDS rounds in parallel..."
-./benchmark.py -i "$INPUTS" \
+$PYTHON_CALL benchmark.py -i "$INPUTS" \
                -n "$CASES" \
                -r "$ROUNDS" \
                -c "$conf" \

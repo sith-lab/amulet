@@ -31,6 +31,7 @@ mkdir -p logs;
 # Example usages of Revizor with IPC orchestration
 for i in $(seq 1 100); do
     python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --nonstop --ruby --STT --STT_FuturisticSpec -i 70 -n 200 -c $YAML -p stt-$i &> logs/stt-$i.txt &
+    echo "Launched stt-$i - Check $RVZR_DIR/src/logs/stt-$i.txt for results";
 done
 
 # Testing
