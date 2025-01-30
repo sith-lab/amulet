@@ -272,7 +272,7 @@ def main():
 
             # Combined Table for all metrics
             combined_rows = [
-                [r, f"{times[r]:.2f}", config_results[r].cases, violation_counts[r], 
+                [r, f"{times[r]:.2f}", config_results[r].cases, violation_counts[r],
                  f"{float(first_violations[r]):.2f}" if first_violations[r].replace('.', '', 1).isdigit() else first_violations[r]]
                 for r in range(rounds)
             ]
