@@ -2,8 +2,10 @@
 DOCKER_DIR=$PWD  # Assumed to be (repo_root)/docker
 
 # DOLMA not yet supported
-DEFENSES=("InvisiSpec" "CleanupSpec" "STT" "SpecLFB")  # Used for benchmark
-LC_DEFENSES=("invisispec" "cleanupspec" "stt" "speclfb")  # Used for docker
+# DEFENSES=("InvisiSpec" "CleanupSpec" "STT" "SpecLFB")  # Used for benchmark
+# LC_DEFENSES=("invisispec" "cleanupspec" "stt" "speclfb")  # Used for docker
+DEFENSES=("STT" "SpecLFB")  # Used for benchmark
+LC_DEFENSES=("stt" "speclfb")  # Used for docker
 
 get_benchout_dir(){
   local lc_defense=$1
@@ -15,35 +17,9 @@ get_rvzr_dir(){
   echo "$DOCKER_DIR/docker_${lc_defense}/revizor-docker"
 }
 
-# Track which files have seen "Benchmark completed"
-declare -A completed_files
-# Function to check if "Benchmark completed" exists in a file
-check_file() {
-  local file="$1"
-  if [[ -f "$file" ]] && grep -q "Benchmark completed" "$file"; then
-    if [[ -z "${completed_files[$file]}" ]]; then
-      echo "✅ Benchmark completed in: $file";
-      completed_files[$file]=1;
-    fi
-  fi
-}
-# Function to check all files
-check_all_files() {
-  local files=("$@") # Pass in via 'check_all_files "${files[@]}"'
-  for file in "${files[@]}"; do
-    check_file "$file";
-  done
-  # If all files are completed, return success
-  if [[ ${#completed_files[@]} -eq ${#FILES[@]} ]]; then
-    return 0
-  else
-    return 1
-  fi
-}
-
 # Required lines in info.txt
 REQUIRED_LINES=("contract_clause:" "detected_violation:" "avg_detection_time:" "testing_throughput:" "campaign_execution_time:");
-# Function to check if all required lines exist in an info.txt file
+
 validate_info_file() {
   local file="$1";
   for line in "${REQUIRED_LINES[@]}"; do
@@ -53,7 +29,7 @@ validate_info_file() {
     fi
   done
 }
-# Gather data from info.txt files
+
 gather_data() {
   local file="$1";
   local data=();
@@ -64,71 +40,55 @@ gather_data() {
   echo "${data[@]}";
 }
 
-####################################################################################################
+# Process benchmarks one at a time
 table_data=();
-info_filepaths=();
-benchout_filepaths=();
 
-# Make array of info.txt file paths
 for i in "${!DEFENSES[@]}"; do
-    info_file="$(get_benchout_dir "${LC_DEFENSES[$i]}" "${DEFENSES[$i]}")/info.txt";
-    info_filepaths+=("$info_file");
-done
-# Clear out and any old info.txt's and touch the files
-for file in "${info_filepaths[@]}"; do
-    mkdir -p "$(dirname "$file")"
-    : > "$file"
-done
+    defense="${DEFENSES[$i]}"
+    lc_defense="${LC_DEFENSES[$i]}"
 
-# Make array of bench_sh.out file paths
-for i in "${!LC_DEFENSES[@]}"; do
-    benchout_file="$(get_rvzr_dir "${LC_DEFENSES[$i]}")/bench_sh.out";
-    benchout_filepaths+=("$benchout_file");
-done
-# Clear out and any old bench_sh.out's and touch the files
-for file in "${benchout_filepaths[@]}"; do
-    mkdir -p "$(dirname "$file")"
-    : > "$file"
-done
+    info_file="$(get_benchout_dir "$lc_defense" "$defense")/info.txt"
+    benchout_file="$(get_rvzr_dir "$lc_defense")/bench_sh.out"
 
-# Start containers
-./dockerRun.sh killall;
-for defense in "${LC_DEFENSES[@]}"; do
-    echo "🚀 Running: ./dockerRun.sh $defense start benchmark";
-    ./dockerRun.sh "$defense" start benchmark;
-done
-# Confirm container status
-./dockerRun.sh list;
+    # Ensure files exist and are empty before running
+    mkdir -p "$(dirname "$info_file")"
+    : > "$info_file"
+    mkdir -p "$(dirname "$benchout_file")"
+    : > "$benchout_file"
 
-# Wait for benchmarks to finish
-echo "⏳ Waiting for 'Benchmark completed' in all bench_sh.out files..."
-while true; do
-    inotifywait -e modify "${benchout_filepaths[@]}" >/dev/null 2>&1
-    check_all_files "${benchout_filepaths[@]}" && break;
-done
-echo "🚀 Benchmarking has completed!"
+    # Start container
+    echo "🚀 Running: ./dockerRun.sh $lc_defense start benchmark"
+    ./dockerRun.sh "$lc_defense" start benchmark
 
-# Leave in case of manual inspection
-# Stop containers
-# for defense in "${LC_DEFENSES[@]}"; do
-#     echo "Stopped container for $defense";
-#     ./dockerRun.sh "$defense" stop;
-# done
+    # Wait for benchmark completion
+    echo "⏳ Waiting for 'Benchmark completed' in $benchout_file..."
+    while true; do
+        inotifywait -e modify "$benchout_file" >/dev/null 2>&1
+        if grep -q "Benchmark completed" "$benchout_file"; then
+            echo "✅ Benchmark completed for $defense!"
+            break
+        fi
+    done
 
-# Parse results from info.txt files
-for i in "${!info_filepaths[@]}"; do
-    file="${info_filepaths[$i]}";
-    validate_info_file "$file";
-    table_data+=("${DEFENSES[$i]} $(gather_data "$file")");
+    # Validate info.txt file
+    validate_info_file "$info_file"
+
+    # Gather results
+    table_data+=("$defense $(gather_data "$info_file")")
+
+    # Leave containers for now in case manual inspection needed
+    # echo "🛑 Stopping container for $lc_defense"
+    # ./dockerRun.sh "$lc_defense" stop
+
+    echo "✅ Completed benchmark for $defense"
 done
-echo "📊 Results parsed! ✅"
 
 # Output table
-echo "📊 Table 5 Benchmark Results 📊:";
+echo "📊 Table 5 Benchmark Results 📊"
 echo -e "Defense\tContract\tDetected Violation?\tAvg. Detection Time (sec)\tTesting Throughput (test cases/sec)\tCampaign Execution Time"
 echo -e "---------------------------------------------------------------------------------------------------------"
 for row in "${table_data[@]}"; do
-    echo -e "$row";
+    echo -e "$row"
 done
 
 echo "🎉 All benchmarks finished!"
