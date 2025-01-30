@@ -4,29 +4,27 @@ This is AMuLeT, the Automated Microarchitectural Leak Tester.
 
 AMuLeT is a white-box fuzz testing framework, which uses relational testing to find microarchitectural system leakage. We test a reference architectural simulator ([Unicorn Engine](https://www.unicorn-engine.org/)) against a theoretical microarchitectural defense, typically implemented in the microarchtectural simulator [gem5](https://www.gem5.org/). For any 2 test cases (program + input), if their end state is architecturally equivalent (i.e. registers, data values) but not microarchitecturally equivalent (i.e. cache state, branch predictor tables), then we can determine that this test case causes a microarchitectural leak in the defense.
 
-This work builds upon and is heavily inspired by [Revizor](https://dl.acm.org/doi/10.1145/3503222.3507729)
+This work builds upon and is inspired by [Revizor](https://github.com/microsoft/sca-fuzzer).
 
-This is an independently developed and improved fork of [SCA-Fuzzer from Microsoft](https://github.com/microsoft/sca-fuzzer).
+# Supported Defenses (so far):
+- Baseline (no defense)
+- InvisiSpec
+- CleanupSpec 
+- STT
+- SpecLFB
 
-# Supported Defenses (by this branch):
-- STT (`stt`)
-
-## To patch in a new defense:
-- Re-generate a packet_pb2.py with `protoc --proto_path=src --python_out=build/gen src/foo.proto src/bar/baz.proto` on that defense's `packet.proto`.
+Please reach out if you would like to add support for your defense, we will be happy to accept a PR.
 
 # Getting Started
 
-**Note:** If you find missing or confusing explanations or a bug, don't hesitate to open an issue.
-
 ## Requirements & Dependencies
 
-1. Hardware Requirements
+* Hardware Requirements
 
-So far, AMuLet supports only the x86 ISA, as both the host and the simulation base.
+    So far, AMuLet supports only the x86 ISA, as both the host and the simulation base.
 
-1. Software Requirements
-
-* Docker
+* Software Requirements
+    * Docker
 
 ## Installation
 
@@ -157,6 +155,4 @@ Use one of the following types:
 | `perf`   | Performance improvements.                                                     |
 | `revert` | Reverts a previous commit.                                                    |
 
-# Documentation
 
-**TODO**
