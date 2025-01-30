@@ -645,7 +645,8 @@ class X86Gem5(Executor):
         try:
             if not CONF.gem5_ipc_persist_log:
                 self.ipc.reset_log() # seek to start of log in gem5
-                open(f'{self.gem5_output_location}/log.out', 'w').close() # truncate log
+                if os.path.exists(self.gem5_output_location):
+                    open(f'{self.gem5_output_location}/log.out', 'w').close() # truncate log
             tags = self.ipc.trace_test_case(input_, id_, self.gem5_attacker_mode["sources"])
             with self.open_debug_file("{}/{}/cache_tags_{}_{}".format(CONF.debug_dir, CONF.test_case, id_, input_), "w") as f:
                 f.write(tags)
