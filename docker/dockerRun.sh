@@ -44,7 +44,7 @@ print_help() {
     Usage:
     ./dockerRun.sh <DEFENSE> start [AUTO_RUN];
       - Start a docker container for the given defense
-      - Optional: AUTO_RUN=(fuzz|benchmark) to start script upon container launch
+      - Optional: AUTO_RUN=(fuzz|benchmark|uarch_trace_formats|smaller_uarch_structures) to start script upon container launch
     ./dockerRun.sh <DEFENSE> stop;
       - Stop and prune all docker containers for the given defense
     ./dockerRun.sh killall;
@@ -81,6 +81,12 @@ main() {
       if [[ -n "$AUTO_RUN" ]]; then
           # Convert to lowercase for case-insensitive comparison
           if [[ "${AUTO_RUN,,}" == "fuzz" || "${AUTO_RUN,,}" == "benchmark" ]]; then
+              echo "AUTO_RUN is set to $AUTO_RUN"
+          elif [[ "${AUTO_RUN,,}" == "uarch_trace_formats" || "${AUTO_RUN,,}" == "smaller_uarch_structures" ]]; then
+              if [[ "$DEFENSE" != 'invisispec' ]]; then
+                echo "uarch_trace_formats and smaller_uarch_structures are only supported on InvisiSpec."
+                exit 1
+              fi
               echo "AUTO_RUN is set to $AUTO_RUN"
           else
               echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set" >&2

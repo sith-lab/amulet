@@ -79,6 +79,10 @@ if [[ -n "$AUTO_RUN" ]]; then
     elif [[ "${AUTO_RUN,,}" == "benchmark" ]]; then
       echo "Running benchmark: Check output at: $RVZR_DIR/src/logs/bench-InvisiSpec.txt and $RVZR_DIR/src/logs/benchmark-out-InvisiSpec/";
       $BENCHMARK_SH InvisiSpec &> $RVZR_DIR/bench_sh.out;
+    elif [[ "${AUTO_RUN,,}" == "uarch_trace_formats" ]]; then
+      bash /code/revizor-docker/artifact_evaluation/Table_4_uarch_trace_formats.sh
+    elif [[ "${AUTO_RUN,,}" == "smaller_uarch_structures" ]]; then
+      bash /code/revizor-docker/artifact_evaluation/Table_6_Smaller_uarch_structures.sh
     else
       echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set";
       echo "Falling out into shell - Run $RVZR_RUN manually!";
