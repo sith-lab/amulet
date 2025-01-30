@@ -64,6 +64,13 @@ case "$DEFENSE" in
     args="--SpecLFB,--SpecLFB_UnsafeBaseline"
     conf="$CONF_SPECLFB_BASELINE"
     ;;
+  DOLMA)
+    # args=""
+    # conf=""
+    echo "DOLMA is not yet implemented."
+    # TODO add suitable yaml file, check working with './benchmark_all.sh DOLMA 2 3 5'
+    exit 1;
+    ;;
   *)
     echo "Error: Invalid defense '$DEFENSE'"
     exit 1
@@ -77,6 +84,7 @@ if [ -z "$conf" ]; then
 fi
 
 # Prepare logs directory
+cd $RVZR_DIR/src;
 mkdir -p logs
 
 # Determine which Python version to use
