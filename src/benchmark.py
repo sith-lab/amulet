@@ -222,10 +222,12 @@ def main():
             log("Command line: " + "\n" + config_results[0].cmdline.replace("'", ""))
             
             # Collect data
-            times = [config_results[r].time for r in range(rounds)]
-            avg_time = statistics.fmean(times)
+            times = [config_results[r].time for r in range(rounds)] # in seconds
+            total_system_time = sum(times)
+            avg_wall_time = statistics.fmean(times)
             std_time = statistics.stdev(times) if len(times) > 1 else 0.0
-            total_test_cases = sum([config_results[r].cases for r in range(rounds)])
+            total_test_programs = sum([config_results[r].cases for r in range(rounds)])
+            total_test_cases = total_test_programs * input_count
             violation_counts = [config_results[r].violations for r in range(rounds)]
             total_violations = sum(violation_counts)
             avg_violations = statistics.fmean(violation_counts)
@@ -233,6 +235,15 @@ def main():
             detected_violation = "NO"
             if total_violations > 0:
                 detected_violation = "YES"
+                
+            log("")
+            log(f"avg_wall_time: {avg_wall_time:.2f}")
+            log(f"total_system_time: {total_system_time:.2f}")
+            log(f"total_test_programs: {total_test_programs}")
+            log(f"input_count: {input_count}")
+            log(f"total_test_cases: {total_test_cases}")
+            log(f"total_violations: {total_violations}")
+            log(f"avg_violations: {avg_violations:.2f}")
             
             # Load YAML and Extract Contract Clauses
             config_file = config_results[0].config
@@ -250,10 +261,9 @@ def main():
             # Following format from table 5
             log(f"contract_clause: {contract_clause}")
             log(f"detected_violation: {detected_violation}")
-            # log(f"avg_violations_found: {avg_violations}")
-            log(f"avg_detection_time: {total_violations/avg_time:.2f}")
-            log(f"testing_throughput: {total_test_cases/avg_time:.2f}")
-            log(f"campaign_execution_time: {avg_time:.2f}")
+            log(f"avg_detection_time: {total_violations/avg_wall_time:.2f}")
+            log(f"testing_throughput: {total_test_cases/avg_wall_time:.2f}")
+            log(f"campaign_execution_time: {avg_wall_time:.2f}")
             
             first_violations = [
                 config_results[r].first_violation if config_results[r].first_violation is not None else "N/A"
@@ -267,7 +277,7 @@ def main():
             ]
 
             # Add summary rows at the end
-            combined_rows.append(["Mean", f"{avg_time:.2f}", "-", avg_violations, "-"])
+            combined_rows.append(["Mean", f"{avg_wall_time:.2f}", "-", avg_violations, "-"])
             combined_rows.append(["Std Dev", f"{std_time:.2f}", "-", f"{std_violations:.2f}", "-"])
 
             print_table(
