@@ -3,7 +3,7 @@
 # Number of test programs to run
 PROGRAMS="${1:-200}"
 
-RESULTS=/code/revizor-docker/artifact_evaluation/Table_8_Results.txt
+RESULTS=/code/revizor-docker/artifact_evaluation/Table_6_Results.txt
 echo "Smaller uarch structures - $PROGRAMS programs" > $RESULTS
 
 cd /code/revizor-docker/src

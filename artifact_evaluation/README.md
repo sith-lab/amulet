@@ -1,6 +1,6 @@
-## Table 8: Smaller uarch structures
+## Table 6: Smaller uarch structures
 
-Run `Table_8_Smaller_uarch_structures.sh` - this will output to `Table_8_Results.txt`.
+Run `Table_6_Smaller_uarch_structures.sh` - this will output to `Table_6_Results.txt`.
 The output format will be
 
 ```
@@ -16,5 +16,5 @@ detected_violation: YES/NO
 campaign_execution_time: <time in seconds>
 ```
 
-You can also provide the number of programs as an argument, e.g. `./Table_8_Smaller_uarch_structures.sh 10`,
+You can also provide the number of programs as an argument, e.g. `./Table_6_Smaller_uarch_structures.sh 10`,
 if you want to try testing with a smaller number of programs first.
