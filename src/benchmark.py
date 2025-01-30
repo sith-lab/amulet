@@ -1,4 +1,5 @@
 #!/usr/bin/env python3.11
+# SpecLFB uses system default python3!
 import subprocess
 import selectors
 import argparse
@@ -70,8 +71,11 @@ processes = []
 result_dirs = [args.output + f'/config{i}' for i in range(len(configs))]
 if not args.stop_after_first_violation:
      extra_args.append('--nonstop')
+python_call = 'python3.11'
+if ("speclfb" in args.process.lower()):
+    python_call = 'python3'
 cmds = [
-    ['python3.11', 'cli.py', 'fuzz', '-s', isa_spec, '-i', str(input_count), '-n', str(case_count),
+    [python_call, 'cli.py', 'fuzz', '-s', isa_spec, '-i', str(input_count), '-n', str(case_count),
         '-c', config, '-p', f'bench_{args.process}_config{i}_roundROUND', '--no-save-stats',
         f'--result-dir={result_dirs[i]}'] + extra_args
     for i, config in enumerate(configs)
