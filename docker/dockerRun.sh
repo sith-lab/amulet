@@ -15,6 +15,9 @@ export SUPPORTED_DEFENSES=(
   "stt"
   "dolma"
   "speclfb"
+  # "invisispec_perf"
+  # "cleanupspec_perf"
+  # "stt_perf"
 )
 # Format SUPPORTED_DEFENSES into ""DefenseA"|"DefenseB"|"DefenseC"|..."
 SD_CASE_PATTERN="@($(
@@ -39,8 +42,9 @@ print_help() {
     )
 
     Usage:
-    ./dockerRun.sh <DEFENSE> start;
+    ./dockerRun.sh <DEFENSE> start [AUTO_RUN];
       - Start a docker container for the given defense
+      - Optional: AUTO_RUN=(fuzz|benchmark) to start script upon container launch
     ./dockerRun.sh <DEFENSE> stop;
       - Stop and prune all docker containers for the given defense
     ./dockerRun.sh killall;
@@ -49,7 +53,7 @@ print_help() {
       - Restarts the underlying docker service. Use if docker becomes unresponsive!
 
     Examples:
-      ./dockerRun.sh invisispec start;
+      ./dockerRun.sh invisispec start fuzz;
       ./dockerRun.sh list;
       ./dockerRun.sh invisispec stop;
 
@@ -72,12 +76,26 @@ main() {
     $SD_CASE_PATTERN)
       DEFENSE=$1; # Should only ever be ONE defense!
       ACTION=$2;
+      AUTO_RUN=$3;
+      # Only check if AUTO_RUN is non-empty
+      if [[ -n "$AUTO_RUN" ]]; then
+          # Convert to lowercase for case-insensitive comparison
+          if [[ "${AUTO_RUN,,}" == "fuzz" || "${AUTO_RUN,,}" == "benchmark" ]]; then
+              echo "AUTO_RUN is set to $AUTO_RUN"
+          else
+              echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set" >&2
+              print_help;
+              exit 1;
+          fi
+      else
+          echo "AUTO_RUN is not set. Will not start any scripts upon container launch"
+      fi
+
       if [ -z "$ACTION" ]; then
         echo "Error: No action specified. Should we \"start\" or \"stop\" the defense container?";
         print_help;
-
       elif [ "$ACTION" == "start" ]; then
-	cp $HOME/.gitconfig $DOCKER_ROOT/utils/.gitconfig || touch $DOCKER_ROOT/utils/.gitconfig;
+        cp $HOME/.gitconfig $DOCKER_ROOT/utils/.gitconfig || touch $DOCKER_ROOT/utils/.gitconfig;
         grab_ssh; # utils folder should now be ready to copy
 
         # Assumes defense specific Dockerfiles are in $DOCKER_ROOT/docker_$DEFENSE
@@ -97,50 +115,52 @@ main() {
         mkdir -p gem5-docker; # Will be wiped upon every launch!
         mkdir -p revizor-docker;
         mkdir -p dbg;
-	if [[ $DEFENSE == *_perf* ]]; then
-	    mkdir -p $GEM5_PERF_ROOT
-	    echo "Directory created: $GEM5_PERF_ROOT "
-	fi
-        echo "Building docker image";
-        echo "Docker build context root: $DEFENSE_ROOT";
-        docker build -t "$TAG_NAME" -f $DEFENSE_ROOT/$DEFENSE.Dockerfile $DEFENSE_ROOT;
-        echo "Image built for tag $TAG_NAME. List of current built images:";
-        docker image ls;
-        echo "";
 
-        echo "Running docker image";
-	if [[ $DEFENSE == *_perf* ]]; then
-	    docker run -d \
-		   --name $CONTAINER_NAME \
-		   --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
-		   --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
-       --volume $DEFENSE_ROOT/dbg:/code/dbg \
-		   --volume $GEM5_PERF_ROOT:/code/gem5_perf \
-		   --volume $BMARKS_ROOT:/code/bmarks \
-		   --rm -it $CONTAINER_NAME;
-	else
-      docker run -d \
-		   --name $CONTAINER_NAME \
-		   --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
-		   --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
-       --volume $DEFENSE_ROOT/dbg:/code/dbg \
-		   --rm -it $CONTAINER_NAME;
-	fi
+        if [[ $DEFENSE == *_perf* ]]; then
+          mkdir -p $GEM5_PERF_ROOT
+          echo "Directory created: $GEM5_PERF_ROOT "
+        fi
+          echo "Building docker image";
+          echo "Docker build context root: $DEFENSE_ROOT";
+          docker build -t "$TAG_NAME" -f $DEFENSE_ROOT/$DEFENSE.Dockerfile $DEFENSE_ROOT;
+          echo "Image built for tag $TAG_NAME. List of current built images:";
+          docker image ls;
+          echo "";
+          echo "Running docker image";
+
+        if [[ $DEFENSE == *_perf* ]]; then
+          docker run -d \
+          -e AUTO_RUN=$AUTO_RUN \
+          --name $CONTAINER_NAME \
+          --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
+          --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
+          --volume $DEFENSE_ROOT/dbg:/code/dbg \
+          --volume $GEM5_PERF_ROOT:/code/gem5_perf \
+          --volume $BMARKS_ROOT:/code/bmarks \
+          --rm -it $CONTAINER_NAME;
+        else
+          docker run -d \
+          -e AUTO_RUN=$AUTO_RUN \
+          --name $CONTAINER_NAME \
+          --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
+          --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
+          --volume $DEFENSE_ROOT/dbg:/code/dbg \
+          --rm -it $CONTAINER_NAME;
+        fi
+
         # INFO: Can remove --rm flag to persist filesystem if de-coupling linked volumes
         #   -Can diff/export contents of stopped container after run completes to check results! (Or re-image into new container running a shell)
         # Dockerfile will run CMD entrypoint.sh here
         echo "Docker run completed. List of current running containers:";
         docker container ls;
         echo "";
-
-        export CONTAINER_ID=`docker container ls --all --quiet --filter "name=$CONTAINER_NAME"`;
+        export CONTAINER_ID=$(docker container ls --all --quiet --filter "name=$CONTAINER_NAME");
         echo "Container launched! ID: $CONTAINER_ID";
         echo "Code in container is within \"/code\"";
         echo "Attach with \"docker attach $CONTAINER_NAME\"";
         echo "Stop with \"docker rm --force $CONTAINER_NAME\" (or exit from within container!)";
         echo "Debug: Try running \"newgrp docker\" first!";
         echo "Debug: Start docker with \"sudo service docker start\"!";
-
       elif [ "$ACTION" == "stop" ]; then
         echo "Stopping all listed containers for defense $DEFENSE:";
         docker ps --filter ancestor=$DEFENSE;
@@ -148,11 +168,9 @@ main() {
         echo "Pruning docker system"
         docker system prune -f;
         echo "Stopped and pruned all containers for defense $DEFENSE";
-
       else
         echo "Error: Unrecognized action $ACTION";
         print_help;
-
       fi;
     ;;
 

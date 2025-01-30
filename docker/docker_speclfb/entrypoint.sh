@@ -11,6 +11,7 @@ export GEM5_DIR=/code/gem5-docker;
 export DOCKER_DIR=$RVZR_DIR/docker/docker_speclfb;
 export RVZR_RUN=$DOCKER_DIR/scripts/revizor_run.sh;
 export OPT_RUN=$DOCKER_DIR/scripts/optional_run.sh;
+export BENCHMARK_SH=$RVZR_DIR/src/benchmark_all.sh;
 
 # export VIOLATION_TEST_DIR=$RVZR_DIR/violation_test;
 # export MINIMIZE_DIR=$RVZR_DIR/src/tests/minimize;
@@ -67,10 +68,22 @@ echo "Done pulling base.json"
 
 echo -e "\nDone post-docker setup! \n";
 
-# Run revizor
-echo "Development: Run $RVZR_RUN manually!";
-# echo "Running fuzzer: Check output at: $RVZR_DIR/revizor_run.out";
-# $RVZR_RUN &> $RVZR_DIR/revizor_run.out;
+# Check if AUTO_RUN is set (non-empty)
+if [[ -n "$AUTO_RUN" ]]; then
+    if [[ "${AUTO_RUN,,}" == "fuzz" ]]; then
+      echo "Running fuzzer: Check output at: $RVZR_DIR/revizor_run.out";
+      $RVZR_RUN &> $RVZR_DIR/revizor_run.out;
+    elif [[ "${AUTO_RUN,,}" == "benchmark" ]]; then
+      echo "Running benchmark: Check output at: $RVZR_DIR/src/logs/bench-SpecLFB.txt and $RVZR_DIR/src/logs/benchmark-out-SpecLFB/";
+      $BENCHMARK_SH SpecLFB;
+    else
+      echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set";
+      echo "Falling out into shell - Run $RVZR_RUN manually!";
+    fi
+else
+  # Can directly use the environment variables '$RVZR_RUN' and '$BENCHMARK_SH' as well
+  echo "Falling out into shell - Run $RVZR_RUN manually!";
+fi
 
 # Don't let the session end!
 cd /code;

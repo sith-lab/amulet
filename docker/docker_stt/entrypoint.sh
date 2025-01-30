@@ -12,12 +12,10 @@ export GEM5_DIR=$CODE_DIR/gem5-docker;
 
 export RVZR_RUN=$DOCKER_DIR/revizor_run.sh;
 export OPT_RUN=$DOCKER_DIR/optional_run.sh;
+export BENCHMARK_SH=$RVZR_DIR/src/benchmark_all.sh;
 
-export VIOLATION_TEST_DIR=$RVZR_DIR/violation_test;
-export MINIMIZE_DIR=$RVZR_DIR/src/tests/minimize;
-
-export FINAL_CACHE_YAML_PATH=$CODE_DIR/docker_gem5_v1_final_cache.yaml;
-export FINAL_CACHE_ALT_YAML_PATH=$CODE_DIR/docker_gem5_v1_final_cache_alt.yaml;
+# export VIOLATION_TEST_DIR=$RVZR_DIR/violation_test;
+# export MINIMIZE_DIR=$RVZR_DIR/src/tests/minimize;
 
 cd /code;
 shopt -s dotglob; # Allows removal of dotfiles
@@ -28,7 +26,6 @@ mkdir revizor-docker;
 shopt -u dotglob;
 echo "Done cleaning docker code dirs";
 
-# Clone; CHECK: Specific commit required?
 # These will be bound to the container root user; git for these dirs will be unusable by outside observer!!!
 git -C /code/gem5-docker clone -b $GEM5_BRANCH git@github.com:sith-lab/amulet-gem5.git /code/gem5-docker;
 chmod -R 777 /code/gem5-docker; # Else will not be able to edit contents of code dirs from host side
@@ -66,10 +63,22 @@ echo "Done pulling base.json"
 
 echo -e "\nDone post-docker setup! \n";
 
-# Run revizor
-echo "Development: Run $RVZR_RUN manually!";
-# echo "Running fuzzer: Check output at: $RVZR_DIR/revizor_run.out";
-# $RVZR_RUN &> $RVZR_DIR/revizor_run.out;
+# Check if AUTO_RUN is set (non-empty)
+if [[ -n "$AUTO_RUN" ]]; then
+    if [[ "${AUTO_RUN,,}" == "fuzz" ]]; then
+      echo "Running fuzzer: Check output at: $RVZR_DIR/revizor_run.out";
+      $RVZR_RUN &> $RVZR_DIR/revizor_run.out;
+    elif [[ "${AUTO_RUN,,}" == "benchmark" ]]; then
+      echo "Running benchmark: Check output at: $RVZR_DIR/src/logs/bench-STT.txt and $RVZR_DIR/src/logs/benchmark-out-STT/";
+      $BENCHMARK_SH STT;
+    else
+      echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set";
+      echo "Falling out into shell - Run $RVZR_RUN manually!";
+    fi
+else
+  # Can directly use the environment variables '$RVZR_RUN' and '$BENCHMARK_SH' as well
+  echo "Falling out into shell - Run $RVZR_RUN manually!";
+fi
 
 # Don't let the session end!
 cd /code;

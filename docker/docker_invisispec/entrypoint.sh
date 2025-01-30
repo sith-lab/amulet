@@ -8,13 +8,20 @@ export RVZR_BRANCH=ipc;
 export CODE_DIR=/code;
 export RVZR_DIR=$CODE_DIR/revizor-docker;
 export GEM5_DIR=$CODE_DIR/gem5-docker;
+export DOCKER_DIR=$RVZR_DIR/docker/docker_invisispec; # Contains yamls!
 
+export RVZR_RUN=$DOCKER_DIR/revizor_run.sh;
+export OPT_RUN=$DOCKER_DIR/optional_run.sh;
+export BENCHMARK_SH=$RVZR_DIR/src/benchmark_all.sh;
+
+####################################################################################################
+# These should be unused - remove later
 export VIOLATION_TEST_DIR=$GEM5_DIR/violation_test;
 export MINIMIZE_DIR=$RVZR_DIR/src/tests/minimize;
 export FUZZFOUND_DIR=$RVZR_DIR/src/tests/fuzzfound;
-
 export FINAL_CACHE_YAML_PATH=$CODE_DIR/docker_gem5_v1_final_cache.yaml;
 export FINAL_CACHE_ALT_YAML_PATH=$CODE_DIR/docker_gem5_v1_final_cache_alt.yaml;
+####################################################################################################
 
 cd /code;
 shopt -s dotglob; # Allows removal of dotfiles
@@ -62,14 +69,26 @@ cd /code;
 echo "Done pulling base.json"
 # Check that base.json exists in revizor root
 
-# Run revizor
 echo -e "\nDone post-docker setup! \n";
-if false; then
-    echo "Running fuzzer: Check output at: /code/revizor-docker/revizor_run.out";
-    /code/revizor_run.sh &> /code/revizor-docker/revizor_run.out;
+
+# Check if AUTO_RUN is set (non-empty)
+if [[ -n "$AUTO_RUN" ]]; then
+    if [[ "${AUTO_RUN,,}" == "fuzz" ]]; then
+      echo "Running fuzzer: Check output at: $RVZR_DIR/revizor_run.out";
+      $RVZR_RUN &> $RVZR_DIR/revizor_run.out;
+    elif [[ "${AUTO_RUN,,}" == "benchmark" ]]; then
+      echo "Running benchmark: Check output at: $RVZR_DIR/src/logs/bench-SpecLFB.txt and $RVZR_DIR/src/logs/benchmark-out-SpecLFB/";
+      $BENCHMARK_SH SpecLFB;
+    else
+      echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set";
+      echo "Falling out into shell - Run $RVZR_RUN manually!";
+    fi
 else
-    echo "Run fuzzer with:  /code/revizor_run.sh &> /code/revizor-docker/revizor_run.out"
+  # Can directly use the environment variables '$RVZR_RUN' and '$BENCHMARK_SH' as well
+  echo "Falling out into shell - Run $RVZR_RUN manually!";
 fi
+
+echo "Run fuzzer with:  /code/revizor_run.sh &> /code/revizor-docker/revizor_run.out"
 
 # Don't let the session end!
 cd /code;

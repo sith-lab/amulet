@@ -5,14 +5,23 @@
 export GEM5_BRANCH=cleanupspec;
 export RVZR_BRANCH=ipc;
 
+export CODE_DIR=/code;
+export RVZR_DIR=$CODE_DIR/revizor-docker;
+export DOCKER_DIR=$RVZR_DIR/docker/docker_cleanupspec; # Contains yamls!
+export GEM5_DIR=$CODE_DIR/gem5-docker;
+export RVZR_RUN=$DOCKER_DIR/revizor_run.sh;
+# export OPT_RUN=$DOCKER_DIR/optional_run.sh;
+export BENCHMARK_SH=$RVZR_DIR/src/benchmark_all.sh;
+
 cd /code;
 shopt -s dotglob; # Allows removal of dotfiles
-rm -rf gem5-docker/*;
-rm -rf revizor-docker/*;
+rm -rf gem5-docker;
+mkdir gem5-docker;
+rm -rf revizor-docker;
+mkdir revizor-docker;
 shopt -u dotglob;
 echo "Done cleaning docker code dirs";
 
-# Clone; CHECK: Specific commit required?
 # These will be bound to the container root user; git for these dirs will be unusable by outside observer!!!
 git -C /code/gem5-docker clone -b $GEM5_BRANCH git@github.com:sith-lab/amulet-gem5.git /code/gem5-docker;
 chmod -R 777 /code/gem5-docker; # Else will not be able to edit contents of code dirs from host side
@@ -50,8 +59,23 @@ echo "Done pulling base.json"
 
 # Run revizor
 echo -e "\nDone post-docker setup! \n";
-echo "Running fuzzer: Check output at: /code/revizor-docker/revizor_run.out";
-/code/revizor_run.sh &> /code/revizor-docker/revizor_run.out;
+
+# Check if AUTO_RUN is set (non-empty)
+if [[ -n "$AUTO_RUN" ]]; then
+    if [[ "${AUTO_RUN,,}" == "fuzz" ]]; then
+      echo "Running fuzzer: Check output at: $RVZR_DIR/revizor_run.out";
+      $RVZR_RUN &> $RVZR_DIR/revizor_run.out;
+    elif [[ "${AUTO_RUN,,}" == "benchmark" ]]; then
+      echo "Running benchmark: Check output at: $RVZR_DIR/src/logs/bench-CleanupSpec.txt and $RVZR_DIR/src/logs/benchmark-out-CleanupSpec/";
+      $BENCHMARK_SH CleanupSpec;
+    else
+      echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set";
+      echo "Falling out into shell - Run $RVZR_RUN manually!";
+    fi
+else
+  # Can directly use the environment variables '$RVZR_RUN' and '$BENCHMARK_SH' as well
+  echo "Falling out into shell - Run $RVZR_RUN manually!";
+fi
 
 # Don't let the session end!
 cd /code;
