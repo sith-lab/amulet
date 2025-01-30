@@ -2,10 +2,8 @@
 DOCKER_DIR=$PWD  # Assumed to be (repo_root)/docker
 
 # DOLMA not yet supported
-# DEFENSES=("InvisiSpec" "CleanupSpec" "STT" "SpecLFB")  # Used for benchmark
-# LC_DEFENSES=("invisispec" "cleanupspec" "stt" "speclfb")  # Used for docker
-DEFENSES=("STT" "SpecLFB")  # Used for benchmark
-LC_DEFENSES=("stt" "speclfb")  # Used for docker
+DEFENSES=("InvisiSpec" "CleanupSpec" "STT" "SpecLFB")  # Used for benchmark
+LC_DEFENSES=("invisispec" "cleanupspec" "stt" "speclfb")  # Used for docker
 
 get_benchout_dir(){
   local lc_defense=$1
@@ -87,7 +85,7 @@ for i in "${!LC_DEFENSES[@]}"; do
     benchout_file="$(get_rvzr_dir "${LC_DEFENSES[$i]}")/bench_sh.out";
     benchout_filepaths+=("$benchout_file");
 done
-# Clear out any old info.txt's
+# Clear out and any old bench_sh.out's and touch the files
 for file in "${benchout_filepaths[@]}"; do
     mkdir -p "$(dirname "$file")"
     : > "$file"
@@ -103,9 +101,9 @@ done
 ./dockerRun.sh list;
 
 # Wait for benchmarks to finish
-echo "⏳ Waiting for 'Benchmark completed' in all info.txt files..."
+echo "⏳ Waiting for 'Benchmark completed' in all bench_sh.out files..."
 while true; do
-    inotifywait -e modify "${info_filepaths[@]}" >/dev/null 2>&1
+    inotifywait -e modify "${benchout_filepaths[@]}" >/dev/null 2>&1
     check_all_files "${benchout_filepaths[@]}" && break;
 done
 echo "🚀 Benchmarking has completed!"
