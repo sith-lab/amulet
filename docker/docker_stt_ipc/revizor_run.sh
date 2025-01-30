@@ -4,7 +4,6 @@
 # Remove --debug flags to increase speed!
 # Make sure runs are not fighting for cores for accurate time measurement;
 
-echo "Running fuzzer";
 export CODE_DIR=/code;
 export RVZR_DIR=$CODE_DIR/revizor-docker;
 export DOCKER_DIR=$RVZR_DIR/docker/docker_stt_ipc; # Contains yamls!
