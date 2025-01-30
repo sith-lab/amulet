@@ -7,7 +7,7 @@ export RVZR_BRANCH=ipc;
 
 export CODE_DIR=/code;
 export RVZR_DIR=$CODE_DIR/revizor-docker;
-export DOCKER_DIR=$RVZR_DIR/docker/docker_stt_ipc; # Contains yamls!
+export DOCKER_DIR=$RVZR_DIR/docker/docker_stt; # Contains yamls!
 export GEM5_DIR=$CODE_DIR/gem5-docker;
 
 export RVZR_RUN=$DOCKER_DIR/revizor_run.sh;
