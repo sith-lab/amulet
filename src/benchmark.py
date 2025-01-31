@@ -227,7 +227,7 @@ def main():
             avg_wall_time = statistics.fmean(times)
             std_time = statistics.stdev(times) if len(times) > 1 else 0.0
             total_test_programs = sum([config_results[r].cases for r in range(parallel_instances)])
-            total_test_cases = total_test_programs * input_count
+            total_test_cases = total_test_programs * input_count * 2  # *2 due to each input being boosted
             violation_counts = [config_results[r].violations for r in range(parallel_instances)]
             total_violations = sum(violation_counts)
             avg_violations = statistics.fmean(violation_counts)
@@ -240,7 +240,7 @@ def main():
             log(f"avg_wall_time: {avg_wall_time:.2f}")
             log(f"total_system_time: {total_system_time:.2f}")
             log(f"total_test_programs: {total_test_programs}")
-            log(f"input_count: {input_count}")
+            log(f"input_count: {input_count*2}")
             log(f"total_test_cases: {total_test_cases}")
             log(f"total_violations: {total_violations}")
             log(f"avg_violations: {avg_violations:.2f}")
