@@ -1,11 +1,22 @@
 #!/bin/bash
 set -e  # Exit immediately on any error
-
 DOCKER_DIR=$PWD  # Assumed to be (repo_root)/docker
+
+# Benchmark arguments
+TEST_CASES=$1;
+INPUTS=$2;
+PARALLEL_INSTANCES=$3;
 
 # DOLMA not yet supported
 DEFENSES=("InvisiSpec" "CleanupSpec" "SpecLFB" "STT" )  # Used for benchmark
 LC_DEFENSES=("invisispec" "cleanupspec" "speclfb" "stt")  # Used for docker
+
+# Check if either all or none of the benchmark arguments are set
+if ! { [[ -n "$TEST_CASES" && -n "$INPUTS" && -n "$PARALLEL_INSTANCES" ]] || \
+       [[ -z "$TEST_CASES" && -z "$INPUTS" && -z "$PARALLEL_INSTANCES" ]]; }; then
+    echo "Error: Either all or none of TEST_CASES, INPUTS, and PARALLEL_INSTANCES must be set."
+    exit 1
+fi
 
 get_benchout_dir(){
   local lc_defense=$1
@@ -78,8 +89,10 @@ for i in "${!DEFENSES[@]}"; do
     rm -rf "$(get_rvzr_dir "$lc_defense")"
 
     # Start container
-    echo "🚀 Running: ./dockerRun.sh $lc_defense start benchmark"
-    if ! ./dockerRun.sh "$lc_defense" start benchmark; then
+    BENCHMARK_ARGS="TEST_CASES=$TEST_CASES INPUTS=$INPUTS PARALLEL_INSTANCES=$PARALLEL_INSTANCES";
+    echo "📊 Benchmarking $defense with args: $BENCHMARK_ARGS 🚀"
+    echo "🚀 Running: ./dockerRun.sh $lc_defense start benchmark $BENCHMARK_ARGS"
+    if ! ./dockerRun.sh "$lc_defense" start benchmark "$BENCHMARK_ARGS"; then
         echo "❌ ERROR: Failed to start container for $defense"
         exit 1;
     fi

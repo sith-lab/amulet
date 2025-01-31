@@ -68,6 +68,41 @@ echo "Done pulling base.json"
 
 echo -e "\nDone post-docker setup! \n";
 
+########################################## Auto run if set ##########################################
+
+# Given some AUTO_RUN_ARG="TEST_CASES=200 INPUTS=70 PARALLEL_INSTANCES=50"
+set_benchmark_vars() {
+    BENCHMARK_ARGS=$1
+    # Check if BENCHMARK_ARGS is set, if not, simply return
+    if [[ -z "$BENCHMARK_ARGS" ]]; then
+        echo "BENCHMARK_ARGS is not set. Using benchmark_all.sh defaults."
+        return
+    fi
+    # Temporary storage for extracted values
+    local test_cases="" inputs="" parallel_instances=""
+    # Loop through space-separated key=value pairs
+    for arg in $BENCHMARK_ARGS; do
+        IFS='=' read -r key value <<< "$arg"
+
+        case "$key" in
+            TEST_CASES) test_cases="$value" ;;
+            INPUTS) inputs="$value" ;;
+            PARALLEL_INSTANCES) parallel_instances="$value" ;;
+        esac
+    done
+    # Check if all three values are set
+    if [[ -n "$test_cases" && -n "$inputs" && -n "$parallel_instances" ]]; then
+        export TEST_CASES="$test_cases"
+        export INPUTS="$inputs"
+        export PARALLEL_INSTANCES="$parallel_instances"
+    else
+        echo "Incomplete BENCHMARK_ARGS provided. Using benchmark_all.sh defaults."
+        unset TEST_CASES INPUTS PARALLEL_INSTANCES
+        return
+    fi
+}
+set_benchmark_vars "$AUTO_RUN_ARG";
+
 # Check if AUTO_RUN is set (non-empty)
 if [[ -n "$AUTO_RUN" ]]; then
     if [[ "${AUTO_RUN,,}" == "fuzz" ]]; then
@@ -75,7 +110,7 @@ if [[ -n "$AUTO_RUN" ]]; then
       $RVZR_RUN &> $RVZR_DIR/revizor_run.out;
     elif [[ "${AUTO_RUN,,}" == "benchmark" ]]; then
       echo "Running benchmark: Check output at: $RVZR_DIR/src/logs/bench-SpecLFB.txt and $RVZR_DIR/src/logs/benchmark-out-SpecLFB/";
-      $BENCHMARK_SH SpecLFB &> $RVZR_DIR/bench_sh.out;
+      $BENCHMARK_SH SpecLFB "$TEST_CASES" "$INPUTS" "$PARALLEL_INSTANCES" &> $RVZR_DIR/bench_sh.out;
     else
       echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set";
       echo "Falling out into shell - Run $RVZR_RUN manually!";

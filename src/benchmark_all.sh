@@ -13,7 +13,7 @@ fi
 
 # Arguments
 DEFENSE="$1"             # Required: Defense under test
-CASES="${2:-200}"        # Optional: Number of test cases - Default: 200
+TEST_CASES="${2:-200}"        # Optional: Number of test cases - Default: 200
 INPUTS="${3:-70}"       # Optional: Number of inputs per test case - Default: 70
 PARALLEL_INSTANCES="${4:-50}"       # Optional: Runs to have in parallel - Default: 100
 # Currently using 50 parallel_instances due to reviewer request
@@ -96,9 +96,9 @@ else
 fi
 
 # Run benchmark
-echo "Running benchmark for $DEFENSE with $CASES test cases, $INPUTS inputs per case, $PARALLEL_INSTANCES instances run in parallel..."
+echo "Running benchmark for $DEFENSE with $TEST_CASES test cases, $INPUTS inputs per case, $PARALLEL_INSTANCES instances run in parallel..."
 $PYTHON_CALL benchmark.py -i "$INPUTS" \
-               -n "$CASES" \
+               -n "$TEST_CASES" \
                -r "$PARALLEL_INSTANCES" \
                -c "$conf" \
                --extra-args="$args" \

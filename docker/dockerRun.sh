@@ -77,24 +77,24 @@ main() {
       DEFENSE=$1; # Should only ever be ONE defense!
       ACTION=$2;
       AUTO_RUN=$3;
+      AUTO_RUN_ARG=$4;
+
       # Only check if AUTO_RUN is non-empty
       if [[ -n "$AUTO_RUN" ]]; then
           # Convert to lowercase for case-insensitive comparison
-          if [[ "${AUTO_RUN,,}" == "fuzz" || "${AUTO_RUN,,}" == "benchmark" ]]; then
-              echo "AUTO_RUN is set to $AUTO_RUN"
-          elif [[ "${AUTO_RUN,,}" == "uarch_trace_formats" || "${AUTO_RUN,,}" == "smaller_uarch_structures" ]]; then
-              if [[ "$DEFENSE" != 'invisispec' ]]; then
-                echo "uarch_trace_formats and smaller_uarch_structures are only supported on InvisiSpec."
-                exit 1
+          if [[ "${AUTO_RUN,,}" == "uarch_trace_formats" || "${AUTO_RUN,,}" == "smaller_uarch_structures" ]]; then
+              if [[ "$DEFENSE" != "invisispec" ]]; then
+                  echo "Error: 'uarch_trace_formats' and 'smaller_uarch_structures' are only supported on InvisiSpec." >&2
+                  exit 1;
               fi
-	            echo "AUTO_RUN is set to $AUTO_RUN $AUTO_RUN_ARG"
-          else
+          elif [[ "${AUTO_RUN,,}" != "fuzz" && "${AUTO_RUN,,}" != "benchmark" ]]; then
               echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set" >&2
               print_help;
               exit 1;
           fi
+          echo "AUTO_RUN is set to $AUTO_RUN, AUTO_RUN_ARG is set to $AUTO_RUN_ARG";
       else
-          echo "AUTO_RUN is not set. Will not start any scripts upon container launch"
+          echo "AUTO_RUN is not set. Will not start any scripts upon container launch.";
       fi
 
       if [ -z "$ACTION" ]; then
@@ -109,7 +109,8 @@ main() {
         export TAG_NAME=$DEFENSE;
         export DEFENSE_ROOT=$DOCKER_ROOT/docker_$DEFENSE;
         if [ ! -d $DEFENSE_ROOT ]; then
-          exit "Abort: Docker root folder $DEFENSE_ROOT for defense $DEFENSE does not exist!";
+          echo "Abort: Docker root folder $DEFENSE_ROOT for defense $DEFENSE does not exist!";
+          exit 1;
         fi;
         
         echo "Setting up ephemeral folder structure";
@@ -137,6 +138,7 @@ main() {
         if [[ $DEFENSE == *_perf* ]]; then
           docker run -d \
           -e AUTO_RUN=$AUTO_RUN \
+          -e AUTO_RUN_ARG=$AUTO_RUN_ARG \
           --name $CONTAINER_NAME \
           --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
           --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
