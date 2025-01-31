@@ -108,9 +108,10 @@ The fuzzer is controlled via a single command line interface `cli.py` (located i
 # Benchmarking
  - Please see artifact_evaluation/README.md to generate all tables from paper
 
-Within a docker container, run `$BENCHMARK_SH <defense> [test cases] [inputs] [rounds]`
+Within a docker container, run `$BENCHMARK_SH <defense> [test cases] [inputs] [parallel_instances]`
 - Currently supported defenses are `(InvisiSpec|CleanupSpec|STT|SpecLFB)`
-- `[test cases] [inputs] [rounds]` are optional args. By default, we run 200 test cases, each with 70 inputs, and 100 "rounds" of these runs in parallel.
+- `[test cases] [inputs] [parallel_instances]` are optional args. By default, we run 200 test cases, each with 70 inputs, and **50** instances of runs in parallel.
+  - Default on the paper is 100 `parallel_instances`. Changed to 50 by reviewer request. Worse performance is expected with only 50 `parallel_instances`.
 
 Within `$RVZR_DIR/src/benchmark-out-<defense>/`, the output for each parallel fuzzing round will appear as `log_round<i>_config000`.
 

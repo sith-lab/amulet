@@ -7,7 +7,7 @@ DOCKER_DIR="$RVZR_DIR/docker"
 
 # Usage check
 if [ -z "$1" ]; then
-    echo "Usage: $0 <defense> [test cases] [inputs] [rounds]"
+    echo "Usage: $0 <defense> [test cases] [inputs] [parallel_instances]"
     exit 1
 fi
 
@@ -15,7 +15,8 @@ fi
 DEFENSE="$1"             # Required: Defense under test
 CASES="${2:-200}"        # Optional: Number of test cases - Default: 200
 INPUTS="${3:-70}"       # Optional: Number of inputs per test case - Default: 70
-ROUNDS="${4:-100}"       # Optional: Runs to have in parallel - Default: 100
+PARALLEL_INSTANCES="${4:-50}"       # Optional: Runs to have in parallel - Default: 100
+# Currently using 50 parallel_instances due to reviewer request
 
 # Configuration sets
 CONF_INVISISPEC_BASELINE=$DOCKER_DIR/docker_invisispec/docker_gem5_v1_final_cache_ipcFP.yaml;
@@ -95,10 +96,10 @@ else
 fi
 
 # Run benchmark
-echo "Running benchmark for $DEFENSE with $CASES test cases, $INPUTS inputs per case, $ROUNDS rounds in parallel..."
+echo "Running benchmark for $DEFENSE with $CASES test cases, $INPUTS inputs per case, $PARALLEL_INSTANCES instances run in parallel..."
 $PYTHON_CALL benchmark.py -i "$INPUTS" \
                -n "$CASES" \
-               -r "$ROUNDS" \
+               -r "$PARALLEL_INSTANCES" \
                -c "$conf" \
                --extra-args="$args" \
                -p "$DEFENSE" \

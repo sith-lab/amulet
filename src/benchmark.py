@@ -36,8 +36,8 @@ timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
 parser.add_argument('-o', '--output',
     help='output directory', default=f'benchmark-out-{timestamp}')
 parser.add_argument('--stop-after-first-violation', action='store_true')
-parser.add_argument('-r', '--rounds', type=int,
-    help='number of times to repeat benchmark', default=100)
+parser.add_argument('-r', '--parallel_instances', type=int,
+    help='number of fuzzing runs in parallel', default=50)
 parser.add_argument('-p', '--process', type=str,
     help='process identifier - if you are running multiple benchmarks at once, this must be different for each one!', default='')
 args = parser.parse_args()
@@ -60,7 +60,7 @@ try:
 except FileExistsError:
     pass
 
-rounds = args.rounds
+parallel_instances = args.parallel_instances
 isa_spec = '/code/revizor-docker/src/x86/isa_spec/base.json'
 configs = [config.strip() for config in args.configs.split(',')]
 extra_args = [arg.strip() for arg in args.extra_args.split(',')]
@@ -95,7 +95,7 @@ class Result:
     violations: int
     cases: int
     first_violation: Optional[float]
-results = [[Result() for _ in range(rounds)] for _ in range(len(configs))]
+results = [[Result() for _ in range(parallel_instances)] for _ in range(len(configs))]
 
 def get_violation_count(stdout: List[bytes]) -> Optional[int]:
     for line in reversed(stdout):
@@ -118,7 +118,7 @@ def main():
     output_logs = []
     start_time = time.time()
     selector = selectors.DefaultSelector()
-    for round in range(rounds):
+    for round in range(parallel_instances):
         for i, cmd in enumerate(cmds):
             cmd = [arg.replace('ROUND', str(round)) for arg in cmd]
             result = results[i][round]
@@ -189,7 +189,7 @@ def main():
             processes[i] = None
 
     for c in range(len(configs)):
-        for r in range(rounds):
+        for r in range(parallel_instances):
             results[c][r].violations = get_violation_count(results[c][r].stdout)
             results[c][r].cases = get_case_count(results[c][r].stdout)
     with open(f'{args.output}/info.txt', 'w') as outfile:
@@ -222,13 +222,13 @@ def main():
             log("Command line: " + "\n" + config_results[0].cmdline.replace("'", ""))
             
             # Collect data
-            times = [config_results[r].time for r in range(rounds)] # in seconds
+            times = [config_results[r].time for r in range(parallel_instances)] # in seconds
             total_system_time = sum(times)
             avg_wall_time = statistics.fmean(times)
             std_time = statistics.stdev(times) if len(times) > 1 else 0.0
-            total_test_programs = sum([config_results[r].cases for r in range(rounds)])
+            total_test_programs = sum([config_results[r].cases for r in range(parallel_instances)])
             total_test_cases = total_test_programs * input_count
-            violation_counts = [config_results[r].violations for r in range(rounds)]
+            violation_counts = [config_results[r].violations for r in range(parallel_instances)]
             total_violations = sum(violation_counts)
             avg_violations = statistics.fmean(violation_counts)
             std_violations = statistics.stdev(violation_counts) if len(violation_counts) > 1 else 0.0
@@ -267,14 +267,14 @@ def main():
             
             first_violations = [
                 config_results[r].first_violation if config_results[r].first_violation is not None else "N/A"
-                for r in range(rounds)
+                for r in range(parallel_instances)
             ]
 
             # Combined Table for all metrics
             combined_rows = [
                 [r, f"{times[r]:.2f}", config_results[r].cases, violation_counts[r],
                  f"{float(first_violations[r]):.2f}" if first_violations[r].replace('.', '', 1).isdigit() else first_violations[r]]
-                for r in range(rounds)
+                for r in range(parallel_instances)
             ]
 
             # Add summary rows at the end

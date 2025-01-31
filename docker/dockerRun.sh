@@ -87,7 +87,7 @@ main() {
                 echo "uarch_trace_formats and smaller_uarch_structures are only supported on InvisiSpec."
                 exit 1
               fi
-	      echo "AUTO_RUN is set to $AUTO_RUN $AUTO_RUN_ARG"
+	            echo "AUTO_RUN is set to $AUTO_RUN $AUTO_RUN_ARG"
           else
               echo "Error: AUTO_RUN must be 'fuzz' or 'benchmark' if set" >&2
               print_help;

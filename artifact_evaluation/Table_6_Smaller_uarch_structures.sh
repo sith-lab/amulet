@@ -35,7 +35,7 @@ for row in 1 2 3; do
     esac
     echo "Running benchmark $name"
     python3.11 benchmark.py --extra-args='--ruby,--InvisiSpec,--InvisiSpec_Futuristic,-s,x86/isa_spec/base.json'\
-        --configs=$config --rounds=50 -n $PROGRAMS -o benchmark-out-$name
+        --configs=$config --parallel_instances=50 -n $PROGRAMS -o benchmark-out-$name
 
     echo "=== $name ===" >> $RESULTS
     grep 'detected_violation' benchmark-out-$name/info.txt >> $RESULTS

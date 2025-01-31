@@ -8,7 +8,7 @@ CASES="${1:-200}"
 # Number of inputs per test case - Default: 140
 INPUTS=140
 # Number of times to run each configuration - Default: 5
-ROUNDS=5
+PARALLEL_INSTANCES=5
 
 CONFIGS_BASELINE=
 # $DOCKER_DIR/docker_invisispec/docker_gem5_v1_final_cache_ipcFP.yaml,\
@@ -62,5 +62,5 @@ for spec in Baseline Futuristic CleanupSpec STT STT_Baseline4 SpecLFB SpecLFB_Ba
     if [ "$confs" = '' ]; then
         continue
     fi
-    ./benchmark.py --verbose -i $INPUTS -n $CASES -r $ROUNDS -c $confs --extra-args=$args -p $spec -o benchmark-out-$spec >logs/bench-$spec.txt 2>&1 &
+    ./benchmark.py --verbose -i $INPUTS -n $CASES -r $PARALLEL_INSTANCES -c $confs --extra-args=$args -p $spec -o benchmark-out-$spec >logs/bench-$spec.txt 2>&1 &
 done
