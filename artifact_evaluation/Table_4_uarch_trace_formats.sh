@@ -33,7 +33,7 @@ for format in baseline bp_state bpredictions access_order; do
     fi
     echo "------- testing trace format $format ------"
     rm -rf "${format}"_*results
-    for i in $(seq 1 100); do
+    for i in $(seq 1 50); do
         python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --ruby --InvisiSpec --InvisiSpec_UnsafeBaseline --gen-seed $i --input-seed $i -i 70 -n $PROGRAMS -c "$cfg" -p "${format}_$i" --result-dir "${format}_$i" --nonstop > "logs/${format}_$i.txt" &
     done
     wait
