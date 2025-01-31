@@ -8,6 +8,7 @@ echo 'Generating Table 4...'
 while [ '!' '-f' 'docker_invisispec/revizor-docker/artifact_evaluation/Table_4_Results.tex' ]; do
 	sleep 30
 done
+cp docker_invisispec/revizor-docker/artifact_evaluation/Table_4_Results* '.'
 
 
 echo 'Generating Table 6...'
@@ -16,5 +17,4 @@ echo 'Generating Table 6...'
 while [ '!' '-f' 'docker_invisispec/revizor-docker/artifact_evaluation/Table_6_Results.tex' ]; do
 	sleep 30
 done
-
-
+cp docker_invisispec/revizor-docker/artifact_evaluation/Table_6_Results* '.'
