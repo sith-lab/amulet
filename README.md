@@ -12,6 +12,7 @@ This work builds upon and is inspired by [Revizor](https://github.com/microsoft/
 - CleanupSpec 
 - STT
 - SpecLFB
+- DOLMA (In progress; Benchmarking is unimplemented yet)
 
 Please reach out if you would like to add support for your defense, we will be happy to accept a PR.
 
@@ -21,14 +22,14 @@ Please reach out if you would like to add support for your defense, we will be h
 
 * Hardware Requirements
 
-    So far, AMuLet supports only the x86 ISA, as both the host and the simulation base.
+    So far, AMuLeT supports only the x86 ISA, as both the host and the simulation base.
 
 * Software Requirements
     * Docker
 
-## Installation
+# Installation
 
-# Docker Setup (on Ubuntu 24.04 host):
+## Docker Setup (on Ubuntu 24.04 host):
 1. Dependencies - https://docs.docker.com/engine/install/ubuntu/:
 ```bash
   for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
@@ -66,7 +67,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 cd docker;
 ./dockerRun.sh stt start
 docker attach stt
-$RVZR_RUN # Inside container (automatically called on container start)
+$RVZR_RUN # Inside container
 ./dockerRun.sh stt stop # To end test container
 ```
 
@@ -84,6 +85,15 @@ Given defense 'stt':
 # Fuzzing Example
 
 - Look into the respective defense subfolder for run examples (i.e. `docker/docker_stt/revizor_run.sh`)
+```bash
+# Example usages of Revizor with IPC orchestration
+YAML=/code/revizor-docker/docker/docker_stt/docker_gem5_v1_final_cache_tlb.yaml;
+cd /code/revizor-docker/src; mkdir -p logs;
+for i in $(seq 1 100); do
+    python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --nonstop --ruby --STT --STT_FuturisticSpec -i 70 -n 200 -c $YAML -p stt-$i &> logs/stt-$i.txt &
+    echo "Launched stt-$i - Check /code/revizor-docker/src/logs/stt-$i.txt for results";
+done
+```
 
 # Command line interface
 
@@ -95,12 +105,67 @@ The fuzzer is controlled via a single command line interface `cli.py` (located i
 * `-i , --num-inputs N` - number of input classes per test case. The number of actual inputs = input classes * inputs_per_class, which is a configuration option
 * `-t , --testcase PATH` - use an existing test case instead of generating random test cases
 
+# Benchmarking
+ - Please see artifact_evaluation/README.md to generate all tables from paper
+
+Within a docker container, run `$BENCHMARK_SH <defense> [test cases] [inputs] [rounds]`
+- Currently supported defenses are `(InvisiSpec|CleanupSpec|STT|SpecLFB)`
+- `[test cases] [inputs] [rounds]` are optional args. By default, we run 200 test cases, each with 70 inputs, and 100 "rounds" of these runs in parallel.
+
+Within `$RVZR_DIR/src/benchmark-out-<defense>/`, the output for each parallel fuzzing round will appear as `log_round<i>_config000`.
+
+You can check how long the run has occured, as well as stdout/stderr, within `$RVZR_DIR/src/logs/bench-<defense>.txt`.
+Upon the end of a run, a results table will be generated, with this format:
+```
+==============================================================================================
+Config 0: /code/revizor-docker/docker/docker_stt/docker_gem5_v1_final_cache_tlb.yaml
+
+Command line: 
+python3.11 cli.py fuzz -s /code/revizor-docker/src/x86/isa_spec/base.json -i 2 -n 4 -c /code/revizor-docker/docker/docker_stt/docker_gem5_v1_final_cache_tlb.yaml -p bench_STT_config0_round0 --no-save-stats --result-dir=benchmark-out-STT/config0 --ruby --STT --STT_Futuristic --nonstop
+
+avg_wall_time: 44.64
+total_system_time: 446.41
+total_test_programs: 30
+input_count: 2
+total_test_cases: 60
+total_violations: 0
+avg_violations: 0.00
+
+contract_clause: ARCH-SEQ
+detected_violation: NO
+avg_detection_time: 0.00
+testing_throughput: 1.34
+campaign_execution_time: 44.64
+
+Detailed Results - Config 0
+===========================
+Round    | Execution Time (s)   | Test Cases   | Violations Found   | First Violation (s)   
+-------- | -------------------- | ------------ | ------------------ | ----------------------
+       0 |                57.36 |            3 |                  0 |                    N/A
+       1 |                46.20 |            3 |                  0 |                    N/A
+       2 |                47.06 |            3 |                  0 |                    N/A
+       3 |                55.95 |            3 |                  0 |                    N/A
+       4 |                35.50 |            3 |                  0 |                    N/A
+       5 |                47.16 |            3 |                  0 |                    N/A
+       6 |                48.67 |            3 |                  0 |                    N/A
+       7 |                27.18 |            3 |                  0 |                    N/A
+       8 |                54.97 |            3 |                  0 |                    N/A
+       9 |                26.36 |            3 |                  0 |                    N/A
+    Mean |                44.64 |            - |                0.0 |                      -
+ Std Dev |                11.30 |            - |               0.00 |                      -
+-------- | -------------------- | ------------ | ------------------ | ----------------------
+==============================================================================================
+```
+
+Hopefully your results table has some violations to discover!
+
 # Development
 - Any changes in the revizor-side repo besides `revizor_run.sh` & `optional_run.sh` needs to be pushed (so the container can pull the new updates)
 - Any changes at all in the gem5-side repo needs to be pushed
-- Only run the container after pushing new updates!
+- Outside changes can be pulled inside the container, but pushing inside changes will cause a git error
+- Must push new changes from outside container & pull them inside the container to get updates.
 
-## Git Messages
+## Git Messages (From microsoft/sca-fuzzer)
 
 We practice the following conventions for commit messages:
 

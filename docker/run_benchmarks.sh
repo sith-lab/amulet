@@ -119,23 +119,16 @@ for i in "${!DEFENSES[@]}"; do
     echo "✅ Completed benchmark for $defense"
 done
 
-TABLE_OUTPUT="$DOCKER_DIR/Table_5_Results.out"
+table_out="$DOCKER_DIR/Table_5_Results.out"
 # Create a temporary file for column formatting
-TMP_TABLE=$(mktemp)
+TMP=$(mktemp)
 # Define table header with separators
-echo -e "Defense\tContract\tDetected Violation?\tAvg. Detection Time (sec)\tTesting Throughput (test cases/sec)\tCampaign Execution Time" > "$TMP_TABLE"
-echo -e "---------------------------------------------------------------------------------------------------------------------------------" >> "$TMP_TABLE"
+echo -e "Defense\tContract\tDetected Violation?\tAvg. Detection Time (sec)\tTesting Throughput (test cases/sec)\tCampaign Execution Time" > "$TMP"
 # Append the data rows
 for row in "${table_data[@]}"; do
-    echo -e "$row" >> "$TMP_TABLE"
+    echo -e "$row" >> "$TMP"
 done
-# Format the table properly with aligned columns and separators
-{
-    echo
-    column -t -s $'\t' < "$TMP_TABLE" | sed 's/^/| /; s/$/ |/; s/\t/  |  /g'
-    echo
-} | tee "$TABLE_OUTPUT"
-# Remove temporary file
-rm -f "$TMP_TABLE"
+python3 format_benchmark_table.py "$TMP" "$table_out";
+cat "$table_out"
 
 echo "🎉 All benchmarks finished successfully!" | tee -a "$TABLE_OUTPUT"

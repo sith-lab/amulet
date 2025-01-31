@@ -7,15 +7,15 @@ DOCKER_DIR="$RVZR_DIR/docker"
 
 # Usage check
 if [ -z "$1" ]; then
-    echo "Usage: $0 <defense> [cases] [inputs] [rounds]"
+    echo "Usage: $0 <defense> [test cases] [inputs] [rounds]"
     exit 1
 fi
 
 # Arguments
 DEFENSE="$1"             # Required: Defense under test
-CASES="${2:-3}"        # Optional: Number of test cases - Default: 200
-INPUTS="${3:-2}"       # Optional: Number of inputs per test case - Default: 70
-ROUNDS="${4:-10}"       # Optional: Runs to have in parallel - Default: 100
+CASES="${2:-200}"        # Optional: Number of test cases - Default: 200
+INPUTS="${3:-70}"       # Optional: Number of inputs per test case - Default: 70
+ROUNDS="${4:-100}"       # Optional: Runs to have in parallel - Default: 100
 
 # Configuration sets
 CONF_INVISISPEC_BASELINE=$DOCKER_DIR/docker_invisispec/docker_gem5_v1_final_cache_ipcFP.yaml;

@@ -9,10 +9,23 @@ You can also provide the number of programs as an argument, e.g. `./Table_4_uarc
 if you want to try testing with a smaller number of programs first.
 
 ## Table 5: Results of testing defenses with AMuLeT-Opt
+
 Run `./run_benchmarks.sh` (within ./docker)
-This will automatically run a campaign for every defense in sequential order, and then generate the table with the run results.
+This will automatically run a campaign for every defense in sequential order, and then generate a table with all the run results.
 Alternatively, to get more detailed results for a given defense, run `$BENCHMARK_SH <defense>` inside of any defense's docker container.
 - Currently supported defenses are `(InvisiSpec|CleanupSpec|STT|SpecLFB)`
+
+The output of `./run_benchnmarks.sh` will be copied over to this directory as `Table_5_Results.out`. Here is some example output:
+```
++-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------+
+| Defense     | Contract | Detected Violation? | Avg. Detection Time (sec) | Testing Throughput (test cases/sec) | Campaign Execution Time |
++-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------+
+| InvisiSpec  | CT-SEQ   | NO                  | 0.00                      | 13.23                               | 4.54                    |
+| CleanupSpec | CT-SEQ   | NO                  | 0.00                      | 12.30                               | 4.88                    |
+| STT         | ARCH-SEQ | NO                  | 0.00                      | 1.15                                | 52.33                   |
+| SpecLFB     | CT-SEQ   | YES                 | 0.32                      | 18.98                               | 3.16                    |
++-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------+
+```
 
 ## Table 6: Smaller uarch structures
 
