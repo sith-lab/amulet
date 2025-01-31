@@ -4,8 +4,8 @@ set -e  # Exit immediately on any error
 DOCKER_DIR=$PWD  # Assumed to be (repo_root)/docker
 
 # DOLMA not yet supported
-DEFENSES=("InvisiSpec" "CleanupSpec" "STT" "SpecLFB")  # Used for benchmark
-LC_DEFENSES=("invisispec" "cleanupspec" "stt" "speclfb")  # Used for docker
+DEFENSES=("InvisiSpec" "CleanupSpec" "SpecLFB" "STT" )  # Used for benchmark
+LC_DEFENSES=("invisispec" "cleanupspec" "speclfb" "stt")  # Used for docker
 
 get_benchout_dir(){
   local lc_defense=$1

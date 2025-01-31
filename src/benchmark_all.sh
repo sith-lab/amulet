@@ -13,8 +13,8 @@ fi
 
 # Arguments
 DEFENSE="$1"             # Required: Defense under test
-CASES="${2:-5}"        # Optional: Number of test cases - Default: 200
-INPUTS="${3:-2}"       # Optional: Number of inputs per test case - Default: 70
+CASES="${2:-200}"        # Optional: Number of test cases - Default: 200
+INPUTS="${3:-70}"       # Optional: Number of inputs per test case - Default: 70
 PARALLEL_INSTANCES="${4:-50}"       # Optional: Runs to have in parallel - Default: 100
 # Currently using 50 parallel_instances due to reviewer request
 
