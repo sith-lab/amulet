@@ -4,10 +4,8 @@ set -e  # Exit immediately on any error
 DOCKER_DIR=$PWD  # Assumed to be (repo_root)/docker
 
 # DOLMA not yet supported
-# DEFENSES=("InvisiSpec" "CleanupSpec" "STT" "SpecLFB")  # Used for benchmark
-# LC_DEFENSES=("invisispec" "cleanupspec" "stt" "speclfb")  # Used for docker
-DEFENSES=("STT" "SpecLFB")  # Used for benchmark
-LC_DEFENSES=("stt" "speclfb")  # Used for docker
+DEFENSES=("InvisiSpec" "CleanupSpec" "STT" "SpecLFB")  # Used for benchmark
+LC_DEFENSES=("invisispec" "cleanupspec" "stt" "speclfb")  # Used for docker
 
 get_benchout_dir(){
   local lc_defense=$1
@@ -121,13 +119,23 @@ for i in "${!DEFENSES[@]}"; do
     echo "✅ Completed benchmark for $defense"
 done
 
-# --> CHANGED: Output results to a file
 TABLE_OUTPUT="$DOCKER_DIR/Table_5_Results.out"
-echo "📊 Table 5 Benchmark Results 📊" | tee "$TABLE_OUTPUT"
-echo -e "Defense\tContract\tDetected Violation?\tAvg. Detection Time (sec)\tTesting Throughput (test cases/sec)\tCampaign Execution Time" | tee -a "$TABLE_OUTPUT"
-echo -e "---------------------------------------------------------------------------------------------------------" | tee -a "$TABLE_OUTPUT"
+# Create a temporary file for column formatting
+TMP_TABLE=$(mktemp)
+# Define table header with separators
+echo -e "Defense\tContract\tDetected Violation?\tAvg. Detection Time (sec)\tTesting Throughput (test cases/sec)\tCampaign Execution Time" > "$TMP_TABLE"
+echo -e "---------------------------------------------------------------------------------------------------------------------------------" >> "$TMP_TABLE"
+# Append the data rows
 for row in "${table_data[@]}"; do
-    echo -e "$row" | tee -a "$TABLE_OUTPUT"
+    echo -e "$row" >> "$TMP_TABLE"
 done
+# Format the table properly with aligned columns and separators
+{
+    echo
+    column -t -s $'\t' < "$TMP_TABLE" | sed 's/^/| /; s/$/ |/; s/\t/  |  /g'
+    echo
+} | tee "$TABLE_OUTPUT"
+# Remove temporary file
+rm -f "$TMP_TABLE"
 
 echo "🎉 All benchmarks finished successfully!" | tee -a "$TABLE_OUTPUT"

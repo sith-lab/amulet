@@ -11,3 +11,4 @@ utils/ssh/*
 utils/.gitconfig
 
 zombie_*
+*.out
