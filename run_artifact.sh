@@ -1,6 +1,10 @@
 #!/bin/bash
 
-cd docker
+cd docker;
+
+echo 'Generating Table 5...'
+./run_benchmarks.sh &> run_benchmarks.out;
+cp -v ./Table_5_Results.out ../artifact_evaluation/Table_5_Results.out;
 
 echo 'Generating Table 4...'
 ./dockerRun.sh invisispec stop
@@ -9,7 +13,6 @@ while [ '!' '-f' 'docker_invisispec/revizor-docker/artifact_evaluation/Table_4_R
 	sleep 30
 done
 cp docker_invisispec/revizor-docker/artifact_evaluation/Table_4_Results* '.'
-
 
 echo 'Generating Table 6...'
 ./dockerRun.sh invisispec stop
