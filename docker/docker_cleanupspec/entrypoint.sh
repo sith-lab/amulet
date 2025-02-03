@@ -61,7 +61,7 @@ echo -e "\nDone post-docker setup! \n";
 
 ########################################## Auto run if set ##########################################
 
-# Given some AUTO_RUN_ARG="TEST_CASES=200 INPUTS=70 PARALLEL_INSTANCES=50"
+# Given some AUTO_RUN_ARG="TEST_CASES=200;INPUTS=70;PARALLEL_INSTANCES=50"
 set_benchmark_vars() {
     BENCHMARK_ARGS=$1
     # Check if BENCHMARK_ARGS is set, if not, simply return
@@ -71,8 +71,9 @@ set_benchmark_vars() {
     fi
     # Temporary storage for extracted values
     local test_cases="" inputs="" parallel_instances=""
-    # Loop through space-separated key=value pairs
-    for arg in $BENCHMARK_ARGS; do
+    # Loop through semicolon-separated key=value pairs
+    IFS=';' read -ra args <<< "$BENCHMARK_ARGS"
+    for arg in "${args[@]}"; do
         IFS='=' read -r key value <<< "$arg"
 
         case "$key" in
