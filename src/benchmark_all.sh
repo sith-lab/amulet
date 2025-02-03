@@ -40,37 +40,37 @@ case "$DEFENSE" in
   InvisiSpec_Baseline)
     args="--ruby,--InvisiSpec,--InvisiSpec_UnsafeBaseline"
     conf="$CONF_INVISISPEC_BASELINE"
-    timeout=4650 # In seconds, table 5 value * 1.25
+    # timeout=4650 # In seconds, table 5 value * 1.25
     ;;
   InvisiSpec)
     args="--ruby,--InvisiSpec,--InvisiSpec_Futuristic"
     conf="$CONF_INVISISPEC"
-    timeout=5550
+    # timeout=5550
     ;;
   CleanupSpec)
     args="--ruby,--CleanupSpec"
     conf="$CONF_CLEANUPSPEC"
-    timeout=1350
+    # timeout=1350
     ;;
   STT)
     args="--ruby,--STT,--STT_Futuristic"
     conf="$CONF_STT"
-    timeout=103750
+    # timeout=103750
     ;;
   STT_Baseline)
     args="--ruby,--STT,--STT_UnsafeBaseline"
     conf="$CONF_STT_BASELINE"
-    timeout=103750
+    # timeout=103750
     ;;
   SpecLFB)
     args="--SpecLFB"
     conf="$CONF_SPECLFB"
-    timeout=1350
+    # timeout=1350
     ;;
   SpecLFB_Baseline)
     args="--SpecLFB,--SpecLFB_UnsafeBaseline"
     conf="$CONF_SPECLFB_BASELINE"
-    timeout=1350
+    # timeout=1350
     ;;
   DOLMA)
     # args=""

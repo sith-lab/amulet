@@ -175,7 +175,7 @@ class Fuzzer:
             # self.print_htrace_bits(htraces)
             
             if (self.executor.bugged):
-                print("DEBUG: Buggy test case detected!")
+                print(f"Buggy test case detected for process {CONF.process_run}!")
                 return None
                 
             # print(len(set(ctraces)), 'unique ctraces')
