@@ -23,6 +23,17 @@ for i in $(seq 1 100); do
     python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --nonstop --ruby --InvisiSpec --InvisiSpec_Futuristic -i 70 -n 200 -c $YAML -p invisispec-$i &> logs/invisispec-$i.txt &
 done
 
+####################################################################################################
+
+# Benchmark run
+# ./benchmark_all.sh InvisiSpec 200 70 50
+
+# Testing
+# ./benchmark_all.sh InvisiSpec 7 10 20
+# ./benchmark_all.sh InvisiSpec 2 3 5
+
+####################################################################################################
+
 
 # Memory Trace
 # export USBL_TT_CTCONDBPAS_YAML=${MEMORY_TRACE_YAML_PATH};

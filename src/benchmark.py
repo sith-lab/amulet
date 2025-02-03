@@ -232,6 +232,7 @@ def main():
             total_violations = sum(violation_counts)
             avg_violations = statistics.fmean(violation_counts)
             std_violations = statistics.stdev(violation_counts) if len(violation_counts) > 1 else 0.0
+            first_violations: List[Optional[float]] = [config_results[r].first_violation for r in range(parallel_instances)]
             detected_violation = "NO"
             if total_violations > 0:
                 detected_violation = "YES"
@@ -264,16 +265,14 @@ def main():
             log(f"avg_detection_time: {total_violations/avg_wall_time:.2f}")
             log(f"testing_throughput: {total_test_cases/avg_wall_time:.2f}")
             log(f"campaign_execution_time: {avg_wall_time:.2f}")
-            
-            first_violations = [
-                config_results[r].first_violation if config_results[r].first_violation is not None else "N/A"
-                for r in range(parallel_instances)
-            ]
 
             # Combined Table for all metrics
+            formatted_first_violations = [f"{first_violations[r]:.2f}"
+                                          if first_violations[r] else "N/A"
+                                          for r in range(parallel_instances)]
             combined_rows = [
                 [r, f"{times[r]:.2f}", config_results[r].cases, violation_counts[r],
-                 f"{float(first_violations[r]):.2f}" if first_violations[r].replace('.', '', 1).isdigit() else first_violations[r]]
+                 formatted_first_violations[r]]
                 for r in range(parallel_instances)
             ]
 

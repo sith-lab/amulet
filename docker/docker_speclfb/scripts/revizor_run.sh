@@ -31,7 +31,7 @@ done
 ####################################################################################################
 
 # Benchmark run
-# ./benchmark_all.sh SpecLFB 200 70 100
+# ./benchmark_all.sh SpecLFB 200 70 50
 
 # Testing
 # ./benchmark_all.sh SpecLFB 7 10 20

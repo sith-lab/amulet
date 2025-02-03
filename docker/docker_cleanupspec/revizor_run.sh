@@ -15,11 +15,21 @@ export YAML=$CODE_DIR/revizor-docker/docker/docker_cleanupspec/docker_gem5_v1_fi
 
 cd $RVZR_DIR/src;
 
-
 # Example usages of Revizor with IPC orchestration
 for i in $(seq 1 100); do
     python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --nonstop --ruby --CleanupSpec -i 70 -n 200 -c $YAML -p cleanupspec-$i &> logs/cleanupspec-$i.txt &
 done
+
+####################################################################################################
+
+# Benchmark run
+# ./benchmark_all.sh CleanupSpec 200 70 50
+
+# Testing
+# ./benchmark_all.sh CleanupSpec 7 10 20
+# ./benchmark_all.sh CleanupSpec 2 3 5
+
+####################################################################################################
 
 # # Test known violation asm
 # nohup python3.11 ./cli.py fuzz --debug -c $YAML_PATH -s x86/isa_spec/base.json -n 100 -i 10 -t tests/spectre_v1.asm --ruby --CleanupSpec -p spectre_v1 &> $RVZR_DIR/spectre_v1_output.out &

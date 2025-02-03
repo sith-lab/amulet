@@ -10,6 +10,25 @@ export GEM5_DIR=$CODE_DIR/gem5-docker;
 cd $RVZR_DIR/src
 mkdir -p logs
 # Example usages of Revizor with IPC orchestration
+# for i in $(seq 1 100); do
+#     python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --DOLMA DOLMA_Conservative_M -i 70 -n 200 -c ../docker/docker_dolma/yamls/docker_gem5_v1_final_cache_tlb.yaml -p dolma-$i &> logs/dolma-$i.txt &
+# done
+
+# Testing
+# for i in $(seq 1 2); do
+#     python3.11 ./cli.py fuzz -s x86/isa_spec/base.json -t $RVZR_DIR/src/tests/spectre_v1.asm --DOLMA DOLMA_Conservative_M --ipc-show-output --debug --verbose -i 7 -n 10 -c ../docker/docker_dolma/yamls/docker_gem5_v1_final_cache_tlb.yaml -p dolma-$i &> logs/dolma-$i.txt &
+# done
+
+####################################################################################################
+
+# Benchmark run
+# ./benchmark_all.sh DOLMA 200 70 50
+
+# Testing
+# ./benchmark_all.sh DOLMA 7 10 20
+# ./benchmark_all.sh DOLMA 2 3 5
+
+####################################################################################################
 
 # for i in $(seq 1 50); do
 #     python3.11 ./cli.py fuzz -s x86/isa_spec/base.json --DOLMA DOLMA_Conservative_M -i 70 -n 1000 -c ../docker/docker_dolma/yamls/docker_gem5_v1_final_cache_tlb.yaml -p dolma-$i &> logs/dolma-$i.txt &
@@ -34,11 +53,6 @@ mkdir -p logs
 
 # assert False, "HERE"
 # fatal("HERE");
-
-# Testing
-for i in $(seq 1 2); do
-    python3.11 ./cli.py fuzz -s x86/isa_spec/base.json -t $RVZR_DIR/src/tests/spectre_v1.asm --DOLMA DOLMA_Conservative_M --ipc-show-output --debug --verbose -i 7 -n 10 -c ../docker/docker_dolma/yamls/docker_gem5_v1_final_cache_tlb.yaml -p dolma-$i &> logs/dolma-$i.txt &
-done
 
 # run violation analysis script on the violation:
 #   python3.11 analyse_ipc_violation.py results/Xhrs-Ymins-Zsecs/ --args '-s x86/isa_spec/base.json --DOLMA DOLMA_Conservative_M -i 10 -n 1 -c ../docker/docker_dolma/docker_gem5_v1_final_cache_tlb.yaml'

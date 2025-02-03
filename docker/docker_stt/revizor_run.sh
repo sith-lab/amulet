@@ -42,7 +42,7 @@ done
 ####################################################################################################
 
 # Benchmark run
-# ./benchmark_all.sh STT 200 70 100
+# ./benchmark_all.sh STT 200 70 50
 
 # Testing
 # ./benchmark_all.sh STT 7 10 20
