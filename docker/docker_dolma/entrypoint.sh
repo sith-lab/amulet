@@ -77,8 +77,8 @@ set_benchmark_vars() {
     fi
     # Temporary storage for extracted values
     local test_cases="" inputs="" parallel_instances=""
-    # Loop through semicolon-separated key=value pairs
-    IFS=';' read -ra args <<< "$BENCHMARK_ARGS"
+    # Loop through colon-separated key=value pairs
+    IFS=':' read -ra args <<< "$BENCHMARK_ARGS"
     for arg in "${args[@]}"; do
         IFS='=' read -r key value <<< "$arg"
 

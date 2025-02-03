@@ -89,7 +89,7 @@ for i in "${!DEFENSES[@]}"; do
     rm -rf "$(get_rvzr_dir "$lc_defense")"
 
     # Start container
-    BENCHMARK_ARGS="TEST_CASES=${TEST_CASES};INPUTS=${INPUTS};PARALLEL_INSTANCES=${PARALLEL_INSTANCES}";
+    BENCHMARK_ARGS="TEST_CASES=${TEST_CASES}:INPUTS=${INPUTS}:PARALLEL_INSTANCES=${PARALLEL_INSTANCES}";
     echo "📊 Benchmarking $defense with args: $BENCHMARK_ARGS 🚀"
     echo "🚀 Running: ./dockerRun.sh $lc_defense start benchmark $BENCHMARK_ARGS"
     if ! ./dockerRun.sh "$lc_defense" start benchmark "$BENCHMARK_ARGS"; then
