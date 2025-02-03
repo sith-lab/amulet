@@ -88,7 +88,7 @@ class X86Gem5(Executor):
     ASSIST_REGION_SIZE: int
     MAIN_REGION_SIZE: int
     
-    self.bugged: bool
+    bugged: bool
     
     def __init__(self):
         LOGGER.dbg_fuzzer(f"Using {CONF.input_main_region_size // 4096} pages in main region")
