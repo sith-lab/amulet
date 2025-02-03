@@ -173,6 +173,10 @@ class Fuzzer:
             if CONF.profile: STAT.ctrace_time += time.time() - ctrace_start
             htraces: List[HTrace] = self.executor.trace_test_case(boosted_inputs, round)
             # self.print_htrace_bits(htraces)
+            
+            if (self.executor.bugged):
+                print("DEBUG: Buggy test case detected!")
+                return None
                 
             # print(len(set(ctraces)), 'unique ctraces')
             if CONF.measure_uarch_diversity:

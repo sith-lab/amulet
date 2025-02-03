@@ -88,6 +88,8 @@ class X86Gem5(Executor):
     ASSIST_REGION_SIZE: int
     MAIN_REGION_SIZE: int
     
+    self.bugged: bool
+    
     def __init__(self):
         LOGGER.dbg_fuzzer(f"Using {CONF.input_main_region_size // 4096} pages in main region")
         self.MAIN_REGION_SIZE: int = CONF.input_main_region_size # Bytes
@@ -130,6 +132,7 @@ class X86Gem5(Executor):
         self.debug_files = {}
         self.last_tick = -1
         self.set_cmd()
+        self.bugged = False
         if self.orchestration == "ipc":
             self.ipc = Gem5IPCOrchestration()
             # self.ipc.restart_gem5(self.get_cmd("", False))
@@ -759,6 +762,7 @@ class X86Gem5(Executor):
             if not bug: self.process_gem5_output(gem5_output)
             bug = bug or gem5_output.split('because')[-1].split('\n')[0] == ' simulate() limit reached'
             if bug:
+                self.bugged = True
                 # Pass flag here: DONT TRUST THIS HWTRACE!
                 # If donttrust flag and vio, then not a real vio
                 self.copy_bugs(id_,input_,test_case_path)
@@ -817,8 +821,6 @@ class X86Gem5(Executor):
 
                 elif file == "config.ini":
                     self.copy_debug_file("{}/config.ini".format(self.gem5_output_location), "{}/{}/config_{}_{}.ini".format(CONF.debug_dir, CONF.test_case, id_, input_), error_if_not_found = False)
-
-
 
             # 6. cleanup
             if CONF.gem5_save_checkpoints:
@@ -896,6 +898,7 @@ class X86Gem5(Executor):
         if not bug: self.process_gem5_output(gem5_output)
         bug = bug or gem5_output.split('because')[-1].split('\n')[0] == ' simulate() limit reached'
         if bug:
+            self.bugged = True
             # Pass flag here: DONT TRUST THIS HWTRACE!
             # If donttrust flag and vio, then not a real vio
             self.copy_bugs(id_,input_,test_case_path)
