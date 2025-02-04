@@ -73,9 +73,9 @@ $RVZR_RUN # Inside container
 
 ## Artifact Evaluation
 
-Run `cd artifact_evaluation/ && ./run_artifact.sh`
+Run `./run_artifact.sh`
 
-Results for each table will be generated and placed in `Table_4_Results.txt`, `Table_5_Results.out`, and `Table_6_Results.txt` respectively.
+Results for each table will be generated and placed in `artifact_evaluation/Table_4_Results.txt`, `artifact_evaluation/Table_5_Results.out`, and `artifact_evaluation/Table_6_Results.txt` respectively.
 
 If you would like to generate each table individually, follow these instructions while within `./docker`:
 
