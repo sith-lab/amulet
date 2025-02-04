@@ -55,7 +55,8 @@ gather_data() {
     data+=("$value")
   done
   
-  echo "${data[@]}"
+  # Output tab-separated values
+  printf "%s\t" "${data[@]}"
 }
 
 cleanup_on_failure() {
@@ -120,8 +121,8 @@ for i in "${!DEFENSES[@]}"; do
     echo "✅ $info_file created"
     validate_info_file "$info_file"
 
-    # Gather results
-    table_data+=("$defense $(gather_data "$info_file")")
+    # Gather results; Also tab-separate $defense for table formatting
+    table_data+=("$defense\t$(gather_data "$info_file")")
 
     # Leave containers for now in case manual inspection needed
     # echo "🛑 Stopping container for $lc_defense"
@@ -134,7 +135,7 @@ done
 
 table_out="$DOCKER_DIR/Table_5_Results.out"
 # Create a temporary file for column formatting
-TMP=$(mktemp)
+TMP=benchmarks.out
 # Define table header with separators
 echo -e "Defense\tContract\tDetected Violation?\tAvg. Detection Time (sec)\tTesting Throughput (test cases/sec)\tCampaign Execution Time" > "$TMP"
 # Append the data rows
@@ -144,4 +145,4 @@ done
 python3 format_benchmark_table.py "$TMP" "$table_out";
 cat "$table_out"
 
-echo "🎉 All benchmarks finished successfully!" | tee -a "$TABLE_OUTPUT"
+echo "🎉 All benchmarks finished successfully!" | tee -a "$table_out"

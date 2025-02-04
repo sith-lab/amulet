@@ -3,18 +3,21 @@ import sys
 def format_table(input_file, output_file):
     # Read the file and process lines
     with open(input_file, "r") as f:
-        lines = [line.strip().split("\t") for line in f.readlines()]
+        lines = [line.strip().split("\t") for line in f.readlines() if line.strip()]
 
     # Extract headers and data
     header = lines[0]  # First row is the header
-    data = lines[2:]  # Skip separator row (second row)
+    data = lines[1:]  # All subsequent rows are data
+
+    # Ensure all rows have the same number of columns as the header
+    data = [row + [""] * (len(header) - len(row)) for row in data]
 
     # Determine column widths dynamically
     column_widths = [max(len(str(item)) for item in col) for col in zip(header, *data)]
 
     # Function to format a row with column separators
     def format_row(row):
-        return "| " + " | ".join(f"{col.ljust(width)}" for col, width in zip(row, column_widths)) + " |"
+        return "| " + " | ".join(f"{str(col).ljust(width)}" for col, width in zip(row, column_widths)) + " |"
 
     # Generate formatted table
     separator = "+-" + "-+-".join("-" * width for width in column_widths) + "-+"
@@ -25,6 +28,7 @@ def format_table(input_file, output_file):
     output_lines.append(separator)  # Closing separator
 
     table_string = "\n".join(output_lines)
+    
     # Write table to output file
     with open(output_file, "w") as f:
         f.write(table_string + "\n")
