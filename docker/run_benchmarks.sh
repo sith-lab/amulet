@@ -125,6 +125,7 @@ for i in "${!DEFENSES[@]}"; do
     table_data+=("$defense\t$(gather_data "$info_file")")
 
     # Leave containers for now in case manual inspection needed
+    echo "Leaving containers running for manual inspection."
     # echo "🛑 Stopping container for $lc_defense"
     # if ! ./dockerRun.sh "$lc_defense" stop; then
     #     echo "⚠️ WARNING: Failed to stop container for $defense. Continuing..."
