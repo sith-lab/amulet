@@ -138,7 +138,7 @@ table_out="$DOCKER_DIR/Table_5_Results.out"
 # Create a temporary file for column formatting
 TMP=benchmarks.out
 # Define table header with separators
-echo -e "Defense\tContract\tDetected Violation?\tAvg. Detection Time (sec)\tTesting Throughput (test cases/sec)\tCampaign Execution Time" > "$TMP"
+echo -e "Defense\tContract\tDetected Violation?\tAvg. Detection Time (sec)\tTesting Throughput (test cases/sec)\tCampaign Execution Time (sec)" > "$TMP"
 # Append the data rows
 for row in "${table_data[@]}"; do
     echo -e "$row" >> "$TMP"
