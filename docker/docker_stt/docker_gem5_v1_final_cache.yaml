@@ -53,7 +53,6 @@ gem5_ipc_parallelism: 4 # Default: 4
 # DRAM,O3CPUAll,ExecAll,Branch,RubyCache,LSQ,LSQUnit,Fetch,Decode
 debug_flags:
 - "RevizorIPC"
-- "Speclfb"
 - "Cache"
 # - "ExecEnable"
 # - "ExecX86Regs"
