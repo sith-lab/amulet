@@ -25,7 +25,7 @@ Alternatively, to get more detailed results for a given defense, run `$BENCHMARK
 
 - Currently supported defenses are `(InvisiSpec|CleanupSpec|STT|SpecLFB)`
 
-The output of `./run_benchnmarks.sh` will be copied over to this directory as `Table_5_Results.out`. Here is some example output:
+The output of `./run_benchmarks.sh` will be copied over to this directory as `Table_5_Results.out`. Here is some example output:
 ```
 +-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 | Defense     | Contract | Detected Violation? | Avg. Detection Time (sec) | Testing Throughput (test cases/sec) | Campaign Execution Time (sec) |
@@ -33,9 +33,24 @@ The output of `./run_benchnmarks.sh` will be copied over to this directory as `T
 | InvisiSpec  | CT-SEQ   | YES                 | 4.67                      | 640.01                              | 2187.46                       |
 | CleanupSpec | CT-SEQ   | YES                 | 1.66                      | 2430.62                             | 575.98                        |
 | SpecLFB     | CT-SEQ   | YES                 | 1.14                      | 3858.07                             | 362.88                        |
++-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
+```
+
+This table will take around ~2.5 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+
+
+We have also created a `./run_benchmarks_stt_only.sh`, as this run takes the longest time. It takes the same arguments as `./run_benchmarks.sh`.
+
+The output will be copied over as `Table_5_Results_stt_only.out`. Here is some example output:
+
+```
++-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
+| Defense     | Contract | Detected Violation? | Avg. Detection Time (sec) | Testing Throughput (test cases/sec) | Campaign Execution Time (sec) |
++-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 | STT         | ARCH-SEQ | YES                 | 12452.26                  | 22.49                               | 62261.31                      |
 +-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 ```
+This table will take around ~18 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 This table will take around ~19 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
