@@ -8,8 +8,8 @@ INPUTS=$2;
 PARALLEL_INSTANCES=$3;
 
 # DOLMA not yet supported
-DEFENSES=("InvisiSpec" "CleanupSpec" "SpecLFB" "STT" )  # Used for benchmark
-LC_DEFENSES=("invisispec" "cleanupspec" "speclfb" "stt")  # Used for docker
+DEFENSES=("InvisiSpec" "CleanupSpec" "SpecLFB" )  # Used for benchmark
+LC_DEFENSES=("invisispec" "cleanupspec" "speclfb")  # Used for docker
 
 # Check if either all or none of the benchmark arguments are set
 if ! { [[ -n "$TEST_CASES" && -n "$INPUTS" && -n "$PARALLEL_INSTANCES" ]] || \
