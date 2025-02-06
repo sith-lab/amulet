@@ -262,7 +262,10 @@ def main():
             # Following format from table 5
             log(f"contract_clause: {contract_clause}")
             log(f"detected_violation: {detected_violation}")
-            log(f"avg_detection_time: {avg_wall_time/total_violations:.2f}")
+            if total_violations == 0:
+                log(f"avg_detection_time: N/A")
+            else:
+                log(f"avg_detection_time: {avg_wall_time/total_violations:.2f}")
             log(f"testing_throughput: {total_test_cases/avg_wall_time:.2f}")
             log(f"campaign_execution_time: {avg_wall_time:.2f}")
 
