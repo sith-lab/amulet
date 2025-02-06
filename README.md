@@ -29,6 +29,8 @@ Please reach out if you would like to add support for your defense, we will be h
 
 # Installation
 
+- We provide the steps to set up root-less docker since many shared systems do not allow running docker without root privileges. If docker is already set up, then this is not necessary; Please run `docker run hello-world` to ensure docker is correctly set-up on your system.
+
 ## Docker Setup (on Ubuntu 24.04 host):
 1. Dependencies - https://docs.docker.com/engine/install/ubuntu/:
 ```bash
@@ -89,6 +91,8 @@ and a plaintext listing to `Table_4_Results.txt`.
 You can also provide the number of programs as an argument, e.g. `./Table_4_uarch_trace_formats.sh 10`,
 if you want to try testing with a smaller number of programs first.
 
+This table will take around ~22 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+
 ## Table 5: Results of testing defenses with AMuLeT-Opt
 
 Run `./run_benchmarks.sh`
@@ -106,15 +110,17 @@ Alternatively, to get more detailed results for a given defense, run `$BENCHMARK
 
 The output of `./run_benchnmarks.sh` will be copied over to this directory as `Table_5_Results.out`. Here is some example output:
 ```
-+-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------+
-| Defense     | Contract | Detected Violation? | Avg. Detection Time (sec) | Testing Throughput (test cases/sec) | Campaign Execution Time |
-+-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------+
-| InvisiSpec  | CT-SEQ   | NO                  | 0.00                      | 13.23                               | 4.54                    |
-| CleanupSpec | CT-SEQ   | NO                  | 0.00                      | 12.30                               | 4.88                    |
-| STT         | ARCH-SEQ | NO                  | 0.00                      | 1.15                                | 52.33                   |
-| SpecLFB     | CT-SEQ   | YES                 | 0.32                      | 18.98                               | 3.16                    |
-+-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------+
++-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
+| Defense     | Contract | Detected Violation? | Avg. Detection Time (sec) | Testing Throughput (test cases/sec) | Campaign Execution Time (sec) |
++-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
+| InvisiSpec  | CT-SEQ   | YES                 | 4.67                      | 640.01                              | 2187.46                       |
+| CleanupSpec | CT-SEQ   | YES                 | 1.66                      | 2430.62                             | 575.98                        |
+| SpecLFB     | CT-SEQ   | YES                 | 1.14                      | 3858.07                             | 362.88                        |
+| STT         | ARCH-SEQ | YES                 | 12452.26                  | 22.49                               | 62261.31                      |
++-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 ```
+
+This table will take around ~19 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 ### Table 6: Smaller uarch structures
 
