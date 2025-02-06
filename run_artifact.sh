@@ -16,7 +16,7 @@ while true; do
 	sleep 30
 	result_file=docker_invisispec/revizor-docker/artifact_evaluation/Table_6_Results.tex
 	# Wait for tex file to contain "end{document}"
-	if [ '-f' $result_file ] && grep 'end{document}' $result_file; then
+	if [ '-f' $result_file ] && grep -q 'end{document}' $result_file; then
 		break
 	fi
 done
