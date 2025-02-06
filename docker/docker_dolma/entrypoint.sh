@@ -13,6 +13,12 @@ export RVZR_RUN=$DOCKER_DIR/scripts/revizor_run.sh;
 export OPT_RUN=$DOCKER_DIR/scripts/optional_run.sh;
 export BENCHMARK_SH=$RVZR_DIR/src/benchmark_all.sh;
 
+if [ "$CLONE_WITH_SSH" != "" ]; then
+	export REPO_PREFIX='git@github.com:'
+else
+	export REPO_PREFIX='https://github.com/'
+fi
+
 # export VIOLATION_TEST_DIR=$RVZR_DIR/violation_test;
 # export MINIMIZE_DIR=$RVZR_DIR/src/tests/minimize;
 
@@ -26,10 +32,10 @@ shopt -u dotglob;
 echo "Done cleaning docker code dirs";
 
 # These will be bound to the container root user; git for these dirs will be unusable by outside observer!!!
-git -C /code/gem5-docker clone -b $GEM5_BRANCH git@github.com:sith-lab/amulet-gem5.git /code/gem5-docker;
+git -C /code/gem5-docker clone -b $GEM5_BRANCH "$REPO_PREFIX"sith-lab/amulet-gem5.git /code/gem5-docker;
 chmod -R 777 /code/gem5-docker; # Else will not be able to edit contents of code dirs from host side
 echo "Done pulling vanilla-gem5-testing-benchmark/$GEM5_BRANCH";
-git -C /code/revizor-docker clone -b $RVZR_BRANCH git@github.com:sith-lab/amulet.git /code/revizor-docker;
+git -C /code/revizor-docker clone -b $RVZR_BRANCH "$REPO_PREFIX"sith-lab/amulet.git /code/revizor-docker;
 chmod -R 777 /code/revizor-docker;
 echo "Done pulling revizor-gem5/$RVZR_BRANCH";
 
