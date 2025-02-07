@@ -55,7 +55,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 3. Post-Installation Steps (for rootless mode) - https://docs.docker.com/engine/install/linux-postinstall/
 ```bash
   sudo groupadd docker
-  sudo gpasswd -a $USER docker # Will no longer need sudo perms to run docker!
+  sudo usermod -aG docker $USER  # Will no longer need sudo perms to run docker!
   newgrp docker # Or log out&in
 ```
 
