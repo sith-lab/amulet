@@ -57,6 +57,17 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
   sudo groupadd docker
   sudo gpasswd -a $USER docker # Will no longer need sudo perms to run docker!
   newgrp docker # Or log out&in
+```
+
+- Now, verify your user is now a member of the `docker` group.
+```bash
+  # Should output that you are a member of the docker group, like so:
+  fubof@dolphin:~/code$ groups
+  docker sudo fubof
+```
+
+- Lastly, run these steps to start up docker and verify that it runs.
+```bash
   sudo service docker start
   sudo service --status-all
   docker run hello-world
