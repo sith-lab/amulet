@@ -102,6 +102,7 @@ main() {
         print_help;
       elif [ "$ACTION" == "start" ]; then
         cp $HOME/.gitconfig $DOCKER_ROOT/utils/.gitconfig || touch $DOCKER_ROOT/utils/.gitconfig;
+        mkdir -p $DOCKER_ROOT/utils/ssh;  # Ensure the empty dir exists to copy
         if [ "$CLONE_WITH_SSH" != '' ]; then
           grab_ssh; # utils folder should now be ready to copy
         fi
