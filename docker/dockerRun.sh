@@ -102,8 +102,9 @@ main() {
         print_help;
       elif [ "$ACTION" == "start" ]; then
         cp $HOME/.gitconfig $DOCKER_ROOT/utils/.gitconfig || touch $DOCKER_ROOT/utils/.gitconfig;
-        grab_ssh; # utils folder should now be ready to copy
-
+        if [ "$CLONE_WITH_SSH" != '' ]; then
+          grab_ssh; # utils folder should now be ready to copy
+        fi
         # Assumes defense specific Dockerfiles are in $DOCKER_ROOT/docker_$DEFENSE
         export CONTAINER_NAME=$DEFENSE;
         export TAG_NAME=$DEFENSE;
@@ -139,6 +140,7 @@ main() {
           docker run -d \
           -e AUTO_RUN=$AUTO_RUN \
           -e AUTO_RUN_ARG=$AUTO_RUN_ARG \
+          -e CLONE_WITH_SSH=$CLONE_WITH_SSH \
           --name $CONTAINER_NAME \
           --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
           --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
@@ -150,6 +152,7 @@ main() {
           docker run -d \
           -e AUTO_RUN=$AUTO_RUN \
           -e AUTO_RUN_ARG=$AUTO_RUN_ARG \
+          -e CLONE_WITH_SSH=$CLONE_WITH_SSH \
           --name $CONTAINER_NAME \
           --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
           --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
