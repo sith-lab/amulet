@@ -3,11 +3,6 @@
 
 cd docker;
 
-# Table 5
-echo 'Generating Table 5 for InvisiSpec, CleanupSpec, SpecLFB...'
-./run_benchmarks.sh 200 70 100;
-cp -v ./Table_5_Results.out ../artifact_evaluation/Table_5_Results.out;
-
 # Table 6
 echo 'Generating Table 6...'
 ./dockerRun.sh invisispec stop
@@ -22,6 +17,10 @@ while true; do
 done
 cp docker_invisispec/revizor-docker/artifact_evaluation/Table_6_Results* ../artifact_evaluation/
 
+# Table 5
+echo 'Generating Table 5 for InvisiSpec, CleanupSpec, SpecLFB...'
+./run_benchmarks.sh 200 70 100;
+cp -v ./Table_5_Results.out ../artifact_evaluation/Table_5_Results.out;
 # Table 5 for STT
 echo 'Generating Table 5 for STT...'
 ./run_benchmarks_stt_only.sh 200 70 100;
