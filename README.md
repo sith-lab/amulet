@@ -1,5 +1,7 @@
 # AMuLeT
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14847073.svg)](https://doi.org/10.5281/zenodo.14847073)
+
 This is AMuLeT, the Automated Microarchitectural Leak Tester.
 
 AMuLeT is a fuzz testing framework, which uses relational testing to find microarchitectural leakages in simulated CPUs and in Spectre countermeasures modeled in microarchitectural simulators. We compare executions on an emulater ([Unicorn Engine](https://www.unicorn-engine.org/)) and on a defense implemented in a microarchitectural simulator [gem5](https://www.gem5.org/). If it finds 2 test cases (program + input) with the same emulated behavior, but different microarchitectural behavior (i.e. cache state, branch predictor state, etc.), it flags a microarchitectural leak in the defense.  
