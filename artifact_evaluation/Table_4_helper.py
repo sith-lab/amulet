@@ -16,7 +16,7 @@ if len(sys.argv) != 2:
     raise ValueError('Expected exactly one argument (program count)')
 program_count = int(sys.argv[1])
 input_count = 2 * 70
-parallel_runs = 50
+parallel_runs = 100
 
 results = {x: set() for x, _ in names}
 timings = {x: [] for x, _ in names}

@@ -201,7 +201,7 @@ The fuzzer is controlled via a single command line interface `cli.py` (located i
 
 Within a docker container, to run a campaign against a defense, run `$BENCHMARK_SH <defense> [test cases] [inputs] [parallel_instances]`
 - Currently supported defenses are `(InvisiSpec|CleanupSpec|STT|SpecLFB)`
-- `[test cases] [inputs] [parallel_instances]` are optional args. By default, we run 200 test cases, each with 70 inputs, and **50** instances of runs in parallel.
+- `[test cases] [inputs] [parallel_instances]` are optional args. By default, we run 200 test cases, each with 70 inputs, and 100 instances of runs in parallel.
   - Default is 100 `parallel_instances`. For systems with less parallelism, you can reduce it to 50 (which should also detect our violations).
 
 Within `$RVZR_DIR/src/benchmark-out-<defense>/`, the output for each parallel fuzzing round will appear as `log_round<i>_config000`.

@@ -37,7 +37,7 @@ parser.add_argument('-o', '--output',
     help='output directory', default=f'benchmark-out-{timestamp}')
 parser.add_argument('--stop-after-first-violation', action='store_true')
 parser.add_argument('-r', '--parallel_instances', type=int,
-    help='number of fuzzing runs in parallel', default=50)
+    help='number of fuzzing runs in parallel', default=100)
 parser.add_argument('-p', '--process', type=str,
     help='process identifier - if you are running multiple benchmarks at once, this must be different for each one!', default='')
 args = parser.parse_args()
