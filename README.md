@@ -2,9 +2,13 @@
 
 This is AMuLeT, the Automated Microarchitectural Leak Tester.
 
-AMuLeT is a white-box fuzz testing framework, which uses relational testing to find microarchitectural system leakage. We test a reference architectural simulator ([Unicorn Engine](https://www.unicorn-engine.org/)) against a theoretical microarchitectural defense, typically implemented in the microarchtectural simulator [gem5](https://www.gem5.org/). For any 2 test cases (program + input), if their end state is architecturally equivalent (i.e. registers, data values) but not microarchitecturally equivalent (i.e. cache state, branch predictor tables), then we can determine that this test case causes a microarchitectural leak in the defense.
+AMuLeT is a fuzz testing framework, which uses relational testing to find microarchitectural leakages in simulated CPUs and in Spectre countermeasures modeled in microarchitectural simulators. We compare executions on an emulater ([Unicorn Engine](https://www.unicorn-engine.org/)) and on a defense implemented in a microarchitectural simulator [gem5](https://www.gem5.org/). If it finds 2 test cases (program + input) with the same emulated behavior, but different microarchitectural behavior (i.e. cache state, branch predictor state, etc.), it flags a microarchitectural leak in the defense.  
 
-This work builds upon and is inspired by [Revizor](https://github.com/microsoft/sca-fuzzer).
+For more details, please take a look at our [ASPLOS'25](https://gururaj-s.github.io/assets/pdf/ASPLOS25_Amulet.pdf) paper.   
+  
+If you use our tool, please cite our paper:  
+**AMuLeT: Automated Design-Time Testing of Secure Speculation Countermeasures**. Bo Fu*, Leo Tenenbaum*, David Adler, Assaf Klein, Arpit Gogia, Alaa R. Alameldeen, Marco Guarnieri, Mark Silberstein, Oleksii Oleksenko, and Gururaj Saileshwar 
+In *30th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS), 2025*  
 
 # Supported Defenses (so far):
 - Baseline (no defense)
@@ -12,7 +16,6 @@ This work builds upon and is inspired by [Revizor](https://github.com/microsoft/
 - CleanupSpec 
 - STT
 - SpecLFB
-- DOLMA (In progress; Benchmarking is unimplemented yet)
 
 Please reach out if you would like to add support for your defense, we will be happy to accept a PR.
 
@@ -22,7 +25,8 @@ Please reach out if you would like to add support for your defense, we will be h
 
 * Hardware Requirements
 
-    So far, AMuLeT supports only the x86 ISA, as both the host and the simulation base.
+    * AMuLeT supports the x86 ISA, for both the host and the simulation base.
+    * 100-core server with 128GB RAM can run our full campaigns with 100 parallel runs (~50 cores can also run a smaller campaigns with 50 parallel runs, that should detect all our violations)
 
 * Software Requirements
     * Docker
@@ -156,6 +160,8 @@ and a plaintext listing to `Table_6_Results.txt`.
 You can also provide the number of programs as an argument, e.g. `./Table_6_Smaller_uarch_structures.sh 10`,
 if you want to try testing with a smaller number of programs first.
 
+**Note:** Like any fuzzing framework, we automatate the vulnerability detection, but root-causing it is a manual process and not provided by the above scripts. Please take a look at our paper to understand how we root-cause identified leaks, if you are using it to test your defense. 
+
 ## Docker Flow
 
 Given defense 'stt':
@@ -190,13 +196,13 @@ The fuzzer is controlled via a single command line interface `cli.py` (located i
 * `-i , --num-inputs N` - number of input classes per test case. The number of actual inputs = input classes * inputs_per_class, which is a configuration option
 * `-t , --testcase PATH` - use an existing test case instead of generating random test cases
 
-# Benchmarking
+# Running Campaigns
  - Please see artifact_evaluation/README.md to generate all tables from paper
 
-Within a docker container, run `$BENCHMARK_SH <defense> [test cases] [inputs] [parallel_instances]`
+Within a docker container, to run a campaign against a defense, run `$BENCHMARK_SH <defense> [test cases] [inputs] [parallel_instances]`
 - Currently supported defenses are `(InvisiSpec|CleanupSpec|STT|SpecLFB)`
 - `[test cases] [inputs] [parallel_instances]` are optional args. By default, we run 200 test cases, each with 70 inputs, and **50** instances of runs in parallel.
-  - Default on the paper is 100 `parallel_instances`. Changed to 50 by reviewer request. Worse performance is expected with only 50 `parallel_instances`.
+  - Default is 100 `parallel_instances`. For systems with less parallelism, you can reduce it to 50 (which should also detect our violations).
 
 Within `$RVZR_DIR/src/benchmark-out-<defense>/`, the output for each parallel fuzzing round will appear as `log_round<i>_config000`.
 
@@ -243,17 +249,15 @@ Round    | Execution Time (s)   | Test Cases   | Violations Found   | First Viol
 ==============================================================================================
 ```
 
-Hopefully your results table has some violations to discover!
-
 # Development
-- Any changes in the revizor-side repo besides `revizor_run.sh` & `optional_run.sh` needs to be pushed (so the container can pull the new updates)
-- Any changes at all in the gem5-side repo needs to be pushed
-- Outside changes can be pulled inside the container, but pushing inside changes will cause a git error
+- If you plan to extend Amulet locally, please fork the amulet and amulet-gem5 (defense) repositories and update the remote addresses in the docker scripts.
+- Any changes in your amulet or amulet-gem5 repos will needs to be pushed to remote, so the container can pull the new updates during builds
 - Must push new changes from outside container & pull them inside the container to get updates.
+- Pushing changes from inside the container will cause a git error.
 
-## Git Messages (From microsoft/sca-fuzzer)
+## Comment Messages
 
-We practice the following conventions for commit messages:
+We practice the following conventions for commit messages (similar to microsoft/sca-fuzzer):
 
 ```
 <scope>: [<type>] <subject>
