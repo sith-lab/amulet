@@ -108,7 +108,7 @@ and a plaintext listing to `Table_4_Results.txt`.
 You can also provide the number of programs as an argument, e.g. `./Table_4_uarch_trace_formats.sh 10`,
 if you want to try testing with a smaller number of programs first.
 
-This table will take around ~22 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 50 parallel instances, this table will take around ~22 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 ## Table 5: Results of testing defenses with AMuLeT-Opt
 
@@ -136,7 +136,7 @@ The output of `./run_benchmarks.sh` will be copied over to this directory as `Ta
 +-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 ```
 
-This table will take around ~2.5 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 50 parallel instances, this table will take around ~2.5 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 
 We have also created a `./run_benchmarks_stt_only.sh`, as this run takes the longest time. It takes the same arguments as `./run_benchmarks.sh`.
@@ -150,7 +150,7 @@ The output will be copied over as `Table_5_Results_stt_only.out`. Here is some e
 | STT         | ARCH-SEQ | YES                 | 12452.26                  | 22.49                               | 62261.31                      |
 +-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 ```
-This table will take around ~18 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 50 parallel instances, this table will take around ~18 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 ### Table 6: Smaller uarch structures
 
@@ -162,7 +162,7 @@ and a plaintext listing to `Table_6_Results.txt`.
 You can also provide the number of programs as an argument, e.g. `./Table_6_Smaller_uarch_structures.sh 10`,
 if you want to try testing with a smaller number of programs first.
 
-**Note:** Like any fuzzing framework, we automatate the vulnerability detection, but root-causing it is a manual process and not provided by the above scripts. Please take a look at our paper to understand how we root-cause identified leaks, if you are using it to test your defense. 
+**Note:** Like any fuzzing framework, we automatate the vulnerability detection, but root-causing it is a manual process and not provided by the above scripts. Please take a look at our paper to understand how we root-cause identified leaks, if you are using it to test your defense.
 
 ## Docker Flow
 
@@ -170,10 +170,10 @@ Given defense 'stt':
 - `dockerRun.sh` calls `stt.Dockerfile` (in `docker_stt`)
 - `stt.Dockerfile` calls `entrypoint.sh`
 - `entrypoint.sh`:
-  - "Borrows" your host system credentials (entire `~/.ssh` dir) to pull `https://github.com/mguarnieri/vanilla-gem5-testing-benchmark/tree/STT-IPC`
-  - Calls `revizor_run.sh`
+  - "Borrows" your host system credentials (entire `~/.ssh` dir) to pull `https://github.com/sith-lab/amulet-gem5/tree/stt`
+  - Returns a bash shell. Invoke `$RVZR_RUN` to execute fuzzing campaign.
 
-**Please put all your run instantiation code into the respective `docker_<defense>/revizor_run.sh`!**
+To facilitate future debugging, please keep run instantiation code into the respective `docker_<defense>/revizor_run.sh`!
 
 # Fuzzing Example
 
@@ -252,8 +252,8 @@ Round    | Execution Time (s)   | Test Cases   | Violations Found   | First Viol
 ```
 
 # Development
-- If you plan to extend Amulet locally, please fork the amulet and amulet-gem5 (defense) repositories and update the remote addresses in the docker scripts.
-- Any changes in your amulet or amulet-gem5 repos will needs to be pushed to remote, so the container can pull the new updates during builds
+- If you plan to extend AMuLeT locally, please fork the `amulet` (core) and `amulet-gem5` (defense) repositories and update the remote addresses in the docker scripts.
+- Any changes in your `amulet` or `amulet-gem5` repos must be pushed to remote, so the container can pull the new updates during builds
 - Must push new changes from outside container & pull them inside the container to get updates.
 - Pushing changes from inside the container will cause a git error.
 

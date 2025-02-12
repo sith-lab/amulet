@@ -8,7 +8,7 @@ and a plaintext listing to `Table_4_Results.txt`.
 You can also provide the number of programs as an argument, e.g. `./Table_4_uarch_trace_formats.sh 10`,
 if you want to try testing with a smaller number of programs first.
 
-This table will take around ~22 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 50 parallel instances, this table will take around ~22 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 ## Table 5: Results of testing defenses with AMuLeT-Opt
 
@@ -36,7 +36,7 @@ The output of `./run_benchmarks.sh` will be copied over to this directory as `Ta
 +-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 ```
 
-This table will take around ~2.5 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 50 parallel instances, this table will take around ~2.5 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 
 We have also created a `./run_benchmarks_stt_only.sh`, as this run takes the longest time. It takes the same arguments as `./run_benchmarks.sh`.
@@ -50,9 +50,8 @@ The output will be copied over as `Table_5_Results_stt_only.out`. Here is some e
 | STT         | ARCH-SEQ | YES                 | 12452.26                  | 22.49                               | 62261.31                      |
 +-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 ```
-This table will take around ~18 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
-This table will take around ~19 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 50 parallel instances, this table will take around ~19 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 ## Table 6: Smaller uarch structures
 
