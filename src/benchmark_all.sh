@@ -39,42 +39,34 @@ case "$DEFENSE" in
   InvisiSpec_Baseline)
     args="--ruby,--InvisiSpec,--InvisiSpec_UnsafeBaseline"
     conf="$CONF_INVISISPEC_BASELINE"
-    timeout=7440  # In seconds, at least (table 5 value) * 2
     ;;
   InvisiSpec)
     args="--ruby,--InvisiSpec,--InvisiSpec_Futuristic"
     conf="$CONF_INVISISPEC"
-    timeout=8880
     ;;
   CleanupSpec)
     args="--ruby,--CleanupSpec"
     conf="$CONF_CLEANUPSPEC"
-    timeout=2160
     ;;
   STT)
     args="--ruby,--STT,--STT_Futuristic"
     conf="$CONF_STT"
-    timeout=124470  # In seconds, (table 5 value) * 1.5
     ;;
   STT_Baseline)
     args="--ruby,--STT,--STT_UnsafeBaseline"
     conf="$CONF_STT_BASELINE"
-    timeout=124470
     ;;
   SpecLFB)
     args="--SpecLFB"
     conf="$CONF_SPECLFB"
-    timeout=2160
     ;;
   SpecLFB_Baseline)
     args="--SpecLFB,--SpecLFB_UnsafeBaseline"
     conf="$CONF_SPECLFB_BASELINE"
-    timeout=2160
     ;;
   DOLMA)
     # args=""
     # conf=""
-    # timeout=0
     echo "DOLMA is not yet implemented."
     # TODO add suitable yaml file, check working with './benchmark_all.sh DOLMA 2 3 5'
     exit 1;
@@ -111,8 +103,8 @@ $PYTHON_CALL benchmark.py -i "$INPUTS" \
                --extra-args="$args" \
                -p "$DEFENSE" \
                -o "benchmark-out-$DEFENSE" \
-                -t "$timeout" \
-               > "logs/bench-$DEFENSE.txt" 2>&1
+               2>&1
+               # > "logs/bench-$DEFENSE.txt"
                # --verbose
 
 echo "Benchmark completed. Logs saved to $RVZR_DIR/src/benchmark-out-$DEFENSE/info.txt"
