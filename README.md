@@ -1,6 +1,6 @@
 # AMuLeT
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14847073.svg)](https://doi.org/10.5281/zenodo.14847073)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14783060.svg)](https://doi.org/10.5281/zenodo.14783060)
 
 This is AMuLeT, the Automated Microarchitectural Leak Tester.
 

@@ -103,7 +103,7 @@ $PYTHON_CALL benchmark.py -i "$INPUTS" \
                --extra-args="$args" \
                -p "$DEFENSE" \
                -o "benchmark-out-$DEFENSE" \
-               > "logs/bench-$DEFENSE.txt" 2>&1
+               2>&1 | tee "logs/bench-$DEFENSE.txt"
                # --verbose
 
 echo "Benchmark completed. Logs saved to $RVZR_DIR/src/benchmark-out-$DEFENSE/info.txt"
