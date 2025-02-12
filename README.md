@@ -92,7 +92,9 @@ $RVZR_RUN # Inside container
 
 ## Artifact Evaluation
 
-Run `./run_artifact.sh`
+- Please see `artifact_evaluation/debug.md` for debugging assistance!
+
+**Run `./run_artifact.sh`**
 
 Results for each table will be generated and placed in `artifact_evaluation/Table_4_Results.txt`, `artifact_evaluation/Table_5_Results.out`, `artifact_evaluation/Table_5_Results_stt_only.out`, and `artifact_evaluation/Table_6_Results.txt` respectively.
 
@@ -163,6 +165,9 @@ You can also provide the number of programs as an argument, e.g. `./Table_6_Smal
 if you want to try testing with a smaller number of programs first.
 
 **Note:** Like any fuzzing framework, we automatate the vulnerability detection, but root-causing it is a manual process and not provided by the above scripts. Please take a look at our paper to understand how we root-cause identified leaks, if you are using it to test your defense.
+
+For 50 parallel instances, this table will take around ~3 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 100 parallel instances, this table will take around ~9 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 ## Docker Flow
 

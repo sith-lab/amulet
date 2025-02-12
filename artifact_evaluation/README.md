@@ -1,3 +1,6 @@
+## Debugging
+Please see `artifact_evaluation/debug.md` for debugging assistance!
+
 ## Table 4: Different uarch trace formats
 
 Run `./dockerRun.sh invisispec start uarch_trace_formats`, or run
@@ -51,7 +54,7 @@ The output will be copied over as `Table_5_Results_stt_only.out`. Here is some e
 +-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 ```
 
-For 50 parallel instances, this table will take around ~19 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 50 parallel instances, this table will take around ~18 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 ## Table 6: Smaller uarch structures
 
@@ -62,3 +65,6 @@ and a plaintext listing to `Table_6_Results.txt`.
 
 You can also provide the number of programs as an argument, e.g. `./Table_6_Smaller_uarch_structures.sh 10`,
 if you want to try testing with a smaller number of programs first.
+
+For 50 parallel instances, this table will take around ~3 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 100 parallel instances, this table will take around ~9 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
