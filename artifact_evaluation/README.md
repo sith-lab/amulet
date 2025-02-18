@@ -12,6 +12,7 @@ You can also provide the number of programs as an argument, e.g. `./Table_4_uarc
 if you want to try testing with a smaller number of programs first.
 
 For 50 parallel instances, this table will take around ~22 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 100 parallel instances, this table will take around ~76 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 ## Table 5: Results of testing defenses with AMuLeT-Opt
 
@@ -33,13 +34,14 @@ The output of `./run_benchmarks.sh` will be copied over to this directory as `Ta
 +-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 | Defense     | Contract | Detected Violation? | Avg. Detection Time (sec) | Testing Throughput (test cases/sec) | Campaign Execution Time (sec) |
 +-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
-| InvisiSpec  | CT-SEQ   | YES                 | 4.67                      | 640.01                              | 2187.46                       |
-| CleanupSpec | CT-SEQ   | YES                 | 1.66                      | 2430.62                             | 575.98                        |
-| SpecLFB     | CT-SEQ   | YES                 | 1.14                      | 3858.07                             | 362.88                        |
+| InvisiSpec  | CT-SEQ   | YES                 | 5.17                      | 627.03                              | 4465.53                       |
+| CleanupSpec | CT-SEQ   | YES                 | 1.75                      | 2318.43                             | 1207.71                       |
+| SpecLFB     | CT-SEQ   | YES                 | 1.29                      | 3042.56                             | 920.28                        |
 +-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 ```
 
 For 50 parallel instances, this table will take around ~2.5 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 100 parallel instances, this table will take around ~4 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 
 We have also created a `./run_benchmarks_stt_only.sh`, as this run takes the longest time. It takes the same arguments as `./run_benchmarks.sh`.
@@ -47,14 +49,14 @@ We have also created a `./run_benchmarks_stt_only.sh`, as this run takes the lon
 The output will be copied over as `Table_5_Results_stt_only.out`. Here is some example output:
 
 ```
-+-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
-| Defense     | Contract | Detected Violation? | Avg. Detection Time (sec) | Testing Throughput (test cases/sec) | Campaign Execution Time (sec) |
-+-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
-| STT         | ARCH-SEQ | YES                 | 12452.26                  | 22.49                               | 62261.31                      |
-+-------------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
++---------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
+| Defense | Contract | Detected Violation? | Avg. Detection Time (sec) | Testing Throughput (test cases/sec) | Campaign Execution Time (sec) |
++---------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
+| STT     | ARCH-SEQ | YES                 | 6502.58                   | 26.91                               | 104041.32                     |
++---------+----------+---------------------+---------------------------+-------------------------------------+-------------------------------+
 ```
-
 For 50 parallel instances, this table will take around ~18 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
+For 100 parallel instances, this table will take around ~57 hours to generate. (Tested on an AMD EPYC 7713 @ 3.72GHz)
 
 ## Table 6: Smaller uarch structures
 
