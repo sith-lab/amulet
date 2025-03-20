@@ -10,5 +10,9 @@ docker_*/utils
 utils/ssh/*
 utils/.gitconfig
 
+# SPEC 2006 output
+gem5_perf
+gem5_perf/*
+
 zombie_*
 *.out

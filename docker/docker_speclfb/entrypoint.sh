@@ -7,10 +7,12 @@ export RVZR_BRANCH=ipc;
 
 export RVZR_DIR=/code/revizor-docker;
 export GEM5_DIR=/code/gem5-docker;
+export GEM5_PERF_ROOT=/code/gem5_perf;
 
 export DOCKER_DIR=$RVZR_DIR/docker/docker_speclfb;
 export RVZR_RUN=$DOCKER_DIR/scripts/revizor_run.sh;
 export OPT_RUN=$DOCKER_DIR/scripts/optional_run.sh;
+export SPECBENCH_RUN=$DOCKER_DIR/scripts/specbench.sh;
 export BENCHMARK_SH=$RVZR_DIR/src/benchmark_all.sh;
 
 # export VIOLATION_TEST_DIR=$RVZR_DIR/violation_test;
@@ -109,6 +111,9 @@ if [[ -n "$AUTO_RUN" ]]; then
     if [[ "${AUTO_RUN,,}" == "fuzz" ]]; then
       echo "Running fuzzer: Check output at: $RVZR_DIR/revizor_run.out";
       $RVZR_RUN &> $RVZR_DIR/revizor_run.out;
+    elif [[ "${AUTO_RUN,,}" == "specbench" ]]; then
+      echo "Running SPEC benchmarks: Check output at: $GEM5_PERF_ROOT/";
+      $SPECBENCH_RUN &> $GEM5_PERF_ROOT/specbench.out;
     elif [[ "${AUTO_RUN,,}" == "benchmark" ]]; then
       echo "Running benchmark: Check output at: $RVZR_DIR/src/logs/bench-SpecLFB.txt and $RVZR_DIR/src/logs/benchmark-out-SpecLFB/";
       $BENCHMARK_SH SpecLFB "$TEST_CASES" "$INPUTS" "$PARALLEL_INSTANCES" &> $RVZR_DIR/bench_sh.out;

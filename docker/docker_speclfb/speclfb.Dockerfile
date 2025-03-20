@@ -62,6 +62,9 @@ RUN apt-get -y update && apt-get -y upgrade && \
     libhdf5-dev libhdf5-hl-cpp-100 libhdf5-cpp-103 python3-pip
     # Revamped for Ubuntu 22.04 (gem5 >= v21.1)
 
+# Spec-2006
+# RUN apt-get -y install gfortran
+
 # Install custom Python for Revizor
 # RUN wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz && tar xzf Python-3.11.4.tgz
 # RUN cd /code/Python-3.11.4 && ./configure --enable-optimizations && make altinstall
