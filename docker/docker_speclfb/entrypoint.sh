@@ -24,6 +24,8 @@ rm -rf gem5-docker;
 mkdir gem5-docker;
 rm -rf revizor-docker;
 mkdir revizor-docker;
+rm -rf gem5_perf;
+mkdir gem5_perf;
 shopt -u dotglob;
 echo "Done cleaning docker code dirs";
 
