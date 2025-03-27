@@ -1,5 +1,5 @@
-# export SPEC_PATH=/code/bmarks/ubuntu2204/spec2017; # SPEC 2017
 export SPEC_PATH=/code/bmarks/ubuntu2204/spec2k6; # SPEC 2006
+# export SPEC_PATH=/code/bmarks/ubuntu2204/spec2017; # SPEC 2017
 export GEM5_PATH=/code/gem5-docker;
 export GEM5_PERF_ROOT=/code/gem5_perf;
 
