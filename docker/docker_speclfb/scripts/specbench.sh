@@ -2,6 +2,13 @@ export SPEC_PATH=/code/bmarks/ubuntu2204/spec2k6;
 export GEM5_PATH=/code/gem5-docker;
 export GEM5_PERF_ROOT=/code/gem5_perf;
 
+# Set up
+# cd /code/gem5-docker;
+# export CORES=$(( `nproc --all` + 1));
+# python3 `which scons` -j$CORES build/X86/gem5.opt --default=X86 --ignore-style;
+# echo "Done compiling gem5"
+# ./build/X86/gem5.opt configs/learning_gem5/part1/simple.py # gem5 Hello World!
+
 #/code/gem5-docker/exp_script/ckptscript.sh soplex
 #/code/gem5-docker/exp_script/run_spec_from_ckpt.sh soplex UnsafeBaseline
 
