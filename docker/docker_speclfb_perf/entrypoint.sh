@@ -11,6 +11,9 @@ export RVZR_RUN=$DOCKER_DIR/scripts/revizor_run.sh;
 export OPT_RUN=$DOCKER_DIR/scripts/optional_run.sh;
 export BENCHMARK_SH=$RVZR_DIR/src/benchmark_all.sh;
 
+export GEM5_PERF_ROOT=/code/gem5_perf;
+export SPECBENCH_RUN=$DOCKER_DIR/scripts/specbench.sh;
+
 # export VIOLATION_TEST_DIR=$RVZR_DIR/violation_test;
 # export MINIMIZE_DIR=$RVZR_DIR/src/tests/minimize;
 

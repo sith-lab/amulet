@@ -16,6 +16,7 @@ export SUPPORTED_DEFENSES=(
   "stt"
   "dolma"
   "speclfb"
+  "speclfb_perf"
 )
 # Format SUPPORTED_DEFENSES into ""DefenseA"|"DefenseB"|"DefenseC"|..."
 SD_CASE_PATTERN="@($(
@@ -91,10 +92,10 @@ main() {
               exit 1;
           fi
 
-          # Remove after fully implementing SPEC benchmarks
-          if  [[ "${AUTO_RUN,,}" == "specbench" && "$DEFENSE" != "speclfb" ]]; then
-              echo "Error: 'specbench' is currently only supported on SpecLFB." >&2
-              exit 1;
+          # Should specbench on *_perf repos only
+          if [[ "${AUTO_RUN,,}" == "specbench" && ! "$DEFENSE" == *_perf* ]]; then
+              echo "Error: 'specbench' is currently only supported on *_perf repos." >&2
+              exit 1
           fi
           echo "AUTO_RUN is set to $AUTO_RUN, AUTO_RUN_ARG is set to $AUTO_RUN_ARG";
       else
@@ -129,8 +130,11 @@ main() {
         mkdir -p gem5-docker; # Will be wiped upon every launch!
         mkdir -p revizor-docker;
         mkdir -p dbg;
-        mkdir -p gem5_perf;
-        echo "SPEC benchmarks root: $BMARKS_ROOT";
+        if [[ $DEFENSE == *_perf* ]]; then
+          mkdir -p gem5_perf;
+          echo "Starting _perf defense. Fuzzing may not be supported!";
+          echo "SPEC benchmarks root: $BMARKS_ROOT";
+        fi
 
         echo "Building docker image";
         echo "Docker build context root: $DEFENSE_ROOT";
@@ -140,17 +144,29 @@ main() {
         echo "";
         echo "Running docker image";
 
-        docker run -d \
-        -e AUTO_RUN=$AUTO_RUN \
-        -e AUTO_RUN_ARG=$AUTO_RUN_ARG \
-        -e CLONE_WITH_SSH=$CLONE_WITH_SSH \
-        --name $CONTAINER_NAME \
-        --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
-        --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
-        --volume $DEFENSE_ROOT/dbg:/code/dbg \
-        --volume $GEM5_PERF_ROOT:/code/gem5_perf \
-        --volume $BMARKS_ROOT:/code/bmarks \
-        --rm -it $CONTAINER_NAME;
+        if [[ $DEFENSE == *_perf* ]]; then
+          docker run -d \
+          -e AUTO_RUN=$AUTO_RUN \
+          -e AUTO_RUN_ARG=$AUTO_RUN_ARG \
+          -e CLONE_WITH_SSH=$CLONE_WITH_SSH \
+          --name $CONTAINER_NAME \
+          --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
+          --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
+          --volume $DEFENSE_ROOT/dbg:/code/dbg \
+          --volume $GEM5_PERF_ROOT:/code/gem5_perf \
+          --volume $BMARKS_ROOT:/code/bmarks \
+          --rm -it $CONTAINER_NAME;
+        else
+          docker run -d \
+          -e AUTO_RUN=$AUTO_RUN \
+          -e AUTO_RUN_ARG=$AUTO_RUN_ARG \
+          -e CLONE_WITH_SSH=$CLONE_WITH_SSH \
+          --name $CONTAINER_NAME \
+          --volume $DEFENSE_ROOT/gem5-docker:/code/gem5-docker \
+          --volume $DEFENSE_ROOT/revizor-docker:/code/revizor-docker \
+          --volume $DEFENSE_ROOT/dbg:/code/dbg \
+          --rm -it $CONTAINER_NAME;
+        fi
 
         # INFO: Can remove --rm flag to persist filesystem if de-coupling linked volumes
         #   -Can diff/export contents of stopped container after run completes to check results! (Or re-image into new container running a shell)
