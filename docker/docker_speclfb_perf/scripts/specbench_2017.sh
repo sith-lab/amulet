@@ -1,4 +1,4 @@
-export SPEC17_PATH=/code/bmarks/ubuntu2204/spec2017; # SPEC 2017
+export SPEC2017_PATH=/code/bmarks/ubuntu2204/spec2017; # SPEC 2017
 export GEM5_PATH=/code/gem5-docker;
 export GEM5_PERF_ROOT=/code/gem5_perf;
 
