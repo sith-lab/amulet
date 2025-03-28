@@ -2,7 +2,7 @@
 # Non-interactive script!
 # Don't touch the instance until this completes!
 
-export GEM5_BRANCH=speclfb;
+export GEM5_BRANCH=speclfb_perf;
 export RVZR_BRANCH=ipc;
 export RVZR_DIR=/code/revizor-docker;
 export GEM5_DIR=/code/gem5-docker;
