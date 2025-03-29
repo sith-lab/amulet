@@ -22,12 +22,15 @@ while [ $(pgrep -c "gem5") -gt 0 ]; do
     sleep 10s
 done
 
-for i in perlbench_r perlbench_s gcc_r gcc_s mcf_r mcf_s omnetpp_r omnetpp_s xalancbmk_r xalancbmk_s x264_r x264_s deepsjeng_r deepsjeng_s leela_r leela_s exchange2_r exchange2_s xz_r xz_s bwaves_r bwaves_s cactuBSSN_r cactuBSSN_s namd_r parest_r povray_r lbm_r lbm_s wrf_r wrf_s blender_r cam4_r cam4_s pop2_s imagick_r imagick_s nab_r nab_s fotonik3d_r fotonik3d_s roms_r roms_s specrand_fs specrand_fr specrand_is specrand_ir; do
-    /code/gem5-docker/exp_script/run_spec2017_from_ckpt.sh $i unsafebaseline &
-done
+# for i in perlbench_r perlbench_s gcc_r gcc_s mcf_r mcf_s omnetpp_r omnetpp_s xalancbmk_r xalancbmk_s x264_r x264_s deepsjeng_r deepsjeng_s leela_r leela_s exchange2_r exchange2_s xz_r xz_s bwaves_r bwaves_s cactuBSSN_r cactuBSSN_s namd_r parest_r povray_r lbm_r lbm_s wrf_r wrf_s blender_r cam4_r cam4_s pop2_s imagick_r imagick_s nab_r nab_s fotonik3d_r fotonik3d_s roms_r roms_s specrand_fs specrand_fr specrand_is specrand_ir; do
+#     /code/gem5-docker/exp_script/run_spec2017_from_ckpt.sh $i unsafebaseline &
+# done
 
+# SpecLFB only has yes/no for protection
 for i in perlbench_r perlbench_s gcc_r gcc_s mcf_r mcf_s omnetpp_r omnetpp_s xalancbmk_r xalancbmk_s x264_r x264_s deepsjeng_r deepsjeng_s leela_r leela_s exchange2_r exchange2_s xz_r xz_s bwaves_r bwaves_s cactuBSSN_r cactuBSSN_s namd_r parest_r povray_r lbm_r lbm_s wrf_r wrf_s blender_r cam4_r cam4_s pop2_s imagick_r imagick_s nab_r nab_s fotonik3d_r fotonik3d_s roms_r roms_s specrand_fs specrand_fr specrand_is specrand_ir; do
     /code/gem5-docker/exp_script/run_spec2017_from_ckpt.sh $i Speclfb &
 done
 
-# SpecLFB only has yes/no for protection
+# Try for patched version as well
+
+
