@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export SPEC_PATH=/code/bmarks/ubuntu2204/spec2k6; # SPEC 2006
 export GEM5_PATH=/code/gem5-docker;
 export GEM5_PERF_ROOT=/code/gem5_perf;
