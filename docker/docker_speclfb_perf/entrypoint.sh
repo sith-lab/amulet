@@ -115,7 +115,7 @@ if [[ -n "$AUTO_RUN" ]]; then
       echo "Running fuzzer: Check output at: $RVZR_DIR/revizor_run.out";
       $RVZR_RUN &> $RVZR_DIR/revizor_run.out;
     elif [[ "${AUTO_RUN,,}" == "specbench" ]]; then
-      echo "Running SPEC benchmarks: Check output at: $GEM5_PERF_ROOT/";
+      echo "Running SPEC2006 benchmarks: Check output at: $GEM5_PERF_ROOT/";
       $SPECBENCH_RUN &> $GEM5_PERF_ROOT/specbench.out;
     elif [[ "${AUTO_RUN,,}" == "benchmark" ]]; then
       echo "Running benchmark: Check output at: $RVZR_DIR/src/logs/bench-SpecLFB.txt and $RVZR_DIR/src/logs/benchmark-out-SpecLFB/";
