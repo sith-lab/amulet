@@ -6,7 +6,8 @@ export GEM5_BRANCH=speclfb_perf;
 export RVZR_BRANCH=ipc;
 export RVZR_DIR=/code/revizor-docker;
 export GEM5_DIR=/code/gem5-docker;
-export DOCKER_DIR=$RVZR_DIR/docker/docker_speclfb;
+
+export DOCKER_DIR=$RVZR_DIR/docker/docker_${GEM5_BRANCH};
 export RVZR_RUN=$DOCKER_DIR/scripts/revizor_run.sh;
 export OPT_RUN=$DOCKER_DIR/scripts/optional_run.sh;
 export BENCHMARK_SH=$RVZR_DIR/src/benchmark_all.sh;
