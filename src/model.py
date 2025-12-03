@@ -203,9 +203,9 @@ class X86UnicornModel(Model):
         taints = []
         for input_ in inputs:
             # self.LOG.dbg_model_header(input_) # Backported; Should be input_id!
-            self.reset_model()
             try:
                 self._load_input(input_)
+                self.reset_model()
                 
                 if LOGGER.model_debug:
                     # address = 0x1ffc + self.sandbox_base # 0x000 - 0x1000 is first page
