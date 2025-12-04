@@ -1273,5 +1273,4 @@ def get_generator(instruction_set: InstructionSet) -> Generator:
         if CONF.generator == 'random':
             return X86RandomGenerator(instruction_set)
 
-    ConfigException("unknown value of `instruction_set` configuration option")
-    exit(1)
+    raise ConfigException("unknown value of `instruction_set` configuration option")

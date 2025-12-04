@@ -1178,6 +1178,6 @@ def get_executor() -> Executor:
         'x86-gem5': X86Gem5
     }
     if CONF.executor not in options:
-        ConfigException("unknown executor in config.py")
+        raise ConfigException("unknown executor in config.py")
     return options[CONF.executor]()
 
