@@ -316,20 +316,20 @@ class ConfCls:
         }
 
         if name[0] == "_":
-            ConfigException(f"Attempting to set an internal configuration variable {name}.")
+            raise ConfigException(f"Attempting to set an internal configuration variable {name}.")
         if getattr(self, name, None) is None:
-            ConfigException(f"Unknown configuration variable {name}.\n"
-                            f"It's likely a typo in the configuration file.")
+            raise ConfigException(f"Unknown configuration variable {name}.\n"
+                                  f"It's likely a typo in the configuration file.")
         if type(self.__getattribute__(name)) != type(value):
-            ConfigException(f"Wrong type of the configuration variable {name}.\n"
-                            f"It's likely a typo in the configuration file.")
+            raise ConfigException(f"Wrong type of the configuration variable {name}.\n"
+                                  f"It's likely a typo in the configuration file.")
 
         # value checks
         if options.get(name, '') != '' and value not in options[name]:
-            ConfigException(f"Unknown value '{value}' of configuration variable '{name}'")
+            raise ConfigException(f"Unknown value '{value}' of configuration variable '{name}'")
         if (self.input_main_region_size % 4096 != 0) or \
                 (self.input_assist_region_size % 4096 != 0):
-            ConfigException("Inputs must be page-aligned")
+            raise ConfigException("Inputs must be page-aligned")
 
         # special handling
         if name == "extended_instruction_blocklist":
